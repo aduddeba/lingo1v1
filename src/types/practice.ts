@@ -53,6 +53,26 @@ export interface LanguageAncestryQuestion {
 // Union of all question variants used in a practice session
 export type PracticeQuestion = HistoricalEvolutionQuestion | LanguageAncestryQuestion;
 
+// ─── Forgery question ─────────────────────────────────────────────────────────
+// Shows two text samples (one real, one AI-generated fake) and the player picks
+// the genuine one.
+//
+// Invariant: options contains [realText, fakeText] shuffled; answer === realText
+
+export interface ForgeryQuestion {
+  id: string;
+  type: 'forgery';
+  language: string;
+  script: string;       // e.g. 'Latin', 'Cyrillic', 'Arabic' — shown as context
+  region: string;       // region id, e.g. 'europe', 'south_asia'
+  realText: string;
+  fakeText: string;
+  options: string[];    // [realText, fakeText] shuffled at session init
+  answer: string;       // always === realText
+  explanation: string;
+  difficulty: 1 | 2 | 3;
+}
+
 // ─── Session Config ───────────────────────────────────────────────────────────
 
 export type PracticeDifficulty = 'easy' | 'medium' | 'hard' | 'mixed';
@@ -62,6 +82,13 @@ export interface PracticeConfig {
   mode: Extract<GameMode, 'historical_evolution'>;
   difficulty: PracticeDifficulty;
   questionCount: PracticeQuestionCount;
+}
+
+export interface ForgeryConfig {
+  mode: Extract<GameMode, 'forgery'>;
+  difficulty: PracticeDifficulty;
+  questionCount: PracticeQuestionCount;
+  regions: string[];    // region ids; empty means all regions
 }
 
 // ─── Session State ────────────────────────────────────────────────────────────
@@ -86,4 +113,17 @@ export interface PracticeSessionStats {
   totalCount: number;
   maxStreak: number;
   difficulty: PracticeDifficulty;
+}
+
+// ─── Forgery session result ───────────────────────────────────────────────────
+
+export interface ForgeryAnswerResult {
+  correct: boolean;
+  selectedText: string;
+  realText: string;
+  fakeText: string;
+  language: string;
+  explanation: string;
+  pointsEarned: number;
+  streakBonus: boolean;
 }

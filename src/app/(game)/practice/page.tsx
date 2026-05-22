@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 // Maps each game mode to its practice route (null = coming soon)
 const PRACTICE_ROUTES: Partial<Record<GameMode, string>> = {
   historical_evolution: '/practice/historical-evolution',
+  forgery: '/practice/forgery',
 };
 
 export default function PracticePage() {

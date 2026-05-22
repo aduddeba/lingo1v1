@@ -81,28 +81,12 @@ export function ResultFeedback({ result, isLast, onNext }: ResultFeedbackProps) 
         <p className="text-sm leading-relaxed text-gray-700">{explanation}</p>
       </div>
 
-      {/* Auto-advance bar + Next button */}
-      <div className="space-y-2">
-        <button
-          onClick={onNext}
-          className="w-full rounded-xl bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
-        >
-          {isLast ? 'See Results' : 'Next Question'}
-        </button>
-
-        {/* Countdown bar — animates from full to empty in 4s; onAnimationComplete fires advanceQuestion */}
-        <div className="h-1 overflow-hidden rounded-full bg-gray-200">
-          <motion.div
-            className="h-full rounded-full bg-gray-400"
-            initial={{ scaleX: 1 }}
-            animate={{ scaleX: 0 }}
-            transition={{ duration: 4, ease: 'linear' }}
-            style={{ transformOrigin: 'left' }}
-            onAnimationComplete={onNext}
-          />
-        </div>
-        <p className="text-center text-xs text-gray-400">Auto-advancing in 4 s</p>
-      </div>
+      <button
+        onClick={onNext}
+        className="w-full rounded-xl bg-brand-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+      >
+        {isLast ? 'See Results' : 'Next Question'}
+      </button>
     </motion.div>
   );
 }
