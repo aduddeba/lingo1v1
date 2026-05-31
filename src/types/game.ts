@@ -14,7 +14,8 @@ export type GameMode =
   | 'language_powerups'
   | 'historical_evolution'
   | 'elo_specialty'
-  | 'spectator_deduction';
+  | 'spectator_deduction'
+  | 'script_blitz';
 
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
 

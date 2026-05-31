@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 const PRACTICE_ROUTES: Partial<Record<GameMode, string>> = {
   historical_evolution: '/practice/historical-evolution',
   forgery: '/practice/forgery',
+  script_blitz: '/practice/script-blitz',
 };
 
 export default function PracticePage() {
@@ -71,7 +72,7 @@ export default function PracticePage() {
             );
 
             return available && route ? (
-              <Link key={key} href={route} className="block h-full">
+              <Link key={key} href={route as never} className="block h-full">
                 {inner}
               </Link>
             ) : (

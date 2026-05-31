@@ -3,3 +3,4 @@ export { usePlayerStore } from './playerStore';
 export { useLobbyStore } from './lobbyStore';
 export { usePracticeStore } from './practiceStore';
 export { useForgeryStore } from './forgeryStore';
+export { useScriptBlitzStore } from './scriptBlitzStore';

@@ -29,6 +29,10 @@ export const GAME_MODES: Record<GameMode, { label: string; description: string }
     label: 'Spectator Deduction',
     description: 'Observers vote on outcomes while players compete live.',
   },
+  script_blitz: {
+    label: 'Origin Blitz',
+    description: 'Identify scripts, languages, and surname origins at lightning speed.',
+  },
 };
 
 export const DIFFICULTY_CONFIG: Record<

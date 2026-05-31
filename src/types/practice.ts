@@ -127,3 +127,44 @@ export interface ForgeryAnswerResult {
   pointsEarned: number;
   streakBonus: boolean;
 }
+
+// ─── Script Blitz question ────────────────────────────────────────────────────
+// Player sees displayText in a script and must type the script or language name.
+// type 'script': answer is the writing system (e.g. "Cyrillic", "Hangul")
+// type 'language': answer is the language (e.g. "Finnish", "Welsh")
+
+export interface ScriptBlitzQuestion {
+  id: string;
+  category: 'script' | 'language' | 'surname';
+  displayText: string;
+  answer: string;
+  aliases: string[];      // alternate accepted forms (including all valid countries for surname questions)
+  hint: string;           // shown after timeout
+  difficulty: 'easy' | 'medium' | 'hard';
+}
+
+export interface ScriptBlitzConfig {
+  mode: Extract<GameMode, 'script_blitz'>;
+  category: 'script' | 'language' | 'surname' | 'mixed';
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
+}
+
+export interface ScriptBlitzAnswerResult {
+  questionId: string;
+  displayText: string;
+  correct: boolean;
+  skipped: boolean;
+  timedOut: boolean;
+  typedAnswer: string;
+  correctAnswer: string;
+  pointsEarned: number;
+  streakBonus: boolean;
+  timeRemaining: number;
+}
+
+export interface ScriptBlitzSessionStats {
+  score: number;
+  correctCount: number;
+  totalAnswered: number;
+  maxStreak: number;
+}

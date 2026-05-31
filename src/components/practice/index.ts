@@ -1,5 +1,6 @@
 export { HistoricalEvolutionGame } from './HistoricalEvolutionGame';
 export { ForgeryGame } from './ForgeryGame';
+export { ScriptBlitzGame } from './ScriptBlitzGame';
 export { PracticeHUD } from './PracticeHUD';
 export { QuestionCard } from './QuestionCard';
 export { ResultFeedback } from './ResultFeedback';
