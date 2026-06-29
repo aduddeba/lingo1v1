@@ -485,4 +485,70 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     answer: 'garbellare',
     explanation: '"Garble" from Arabic gharbala (to sift, select) → Italian garbellare (to sift spices) → Middle English garbelen (to sort). Originally it meant careful, precise selection — the opposite of confusion. The meaning reversed because spice merchants who "garbled" goods were accused of secretly adulterating them. The act of sorting became synonymous with the deception it concealed.',
   },
+
+    // ── BONUS — my own questions ──────────────────────────────
+
+  {
+    id: 'he-031', difficulty: 2, type: 'fill_gap',
+    targetWord: 'catamaran',
+    chain: [
+      { language: 'Tamil', form: 'kaṭṭumaram', gloss: 'tied wood' },
+      { language: 'English', form: 'catamaran', gloss: 'boat with two parallel hulls' },
+    ],
+    hiddenIndex: 1,
+    prompt: 'The Tamil word "kaṭṭumaram" entered the English vocabulary through maritime trade. What is the modern-day word equivalent?',
+    options: ['catapult', 'catamaran', 'cataract', 'caravan'],
+    answer: 'catamaran',
+    explanation: 'People in South India made boats by lashing several logs together. They called this boat "kaṭṭumaram", meaning "tied wood." This word got directly anglicized to "catamaran" in the 17th century.',
+  },
+
+  {
+    id: 'he-031', difficulty: 1, type: 'fill_gap',
+    targetWord: 'bear',
+    chain: [
+      { language: 'Proto-Indo-European', form: '*bher-', gloss: 'to bring forth' },
+      { language: 'Proto-Germanic', form: 'beranan'},
+      { language: 'Old English', form: 'beran'},
+      { language: 'Middle English', form: 'beren'},
+      { language: 'Modern English', form: 'bear'},
+    ],
+    hiddenIndex: 4,
+    prompt: 'This word has ancient origins with a meaning that has been preserved through millenia. What is the current English form of this word?',
+    options: ['brother', 'bear', 'brought', 'bell'],
+    answer: 'bear',
+    explanation: 'The English word "bear" traces its origins all the way back to Proto-Indo-European and mostly preserved the original meaning.',
+  },
+
+  {
+    id: 'he-032', difficulty: 3, type: 'fill_gap',
+    targetWord: 'ginger',
+    chain: [
+      { language: 'Sanskrit', form: 'śrngavera', gloss: 'horned body' },
+      { language: 'Prakrit', form: 'singabera'},
+      { language: 'Greek', form: 'zingiberis'},
+      { language: 'Latin', form: 'zingiberi'},
+      { language: 'Modern English', form: 'ginger'},
+    ],
+    hiddenIndex: 4,
+    prompt: 'The origins of this word shows how ideas spread across the world in ancient times. What is the word?',
+    options: ['ginger', 'sour', 'vermillon', 'strawberry'],
+    answer: 'ginger',
+    explanation: '"Ginger" ultimately comes from "śrngavera", a Sanskrit word. The etymology of this word shows how spices moved from east to west.',
+  },
+
+  {
+    id: 'he-032', difficulty: 2, type: 'fill_gap',
+    targetWord: 'henakandayā',
+    chain: [
+      { language: 'Tamil', form: 'āṉaikkoṉṟāṉ', gloss: 'having killed an elephant' },
+      { language: 'Sinhalese', form: 'henakandayā'},
+      { language: 'New Latin', form: 'anacandaia'},
+      { language: 'Modern English', form: 'anaconda'},
+    ],
+    hiddenIndex: 1,
+    prompt: 'The name "anaconda" originally came from a Sri Lankan snake and was mistakenly applied to South American large snakes. What was "anaconda" called in Sinhalese?',
+    options: ['āṉaikkonda', 'henakandayā', 'ānekonda', 'ānocānda'],
+    answer: 'henakandayā',
+    explanation: 'This word is the name of a Sri Lankan small whip snake endemic to Sri Lanka.',
+  },
 ];

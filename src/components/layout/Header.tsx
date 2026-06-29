@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useGameStore } from '@/store';
 import { usePlayerStore } from '@/store';
+import { ThemeToggle } from '@/components/ui';
 import type { ConnectionStatus } from '@/types';
 
 export function Header() {
@@ -42,6 +43,7 @@ export function Header() {
           {player && (
             <span className="text-sm font-medium text-gray-700">{player.username}</span>
           )}
+          <ThemeToggle />
         </nav>
       </div>
     </motion.header>

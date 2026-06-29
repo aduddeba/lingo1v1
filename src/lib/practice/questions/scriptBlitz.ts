@@ -578,6 +578,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-j008', category: 'surname', displayText: 'Takahashi', answer: 'Japan', aliases: ['japanese'], hint: 'Means "high bridge" — third most common in Japan', difficulty: 'easy' },
   { id: 'sb-sur-j009', category: 'surname', displayText: 'Ito', answer: 'Japan', aliases: ['japanese'], hint: 'Very common Japanese family name', difficulty: 'medium' },
   { id: 'sb-sur-j010', category: 'surname', displayText: 'Yoshida', answer: 'Japan', aliases: ['japanese'], hint: 'Common Japanese surname, means "lucky rice field"', difficulty: 'medium' },
+  { id: 'sb-sur-j011', category: 'surname', displayText: 'Uchida', answer: 'Japan', aliases: ['japanese'], hint: 'Common Japanese surname, means "inside the rice field"', difficulty: 'medium' },
 
   // ── Korea ─────────────────────────────────────────────────────────────────────
 
@@ -588,6 +589,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-k005', category: 'surname', displayText: 'Yoon', answer: 'Korea', aliases: ['south korea', 'korean', 'yun'], hint: 'Common Korean surname, also romanized Yun', difficulty: 'medium' },
   { id: 'sb-sur-k006', category: 'surname', displayText: 'Lim', answer: 'Korea', aliases: ['south korea', 'korean', 'rim', 'im'], hint: 'Korean surname, also romanized Rim or Im', difficulty: 'hard' },
   { id: 'sb-sur-k007', category: 'surname', displayText: 'Shin', answer: 'Korea', aliases: ['south korea', 'korean'], hint: 'Common Korean surname', difficulty: 'medium' },
+  { id: 'sb-sur-k008', category: 'surname', displayText: 'Sung', answer: 'Korea', aliases: ['south korea', 'korean'], hint: 'More uncommon Korean surname', difficulty: 'hard' },
+  { id: 'sb-sur-k009', category: 'surname', displayText: 'Na', answer: 'Korea', aliases: ['south korea', 'korean'], hint: 'More uncommon Korean surname', difficulty: 'hard' },
 
   // ── China ─────────────────────────────────────────────────────────────────────
 
@@ -599,6 +602,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-c006', category: 'surname', displayText: 'Huang', answer: 'China', aliases: ['chinese', 'taiwan', 'taiwanese'], hint: 'Common Chinese surname meaning "yellow"', difficulty: 'medium' },
   { id: 'sb-sur-c007', category: 'surname', displayText: 'Zhou', answer: 'China', aliases: ['chinese'], hint: 'Very common in China, also an ancient dynasty name', difficulty: 'hard' },
   { id: 'sb-sur-c008', category: 'surname', displayText: 'Wu', answer: 'China', aliases: ['chinese', 'taiwan'], hint: 'Ninth most common Chinese surname', difficulty: 'hard' },
+  { id: 'sb-sur-c009', category: 'surname', displayText: 'Feng', answer: 'China', aliases: ['chinese', 'taiwan'], hint: 'Common Chinese surname.', difficulty: 'hard' },
+  { id: 'sb-sur-c010', category: 'surname', displayText: 'Jiang', answer: 'China', aliases: ['chinese', 'taiwan', 'taiwanese'], hint: 'Common Chinese surname meaning "river"', difficulty: 'medium' },
 
   // ── Vietnam ───────────────────────────────────────────────────────────────────
 
@@ -621,8 +626,11 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-i008', category: 'surname', displayText: 'Mukherjee', answer: 'India', aliases: ['indian', 'bengali', 'west bengal'], hint: 'Prominent Bengali Brahmin surname', difficulty: 'medium' },
   { id: 'sb-sur-i009', category: 'surname', displayText: 'Reddy', answer: 'India', aliases: ['indian', 'andhra', 'telangana', 'telugu'], hint: 'Common Telugu surname from Andhra Pradesh and Telangana', difficulty: 'medium' },
   { id: 'sb-sur-i010', category: 'surname', displayText: 'Chatterjee', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
-  { id: 'sb-sur-i010', category: 'surname', displayText: 'Chakraborty', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
-  { id: 'sb-sur-i010', category: 'surname', displayText: 'Gowda', answer: 'India', aliases: ['indian', 'kannada'], hint: 'Common surname in Karnataka', difficulty: 'hard' },
+  { id: 'sb-sur-i011', category: 'surname', displayText: 'Chakraborty', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
+  { id: 'sb-sur-i012', category: 'surname', displayText: 'Gowda', answer: 'India', aliases: ['indian', 'kannada'], hint: 'Common surname in Karnataka', difficulty: 'hard' },
+  { id: 'sb-sur-i013', category: 'surname', displayText: 'Banerjee', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Common surname in Bengal', difficulty: 'medium' },
+  { id: 'sb-sur-i014', category: 'surname', displayText: 'Bhatt', answer: 'India', aliases: ['indian', 'punjabi', 'kashmiri'], hint: 'Common surname in Kashmir and Punjab meaning "scholar"', difficulty: 'medium' },
+  { id: 'sb-sur-i015', category: 'surname', displayText: 'Krishnan', answer: 'India', aliases: ['indian', 'tamil', 'malayali'], hint: 'Common surname in Tamil Nadu', difficulty: 'medium' },
 
   // ── Sri Lanka ─────────────────────────────────────────────────────────────────
   { id: 'sb-sur-l001', category: 'surname', displayText: 'Gunawardene', answer: 'Sri Lanka', aliases: ['sri lankan', 'sinhalese'], hint: 'Common Sinhalese surname.', difficulty: 'hard' },
@@ -669,6 +677,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-f004', category: 'surname', displayText: 'Laurent', answer: 'France', aliases: ['french', 'belgium', 'belgian'], hint: 'French form of Lawrence — common in France and Belgium', difficulty: 'medium' },
   { id: 'sb-sur-f005', category: 'surname', displayText: 'Renard', answer: 'France', aliases: ['french', 'belgium'], hint: 'Means "fox" — a distinctly French surname', difficulty: 'medium' },
   { id: 'sb-sur-f006', category: 'surname', displayText: 'Lefevre', answer: 'France', aliases: ['french', 'lefèvre', 'belgium'], hint: 'Means "the blacksmith" — very common in northern France', difficulty: 'hard' },
+  { id: 'sb-sur-f007', category: 'surname', displayText: 'Rousseau', answer: 'France', aliases: ['french', 'belgium'], hint: 'Means "reddish complexion" in French', difficulty: 'hard' },
 
   // ── Italy ─────────────────────────────────────────────────────────────────────
 
@@ -714,6 +723,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-sc010', category: 'surname', displayText: 'Johansen', answer: 'Norway', aliases: ['norwegian', 'denmark', 'danish'], hint: 'The most common surname in Norway — note the -en ending', difficulty: 'medium' },
   { id: 'sb-sur-sc011', category: 'surname', displayText: 'Olsen', answer: 'Norway', aliases: ['norwegian', 'denmark', 'danish'], hint: 'Son of Ole — more common in Norway than Denmark', difficulty: 'medium' },
   { id: 'sb-sur-sc012', category: 'surname', displayText: 'Eriksen', answer: 'Norway', aliases: ['norwegian'], hint: 'Son of Erik — the -sen ending marks it as Norwegian/Danish', difficulty: 'hard' },
+  { id: 'sb-sur-sc013', category: 'surname', displayText: 'Hansen', answer: 'Norway', aliases: ['norwegian', 'denmark', 'danish'], hint: 'Son of Hans — more common in Norway than Denmark', difficulty: 'medium' },
 
   // ── Eastern Europe ────────────────────────────────────────────────────────────
 
@@ -734,6 +744,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-ee015', category: 'surname', displayText: 'Shevchenko', answer: 'Ukraine', aliases: ['ukrainian'], hint: 'Most common Ukrainian surname — linked to poet Taras Shevchenko', difficulty: 'easy' },
   { id: 'sb-sur-ee016', category: 'surname', displayText: 'Kovalenko', answer: 'Ukraine', aliases: ['ukrainian'], hint: 'Very common Ukrainian surname — means "blacksmith"', difficulty: 'medium' },
   { id: 'sb-sur-ee017', category: 'surname', displayText: 'Petrov', answer: 'Russia', aliases: ['russian', 'bulgaria', 'bulgarian'], hint: 'Very common in Russia and Bulgaria — son of Peter', difficulty: 'medium' },
+  { id: 'sb-sur-ee018', category: 'surname', displayText: 'Szczęsny', answer: 'Poland', aliases: ['polish'], hint: 'Polish surname meaning "lucky"', difficulty: 'medium' },
 
   // ── Ireland / Scotland / Wales ────────────────────────────────────────────────
 
@@ -748,6 +759,13 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-gb009', category: 'surname', displayText: 'Jones', answer: 'Wales', aliases: ['welsh', 'uk', 'wales'], hint: 'The most common surname in Wales — son of John', difficulty: 'easy' },
   { id: 'sb-sur-gb010', category: 'surname', displayText: 'Evans', answer: 'Wales', aliases: ['welsh', 'uk', 'wales'], hint: 'Son of Evan — distinctly associated with Wales', difficulty: 'medium' },
   { id: 'sb-sur-gb011', category: 'surname', displayText: 'Davies', answer: 'Wales', aliases: ['welsh', 'uk'], hint: 'Welsh form of Davis — most common in Wales', difficulty: 'medium' },
+
+  // ── England ───────────────────────────────────────────────────────────────────
+  { id: 'sb-sur-en001', category: 'surname', displayText: 'Smith', answer: 'England', aliases: ['english', 'uk', 'england'], hint: 'The most common surname in England', difficulty: 'easy' },
+  { id: 'sb-sur-en002', category: 'surname', displayText: 'Baker', answer: 'England', aliases: ['english', 'uk', 'england'], hint: 'English surname deriving from the profession', difficulty: 'easy' },
+  { id: 'sb-sur-en003', category: 'surname', displayText: 'King', answer: 'England', aliases: ['english', 'uk', 'england'], hint: 'Common English surname', difficulty: 'easy' },
+  { id: 'sb-sur-en004', category: 'surname', displayText: 'Miller', answer: 'England', aliases: ['english', 'scottish', 'uk', 'england','scotland'], hint: 'Common English surname', difficulty: 'easy' },
+  { id: 'sb-sur-en005', category: 'surname', displayText: 'Woods', answer: 'England', aliases: ['english', 'scottish', 'uk', 'england','scotland'], hint: 'Common English surname', difficulty: 'easy' },
 
   // ── Africa ────────────────────────────────────────────────────────────────────
 
@@ -783,7 +801,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-ir002', category: 'surname', displayText: 'Hosseini', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Descends from Hussein — very common in Shia Iran', difficulty: 'easy' },
   { id: 'sb-sur-ir003', category: 'surname', displayText: 'Tehrani', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "from Tehran" — a common Iranian surname', difficulty: 'medium' },
   { id: 'sb-sur-ir004', category: 'surname', displayText: 'Shirazi', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "from Shiraz" — a city in southern Iran', difficulty: 'medium' },
-  { id: 'sb-sur-ir004', category: 'surname', displayText: 'Reza', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "thankfullness" or "gratitude." A common Iranian surname.', difficulty: 'medium' },
-  { id: 'sb-sur-ir004', category: 'surname', displayText: 'Yeganeh', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "unique" — a common Iranian surname.', difficulty: 'medium' },
+  { id: 'sb-sur-ir005', category: 'surname', displayText: 'Reza', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "thankfullness" or "gratitude." A common Iranian surname.', difficulty: 'medium' },
+  { id: 'sb-sur-ir006', category: 'surname', displayText: 'Yeganeh', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "unique" — a common Iranian surname.', difficulty: 'medium' },
+  { id: 'sb-sur-ir007', category: 'surname', displayText: 'Mossadegh', answer: 'Iran', aliases: ['iranian', 'persian'], hint: 'Means "verified" — an Iranian surname.', difficulty: 'medium' },
 
 ];

@@ -79,10 +79,20 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     explanation: 'Proto-Norse (also called Runic Norse) is attested in Elder Futhark runic inscriptions from approximately 200–700 CE. It preceded Old Norse, from which the modern Scandinavian languages descend. Old Norse, Old Swedish, and Old Danish are later stages — Proto-Norse is the direct first step after the Proto-Germanic / North Germanic split.',
   },
 
+  {
+    id: 'la-008', difficulty: 1, type: 'language_ancestry',
+    languageChain: ['Indo-European', 'Balto-Slavic', 'Slavic', 'West Slavic', '???'],
+    hiddenIndex: 4,
+    prompt: 'This language is known for its complex consonant clusters. What is this language?',
+    options: ['Polish', 'French', 'Russian', 'Croatian'],
+    answer: 'Polish',
+    explanation: 'Polish is a West Slavic language that has consonant clusters like "cz", "sz", "rz" and has a unique alphabet with 32 letters.',
+  },
+
   // ── MEDIUM — less obvious intermediate stages ────────────────────────────────
 
   {
-    id: 'la-008', difficulty: 2, type: 'language_ancestry',
+    id: 'la-009', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Indo-Iranian', 'Old Iranian', 'Avestan', 'Pahlavi', '???'],
     hiddenIndex: 5,
     prompt: 'After the Arab conquest of the Sasanian Empire (651 CE), Pahlavi absorbed Arabic vocabulary and adopted a new script. What language did it become?',
@@ -92,7 +102,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-009', difficulty: 2, type: 'language_ancestry',
+    id: 'la-010', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Proto-Indo-European', 'Hellenic', 'Proto-Greek', '???', 'Koine Greek'],
     hiddenIndex: 3,
     prompt: "Proto-Greek developed into a rich landscape of classical dialects, later unified by Koine. What do we call this classical stage?",
@@ -102,7 +112,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-010', difficulty: 2, type: 'language_ancestry',
+    id: 'la-011', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Celtic', 'Insular Celtic', 'Goidelic', '???'],
     hiddenIndex: 4,
     prompt: 'The Goidelic branch produced the oldest richly attested form of an Irish language. What is this earliest stage called?',
@@ -112,7 +122,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-011', difficulty: 2, type: 'language_ancestry',
+    id: 'la-012', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Proto-Austronesian', 'Malayo-Polynesian', 'Philippine', 'Proto-Philippine', '???'],
     hiddenIndex: 4,
     prompt: 'Proto-Philippine split into regional branches. Which branch gave rise to the language of the Laguna Copperplate (900 CE)?',
@@ -122,7 +132,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-012', difficulty: 2, type: 'language_ancestry',
+    id: 'la-013', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Proto-Sino-Tibetan', 'Sinitic', 'Old Chinese', 'Middle Chinese', '???'],
     hiddenIndex: 4,
     prompt: "Middle Chinese (Qieyun rhyming dictionary, 601 CE) was the common ancestor of all modern Chinese varieties. Which branch became China's modern lingua franca?",
@@ -132,7 +142,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-013', difficulty: 2, type: 'language_ancestry',
+    id: 'la-014', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Balto-Slavic', 'Baltic', 'East Baltic', '???'],
     hiddenIndex: 4,
     prompt: 'East Baltic diverged into two branches in the early medieval period. Which language stage represents the direct ancestor of modern Latvian?',
@@ -142,7 +152,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-014', difficulty: 2, type: 'language_ancestry',
+    id: 'la-015', difficulty: 2, type: 'language_ancestry',
     languageChain: ['Proto-Semitic', 'Semitic', 'East Semitic', 'Akkadian', 'Old Babylonian', '???'],
     hiddenIndex: 5,
     prompt: "Old Babylonian (~2000–1500 BCE) was the language of Hammurabi's Code. What stage came next in the Babylonian dialect?",
@@ -154,7 +164,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   // ── HARD — obscure branches, proto-languages, and less-taught lineages ───────
 
   {
-    id: 'la-015', difficulty: 3, type: 'language_ancestry',
+    id: 'la-016', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Indo-Iranian', 'Indo-Aryan', 'Shauraseni Prakrit', '???'],
     hiddenIndex: 4,
     prompt: 'Shauraseni Prakrit was spoken in the Mathura region of northern India. What transitional stage immediately followed it on the path to modern Hindi?',
@@ -164,7 +174,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-016', difficulty: 3, type: 'language_ancestry',
+    id: 'la-017', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Proto-Afroasiatic', 'Semitic', 'South Semitic', 'Ethiopian Semitic', "Old Ethiopic (Ge'ez)", '???'],
     hiddenIndex: 5,
     prompt: "Ge'ez became the liturgical language of the Ethiopian Orthodox Church but gave rise to living descendants. Which is the most widely spoken modern Ethiopian Semitic language?",
@@ -174,7 +184,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-017', difficulty: 3, type: 'language_ancestry',
+    id: 'la-018', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Anatolian', 'Luwic', 'Luwian', '???'],
     hiddenIndex: 4,
     prompt: 'Luwian was spoken across Bronze Age Anatolia (~2000–1000 BCE). Which attested language is its most direct descendant within the Luwic subgroup?',
@@ -184,7 +194,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-018', difficulty: 3, type: 'language_ancestry',
+    id: 'la-019', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Proto-Polynesian', 'Proto-Eastern Polynesian', 'Proto-Central Eastern Polynesian', 'Proto-Tahitic', 'Old Tahitian', '???'],
     hiddenIndex: 5,
     prompt: 'Proto-Tahitic split when Polynesian navigators reached Aotearoa around 1300 CE. Which language descended through that southern migration?',
@@ -194,7 +204,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-019', difficulty: 3, type: 'language_ancestry',
+    id: 'la-020', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Indo-European', 'Indo-Iranian', 'Indo-Aryan', 'Vedic Sanskrit', 'Classical Sanskrit', 'Pali', '???'],
     hiddenIndex: 6,
     prompt: 'Pali was the scriptural language of Theravāda Buddhism. Which Middle Indo-Aryan language evolved directly from Pali as a vernacular?',
@@ -204,13 +214,23 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
   },
 
   {
-    id: 'la-020', difficulty: 3, type: 'language_ancestry',
+    id: 'la-021', difficulty: 3, type: 'language_ancestry',
     languageChain: ['Proto-Niger-Congo', 'Atlantic-Congo', 'Volta-Congo', 'Benue-Congo', 'Bantoid', 'Southern Bantoid', 'Narrow Bantu', '???'],
     hiddenIndex: 7,
     prompt: 'Narrow Bantu languages spread from Cameroon/Nigeria across sub-Saharan Africa over 3,000 years. Which of these belongs directly within Narrow Bantu?',
     options: ['Swahili', 'Hausa', 'Yoruba', 'Amharic'],
     answer: 'Swahili',
     explanation: 'Swahili (Kiswahili) is a Narrow Bantu language spoken by ~200 million people across East Africa as a lingua franca. Hausa is Afroasiatic (Chadic branch). Yoruba is Atlantic-Congo but belongs to the Defoid branch of Volta-Congo — it diverged long before the Bantu expansion. Amharic is Semitic. The Bantu expansion from the Cameroon–Nigeria highlands is one of the most dramatic language spreads in human history.',
+  },
+
+  {
+    id: 'la-022', difficulty: 3, type: 'language_ancestry',
+    languageChain: ['Dravidian', 'South-Central Dravidian', '???'],
+    hiddenIndex: 2,
+    prompt: 'This language is also known as "Italian of the East" since the vast majority of words end with a vowel. Choose the language that has this lineage.',
+    options: ['Hindi', 'Tamil', 'Telugu', 'Bengali'],
+    answer: 'Telugu',
+    explanation: 'Telugu is a Dravidian language spoken by ~100 million people worldwide. It is one of the fastest growing languages in the United States.',
   },
 
 ];

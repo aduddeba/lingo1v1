@@ -1,17 +1,26 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { getSocket, disconnectSocket } from '@/lib/socket/client';
 import { useGameStore } from '@/store';
 
-// Manages the single socket connection for the entire app.
-// Lives at the root layout so the connection persists across route changes.
-// Child components subscribe to events via useSocketEvent() — they never
-// touch the socket instance directly.
+const SOCKET_ROUTES = ['/lobby', '/match'];
+
+function needsSocket(pathname: string): boolean {
+  return SOCKET_ROUTES.some((r) => pathname === r || pathname.startsWith(r + '/'));
+}
+
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const setConnectionStatus = useGameStore((s) => s.setConnectionStatus);
+  const pathname = usePathname();
 
   useEffect(() => {
+    if (!needsSocket(pathname)) {
+      setConnectionStatus('disconnected');
+      return;
+    }
+
     const socket = getSocket();
 
     const onConnect = () => setConnectionStatus('connected');
@@ -31,7 +40,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       socket.off('connect_error', onConnectError);
       disconnectSocket();
     };
-  }, [setConnectionStatus]);
+  }, [setConnectionStatus, pathname]);
 
   return <>{children}</>;
 }

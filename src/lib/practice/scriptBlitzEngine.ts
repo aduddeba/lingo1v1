@@ -3,7 +3,8 @@ import { SCRIPT_BLITZ_QUESTIONS } from './questions/scriptBlitz';
 
 // ─── Timing ───────────────────────────────────────────────────────────────────
 
-export const BLITZ_TIME_LIMIT = 20; // seconds per question
+export const BLITZ_TIME_LIMIT = 30;    // seconds per question
+export const BLITZ_QUESTION_LIMIT = 20; // questions per session
 
 // ─── Scoring ──────────────────────────────────────────────────────────────────
 // Pop Sauce–style linear decay: 100 pts at full time, ~0 at 0.

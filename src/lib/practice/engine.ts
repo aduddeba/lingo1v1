@@ -64,10 +64,15 @@ export function selectQuestions(config: PracticeConfig): PracticeQuestion[] {
   let pool: PracticeQuestion[];
 
   if (difficulty === 'mixed') {
-    const easy = shuffle(bank.filter((q) => q.difficulty === 1));
+    const easy   = shuffle(bank.filter((q) => q.difficulty === 1));
     const medium = shuffle(bank.filter((q) => q.difficulty === 2));
-    const hard = shuffle(bank.filter((q) => q.difficulty === 3));
-    pool = [...easy, ...medium, ...hard];
+    const hard   = shuffle(bank.filter((q) => q.difficulty === 3));
+    const perTier = Math.ceil(questionCount / 3);
+    pool = [
+      ...easy.slice(0, perTier),
+      ...medium.slice(0, perTier),
+      ...hard.slice(0, perTier),
+    ].slice(0, questionCount);
   } else {
     const diffMap: Record<typeof difficulty, 1 | 2 | 3> = {
       easy: 1,

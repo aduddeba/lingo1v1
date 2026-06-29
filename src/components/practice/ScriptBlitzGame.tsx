@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useScriptBlitz } from '@/hooks/useScriptBlitz';
-import { checkAnswer, BLITZ_TIME_LIMIT } from '@/lib/practice/scriptBlitzEngine';
+import { checkAnswer, BLITZ_TIME_LIMIT, BLITZ_QUESTION_LIMIT } from '@/lib/practice/scriptBlitzEngine';
 import type { ScriptBlitzConfig, ScriptBlitzAnswerResult } from '@/types/practice';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -453,7 +453,7 @@ function ArcadePanel({ onEnd }: ArcadeProps) {
           <span className={danger ? 'font-bold text-red-500' : 'text-gray-400'}>
             {blitz.isPaused ? 'Paused' : `${blitz.timeRemaining}s`}
           </span>
-          <span className="text-gray-400">{blitz.totalAnswered} answered</span>
+          <span className="text-gray-400">{blitz.totalAnswered} / {BLITZ_QUESTION_LIMIT}</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-gray-200">
           <div

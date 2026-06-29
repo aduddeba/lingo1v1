@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { calculateBlitzPoints, BLITZ_TIME_LIMIT } from '@/lib/practice/scriptBlitzEngine';
+import { calculateBlitzPoints, BLITZ_TIME_LIMIT, BLITZ_QUESTION_LIMIT } from '@/lib/practice/scriptBlitzEngine';
 import type {
   ScriptBlitzQuestion,
   ScriptBlitzConfig,
@@ -169,8 +169,11 @@ export const useScriptBlitzStore = create<ScriptBlitzState & ScriptBlitzActions>
 
       advanceQuestion: () =>
         set((state) => {
+          if (state.totalAnswered >= BLITZ_QUESTION_LIMIT) {
+            state.phase = 'complete';
+            return;
+          }
           const nextIndex = state.poolIndex + 1;
-          // Wrap around pool — endless mode
           state.poolIndex = nextIndex < state.pool.length ? nextIndex : 0;
           state.timeRemaining = BLITZ_TIME_LIMIT;
           state.lastResult = null;
