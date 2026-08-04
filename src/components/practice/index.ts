@@ -7,3 +7,6 @@ export { ResultFeedback } from './ResultFeedback';
 export { PracticeComplete } from './PracticeComplete';
 export { ForgeryQuestionCard } from './ForgeryQuestionCard';
 export { ForgeryFeedback } from './ForgeryFeedback';
+export { CityCountryGame } from './CityCountryGame';
+export { CityCountryQuestionCard } from './CityCountryQuestionCard';
+export { CityCountryComplete } from './CityCountryComplete';

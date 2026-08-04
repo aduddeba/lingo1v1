@@ -128,6 +128,30 @@ export interface ForgeryAnswerResult {
   streakBonus: boolean;
 }
 
+// ─── City → Country question ───────────────────────────────────────────────────
+// Player sees a city name and types which country it's in.
+//
+// Answer checking is forgiving: normalized against `answer` and every entry
+// in `aliases` (abbreviations, alternate spellings, etc).
+
+export interface CityCountryQuestion {
+  id: string;
+  type: 'city_country';
+  city: string;          // e.g. "Porto"
+  continent: string;     // e.g. "Europe" — shown in feedback alongside the answer
+  prompt: string;        // e.g. "Which country is Porto in?"
+  answer: string;        // the correct country, canonical form
+  aliases: string[];     // accepted alternate spellings/abbreviations (e.g. "USA", "UK")
+  explanation: string;
+  difficulty: 1 | 2 | 3;
+}
+
+export interface CityCountryConfig {
+  mode: Extract<GameMode, 'city_country'>;
+  difficulty: PracticeDifficulty;
+  questionCount: PracticeQuestionCount;
+}
+
 // ─── Script Blitz question ────────────────────────────────────────────────────
 // Player sees displayText in a script and must type the script or language name.
 // type 'script': answer is the writing system (e.g. "Cyrillic", "Hangul")
