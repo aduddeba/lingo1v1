@@ -1,37 +1,21 @@
 import type { GameMode, Difficulty } from '@/types';
 
 export const GAME_MODES: Record<GameMode, { label: string; description: string }> = {
-  map_sniping: {
-    label: 'Map Sniping',
-    description: 'Geographic linguistics — pin the language to the region.',
-  },
   forgery: {
     label: 'Forgery',
     description: 'Spot the fake language before your opponent does.',
-  },
-  live_bidding: {
-    label: 'Live Bidding',
-    description: 'Wager points on each round in real time.',
-  },
-  language_powerups: {
-    label: 'Language Power-Ups',
-    description: 'Collect and deploy linguistic abilities to gain the edge.',
   },
   historical_evolution: {
     label: 'Historical Evolution Battles',
     description: 'Race through the history of a word across centuries.',
   },
-  elo_specialty: {
-    label: 'ELO by Linguistic Specialty',
-    description: 'Climb a separate rating ladder for each language family.',
-  },
-  spectator_deduction: {
-    label: 'Spectator Deduction',
-    description: 'Observers vote on outcomes while players compete live.',
-  },
   script_blitz: {
     label: 'Origin Blitz',
     description: 'Identify scripts, languages, and surname origins at lightning speed.',
+  },
+  city_country: {
+    label: 'Country Finder',
+    description: "Given a city, pick the country it's in before the clock runs out.",
   },
 };
 

@@ -8,14 +8,10 @@ export type GamePhase =
   | 'game_over';
 
 export type GameMode =
-  | 'map_sniping'
   | 'forgery'
-  | 'live_bidding'
-  | 'language_powerups'
   | 'historical_evolution'
-  | 'elo_specialty'
-  | 'spectator_deduction'
-  | 'script_blitz';
+  | 'script_blitz'
+  | 'city_country';
 
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
