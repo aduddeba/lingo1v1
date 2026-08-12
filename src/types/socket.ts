@@ -1,4 +1,4 @@
-import type { Match, Round, PlayerScore, AnswerResult } from './game';
+import type { Match, Round, PlayerScore, AnswerResult, Difficulty } from './game';
 import type { Player } from './player';
 
 // ─── Server → Client ─────────────────────────────────────────────────────────
@@ -21,7 +21,11 @@ export interface ServerToClientEvents {
   'match:end': (payload: { match: Match; winnerId: string | null }) => void;
 
   'round:start': (payload: { round: Round }) => void;
-  'round:end': (payload: { round: Round; scores: Record<string, PlayerScore> }) => void;
+  'round:end': (payload: {
+    round: Round;
+    scores: Record<string, PlayerScore>;
+    correctAnswer: string;
+  }) => void;
   'round:tick': (payload: { timeRemaining: number }) => void;
 
   'answer:result': (payload: AnswerResult) => void;
@@ -35,10 +39,13 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   'lobby:join': (
-    payload: { lobbyId: string },
+    payload: {
+      difficulty: Difficulty;
+      player: { id: string; username: string };
+    },
     callback: (err: string | null) => void
   ) => void;
-  'lobby:leave': (payload: { lobbyId: string }) => void;
+  'lobby:leave': () => void;
   'lobby:ready': (payload: { ready: boolean }) => void;
 
   'answer:submit': (payload: {

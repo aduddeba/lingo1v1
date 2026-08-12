@@ -14,9 +14,15 @@ function needsSocket(pathname: string): boolean {
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const setConnectionStatus = useGameStore((s) => s.setConnectionStatus);
   const pathname = usePathname();
+  // /lobby and /match/[matchId] are two different routes but must share one
+  // connection — the server ties a match to a socket.id at pairing time, so
+  // tearing the socket down mid-navigation (i.e. depending on raw `pathname`
+  // here) would hand the server a stale id and silently drop every answer
+  // submitted from the match page.
+  const active = needsSocket(pathname);
 
   useEffect(() => {
-    if (!needsSocket(pathname)) {
+    if (!active) {
       setConnectionStatus('disconnected');
       return;
     }
@@ -40,7 +46,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       socket.off('connect_error', onConnectError);
       disconnectSocket();
     };
-  }, [setConnectionStatus, pathname]);
+  }, [setConnectionStatus, active]);
 
   return <>{children}</>;
 }

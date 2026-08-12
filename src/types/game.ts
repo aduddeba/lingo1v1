@@ -13,7 +13,7 @@ export type GameMode =
   | 'script_blitz'
   | 'city_country';
 
-export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert' | 'mixed';
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'error';
 
@@ -22,10 +22,17 @@ export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'er
 export interface Round {
   id: string;
   number: number;
+  // Multiplayer mixes questions from every mode into one match (see
+  // MatchmakingSetup — players only pick a difficulty), so mode is a
+  // per-round property, not a per-match one.
+  mode: GameMode;
   prompt: string;
   timeLimit: number;
   startedAt: number | null;
   endsAt: number | null;
+  // Present only for choice-based modes (forgery, historical_evolution);
+  // absent for text-input modes, which render a free-text answer field instead.
+  options?: string[];
 }
 
 export interface PlayerScore {
@@ -38,7 +45,6 @@ export interface PlayerScore {
 
 export interface Match {
   id: string;
-  mode: GameMode;
   difficulty: Difficulty;
   phase: GamePhase;
   currentRound: Round | null;

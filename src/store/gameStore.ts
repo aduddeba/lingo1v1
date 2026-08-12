@@ -8,6 +8,7 @@ interface GameState {
   connectionStatus: ConnectionStatus;
   timeRemaining: number;
   lastAnswerResult: AnswerResult | null;
+  winnerId: string | null;
 }
 
 interface GameActions {
@@ -17,6 +18,7 @@ interface GameActions {
   updateScores: (scores: Record<string, PlayerScore>) => void;
   setTimeRemaining: (ms: number) => void;
   setLastAnswerResult: (result: AnswerResult | null) => void;
+  setWinnerId: (winnerId: string | null) => void;
   resetGame: () => void;
 }
 
@@ -25,6 +27,7 @@ const initialState: GameState = {
   connectionStatus: 'disconnected',
   timeRemaining: 0,
   lastAnswerResult: null,
+  winnerId: null,
 };
 
 export const useGameStore = create<GameState & GameActions>()(
@@ -61,6 +64,11 @@ export const useGameStore = create<GameState & GameActions>()(
       setLastAnswerResult: (result) =>
         set((state) => {
           state.lastAnswerResult = result;
+        }),
+
+      setWinnerId: (winnerId) =>
+        set((state) => {
+          state.winnerId = winnerId;
         }),
 
       resetGame: () => set(() => ({ ...initialState })),

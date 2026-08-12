@@ -11,18 +11,23 @@ export function useGame() {
     match,
     timeRemaining,
     lastAnswerResult,
+    winnerId,
     setMatch,
     updateRound,
     updateScores,
     setTimeRemaining,
     setLastAnswerResult,
+    setWinnerId,
   } = useGameStore();
 
   const emit = useSocketEmit();
 
   useSocketEvent('match:start', ({ match: m }) => setMatch(m));
   useSocketEvent('match:state', ({ match: m }) => setMatch(m));
-  useSocketEvent('match:end', ({ match: m }) => setMatch(m));
+  useSocketEvent('match:end', ({ match: m, winnerId: w }) => {
+    setMatch(m);
+    setWinnerId(w);
+  });
 
   useSocketEvent('round:start', ({ round }) => updateRound(round));
   useSocketEvent('round:tick', ({ timeRemaining: ms }) => setTimeRemaining(ms));
@@ -47,5 +52,5 @@ export function useGame() {
     [match, emit]
   );
 
-  return { match, timeRemaining, lastAnswerResult, submitAnswer };
+  return { match, timeRemaining, lastAnswerResult, winnerId, submitAnswer };
 }

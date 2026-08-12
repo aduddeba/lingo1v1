@@ -27,7 +27,12 @@ export const DIFFICULTY_CONFIG: Record<
   medium: { label: 'Medium', timeLimit: 20_000, pointsMultiplier: 1.5 },
   hard: { label: 'Hard', timeLimit: 12_000, pointsMultiplier: 2 },
   expert: { label: 'Expert', timeLimit: 8_000, pointsMultiplier: 3 },
+  mixed: { label: 'Mixed', timeLimit: 20_000, pointsMultiplier: 1.5 },
 };
+
+// Modes whose rounds carry Round.options and are answered by picking one;
+// every other mode is free-text (see AnswerPanel).
+export const CHOICE_BASED_MODES: readonly GameMode[] = ['forgery', 'historical_evolution'];
 
 export const MAX_PLAYERS_PER_MATCH = 2;
 export const MAX_ROUNDS_PER_MATCH = 10;

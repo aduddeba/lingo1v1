@@ -11,7 +11,7 @@ import { useLobby } from '@/hooks';
 export function LobbyPanel() {
   const { players, readyCount, maxPlayers, isReady, countdown } = useLobbyStore();
   const player = usePlayerStore((s) => s.player);
-  const { setReady } = useLobby();
+  const { setReady, leaveLobby } = useLobby();
 
   return (
     <motion.div
@@ -63,6 +63,12 @@ export function LobbyPanel() {
         <p className="text-center text-xs text-gray-400">
           {readyCount} / {players.length} players ready
         </p>
+
+        {countdown === null && (
+          <Button variant="ghost" size="sm" onClick={leaveLobby} className="w-full">
+            Cancel
+          </Button>
+        )}
       </div>
     </motion.div>
   );

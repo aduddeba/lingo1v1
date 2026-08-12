@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { MatchView } from '@/components/game';
 
 // In Next.js 15, route params are Promises — always await them.
 interface Props {
@@ -19,11 +20,7 @@ export default async function MatchPage({ params }: Props) {
         <p className="text-xs uppercase tracking-widest text-gray-400">Live Match</p>
         <p className="font-mono text-sm text-gray-600">{matchId}</p>
       </header>
-      {/*
-        GameBoard is a Client Component that will be wired here once gameplay is
-        implemented. It receives match state from useGame() and localPlayerId
-        from usePlayer(), so this Server page stays thin.
-      */}
+      <MatchView matchId={matchId} />
     </div>
   );
 }

@@ -267,7 +267,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
   // ── MEDIUM — less familiar languages ─────────────────────────────────────
 
   {
-    id: 'fo-010',
+    id: 'fo-044',
     difficulty: 2,
     type: 'forgery',
     language: 'Welsh',
@@ -282,7 +282,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
   },
 
   {
-    id: 'fo-012',
+    id: 'fo-045',
     difficulty: 2,
     type: 'forgery',
     language: 'Hungarian',
@@ -327,7 +327,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
   },
 
   {
-    id: 'fo-015',
+    id: 'fo-046',
     difficulty: 2,
     type: 'forgery',
     language: 'Swahili',
@@ -342,7 +342,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
   },
 
   {
-    id: 'fo-016',
+    id: 'fo-047',
     difficulty: 2,
     type: 'forgery',
     language: 'Vietnamese',
@@ -357,7 +357,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
   },
 
   {
-    id: 'fo-017',
+    id: 'fo-048',
     difficulty: 2,
     type: 'forgery',
     language: 'Indonesian',
@@ -518,9 +518,9 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
     realText: 'ಬೆಂಗಳೂರು ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ.',
     fakeText: 'ಬೆಳಗೆ ಔಷದಿ ಅಗೋಧು.',
     options: [],
-    answer:
-      '"ಬೆಂಗಳೂರು ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ." means "Bengaluru is the capital of Karnataka", which is an actual sentence. The other one is a bunch of nonsense.',
-    explanation: '"',
+    answer: 'ಬೆಂಗಳೂರು ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ.',
+    explanation:
+      '"ಬೆಂಗಳೂರು ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ" means "Bengaluru is the capital of Karnataka" — an actual sentence. The fake is an unrelated string of words ("ಬೆಳಗೆ" morning, "ಔಷದಿ" medicine, "ಅಗೋಧು" not a real word) that does not form a coherent Kannada sentence.',
   },
 
   {
