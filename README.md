@@ -21,7 +21,6 @@ You can also play any mode solo in **Practice** to warm up before queuing for a 
 - **[React 19](https://react.dev/)**
 - **[Zustand](https://github.com/pmndrs/zustand)** for game/lobby/player state
 - **[Socket.IO](https://socket.io/)** client for real-time matchmaking and gameplay
-- **[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/)** for map-based question types
 - **[Tailwind CSS](https://tailwindcss.com/)** for styling
 - **[Framer Motion](https://www.framer.com/motion/)** for animations
 
