@@ -503,7 +503,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
   },
 
   {
-    id: 'he-031', difficulty: 1, type: 'fill_gap',
+    id: 'he-032', difficulty: 1, type: 'fill_gap',
     targetWord: 'bear',
     chain: [
       { language: 'Proto-Indo-European', form: '*bher-', gloss: 'to bring forth' },
@@ -520,7 +520,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
   },
 
   {
-    id: 'he-032', difficulty: 3, type: 'fill_gap',
+    id: 'he-033', difficulty: 3, type: 'fill_gap',
     targetWord: 'ginger',
     chain: [
       { language: 'Sanskrit', form: 'śrngavera', gloss: 'horned body' },
@@ -537,7 +537,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
   },
 
   {
-    id: 'he-032', difficulty: 2, type: 'fill_gap',
+    id: 'he-034', difficulty: 2, type: 'fill_gap',
     targetWord: 'henakandayā',
     chain: [
       { language: 'Tamil', form: 'āṉaikkoṉṟāṉ', gloss: 'having killed an elephant' },
