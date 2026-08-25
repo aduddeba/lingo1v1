@@ -24,6 +24,8 @@ You can also play any mode solo in **Practice** to warm up before queuing for a 
 - **[Tailwind CSS](https://tailwindcss.com/)** for styling
 - **[Framer Motion](https://www.framer.com/motion/)** for animations
 
+- **NOTE**: Use **npm run dev:all** to start the multiplayer server!
+
 ## Project Structure
 
 ```
