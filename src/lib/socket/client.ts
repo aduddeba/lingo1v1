@@ -13,7 +13,11 @@ export function getSocket(): AppSocket {
   }
 
   if (!socket) {
-    socket = io(process.env['NEXT_PUBLIC_SOCKET_URL'] ?? 'http://localhost:3001', {
+    const socketUrl =
+      process.env['NEXT_PUBLIC_SOCKET_URL'] ??
+      `${window.location.protocol}//${window.location.hostname}:3001`;
+
+    socket = io(socketUrl, {
       autoConnect: false,
       transports: ['websocket', 'polling'],
       reconnection: true,

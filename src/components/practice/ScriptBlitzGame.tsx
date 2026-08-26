@@ -350,7 +350,7 @@ function ArcadePanel({ onEnd }: ArcadeProps) {
                 ? 'What script is this?'
                 : q.category === 'language'
                 ? 'What language is this?'
-                : 'Where is this surname most common?'}
+                : 'What country is this surname from?'}
             </motion.p>
           )}
         </AnimatePresence>

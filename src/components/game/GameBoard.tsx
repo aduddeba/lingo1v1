@@ -13,6 +13,29 @@ interface GameBoardProps {
 
 // GameBoard is a pure display component — it receives all state as props
 // so it is trivially testable and reusable (e.g. spectator mode).
+const SCRIPT_BLITZ_PROMPT_PREFIXES = [
+  'What script is this?',
+  'What language is this?',
+  'What country is this surname from?',
+] as const;
+
+function splitPrompt(prompt: string): { instruction: string; displayText?: string } {
+  const prefix = SCRIPT_BLITZ_PROMPT_PREFIXES.find((p) => prompt.startsWith(p));
+  if (prefix) {
+    const displayText = prompt.slice(prefix.length).trim();
+
+    return {
+      instruction: prefix,
+      displayText: displayText || undefined,
+    };
+  }
+
+  const [instruction = '', ...rest] = prompt.split('\n');
+  const displayText = rest.join('\n').trim();
+
+  return { instruction, displayText: displayText || undefined };
+}
+
 export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProps) {
   const playerIds = Object.keys(match.scores);
   const opponentId = playerIds.find((id) => id !== localPlayerId) ?? null;
@@ -38,9 +61,20 @@ export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProp
             <p className="mb-3 text-xs uppercase tracking-widest text-gray-400">
               Round {match.currentRound.number}
             </p>
-            <p className="text-4xl font-bold tracking-wide text-gray-900">
-              {match.currentRound.prompt}
-            </p>
+            {(() => {
+              const { instruction, displayText } = splitPrompt(match.currentRound.prompt);
+
+              return (
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-lg font-semibold text-gray-500">{instruction}</p>
+                  {displayText && (
+                    <p className="text-4xl font-bold tracking-wide text-gray-900">
+                      {displayText}
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
           </motion.div>
         )}
       </AnimatePresence>

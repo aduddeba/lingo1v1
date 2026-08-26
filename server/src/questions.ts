@@ -114,6 +114,16 @@ function buildCityCountryQuestions(difficulty: Difficulty, count: number): Serve
   });
 }
 
+function formatScriptBlitzPrompt(q: ReturnType<typeof buildBlitzPool>[number]): string {
+  switch (q.category) {
+    case 'script':
+      return `What script is this?` + '\n' + q.displayText;
+    case 'language':
+      return `What language is this?` + '\n' + q.displayText;
+    case 'surname':
+      return `What country is this surname from?` + '\n' + q.displayText;
+  }
+}
 function buildScriptBlitzQuestions(difficulty: Difficulty, count: number): ServerQuestion[] {
   const pool = buildBlitzPool({
     mode: 'script_blitz',
@@ -125,7 +135,7 @@ function buildScriptBlitzQuestions(difficulty: Difficulty, count: number): Serve
   return pool.map((q) => ({
     id: q.displayText + ':' + q.answer,
     mode: 'script_blitz' as const,
-    prompt: q.displayText,
+    prompt: formatScriptBlitzPrompt(q),
     timeLimitMs,
     correctAnswer: q.answer,
     isCorrect: (answer: string) => checkBlitzAnswer(answer, q),

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0",
     "dev:server": "npm --prefix server run dev",
     "dev:all": "concurrently -n next,socket -c blue,magenta \"npm run dev\" \"npm run dev:server\"",
     "build": "next build",
@@ -20,7 +20,7 @@
     "framer-motion": "^12.0.0",
     "immer": "^10.1.0",
     "mapbox-gl": "^3.24.0",
-    "next": "^15.5.19",
+    "next": "^16.3.3",
     "next-themes": "^0.4.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
