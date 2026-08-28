@@ -17,7 +17,7 @@ export interface PendingLobby {
 export const connectedPlayers = new Map<string, Player>();
 
 // difficulty -> the single player currently waiting for an opponent (Quick
-// Match no longer splits by mode — matches mix questions from every mode, see
+// Match no longer splits by mode - matches mix questions from every mode, see
 // server/src/questions.ts). A second joiner on the same difficulty pairs
 // immediately and the entry is removed.
 export const queues = new Map<Difficulty, LobbyPlayer>();

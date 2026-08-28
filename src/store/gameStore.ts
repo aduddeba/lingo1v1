@@ -5,6 +5,7 @@ import type { Match, Round, PlayerScore, ConnectionStatus, AnswerResult } from '
 
 interface GameState {
   match: Match | null;
+  localPlayerId: string | null;
   connectionStatus: ConnectionStatus;
   timeRemaining: number;
   lastAnswerResult: AnswerResult | null;
@@ -13,6 +14,7 @@ interface GameState {
 
 interface GameActions {
   setMatch: (match: Match | null) => void;
+  setLocalPlayerId: (playerId: string | null) => void;
   setConnectionStatus: (status: ConnectionStatus) => void;
   updateRound: (round: Round) => void;
   updateScores: (scores: Record<string, PlayerScore>) => void;
@@ -24,6 +26,7 @@ interface GameActions {
 
 const initialState: GameState = {
   match: null,
+  localPlayerId: null,
   connectionStatus: 'disconnected',
   timeRemaining: 0,
   lastAnswerResult: null,
@@ -40,12 +43,16 @@ export const useGameStore = create<GameState & GameActions>()(
           state.match = match;
         }),
 
+      setLocalPlayerId: (playerId) =>
+        set((state) => {
+          state.localPlayerId = playerId;
+        }),
+
       setConnectionStatus: (status) =>
         set((state) => {
           state.connectionStatus = status;
         }),
 
-      // Immer lets us mutate nested objects directly without spreading.
       updateRound: (round) =>
         set((state) => {
           if (state.match) state.match.currentRound = round;

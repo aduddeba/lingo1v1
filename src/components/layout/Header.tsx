@@ -2,14 +2,28 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useGameStore } from '@/store';
-import { usePlayerStore } from '@/store';
+import { useRouter } from 'next/navigation';
+import { useAuthStore, useGameStore, usePlayerStore } from '@/store';
+import { disconnectSocket } from '@/lib/socket/client';
 import { ThemeToggle } from '@/components/ui';
 import type { ConnectionStatus } from '@/types';
 
 export function Header() {
   const connectionStatus = useGameStore((s) => s.connectionStatus);
+  const authUser = useAuthStore((s) => s.user);
   const player = usePlayerStore((s) => s.player);
+  const clearSession = useAuthStore((s) => s.clearSession);
+  const clearPlayer = usePlayerStore((s) => s.clearPlayer);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    void fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).finally(() => {
+      clearSession();
+      clearPlayer();
+      disconnectSocket();
+      router.push('/');
+    });
+  };
 
   return (
     <motion.header
@@ -41,7 +55,25 @@ export function Header() {
           </Link>
           <ConnectionBadge status={connectionStatus} />
           {player && (
-            <span className="text-sm font-medium text-gray-700">{player.username}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {player.username}{player.identityKind === 'guest' ? ' (guest)' : ''}
+            </span>
+          )}
+          {authUser ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="text-sm font-semibold text-gray-500 transition-colors hover:text-brand-600"
+            >
+              Log out
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="text-sm font-semibold text-gray-500 transition-colors hover:text-brand-600"
+            >
+              Log in
+            </Link>
           )}
           <ThemeToggle />
         </nav>
@@ -69,3 +101,6 @@ function ConnectionBadge({ status }: { status: ConnectionStatus }) {
     </span>
   );
 }
+
+
+

@@ -14,13 +14,13 @@ interface MatchViewProps {
 
 export function MatchView({ matchId }: MatchViewProps) {
   const { player } = usePlayer();
-  const { match, timeRemaining, winnerId, submitAnswer } = useGame();
+  const { match, localPlayerId, timeRemaining, winnerId, submitAnswer, surrenderMatch } = useGame();
   const router = useRouter();
   const resetGame = useGameStore((s) => s.resetGame);
   const resetLobby = useLobbyStore((s) => s.resetLobby);
 
   // Guests without an identity (e.g. a direct link, or a refresh that lost
-  // localStorage) have no way to be scored — send them back to pick a name.
+  // localStorage) have no way to be scored - send them back to pick a name.
   useEffect(() => {
     if (!player) router.replace('/lobby');
   }, [player, router]);
@@ -43,9 +43,15 @@ export function MatchView({ matchId }: MatchViewProps) {
 
   return (
     <div className="flex flex-col gap-8">
-      <GameBoard match={match} localPlayerId={player.id} timeRemaining={timeRemaining} />
+      <GameBoard
+        match={match}
+        localPlayerId={localPlayerId ?? player.id}
+        timeRemaining={timeRemaining}
+      />
 
-      {match.phase === 'active' && <AnswerPanel match={match} onSubmit={submitAnswer} />}
+      {match.phase === 'active' && (
+        <AnswerPanel match={match} onSubmit={submitAnswer} onSurrender={surrenderMatch} />
+      )}
 
       {match.phase === 'game_over' && (
         <div className="flex flex-col items-center gap-4 rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-100">
@@ -54,7 +60,7 @@ export function MatchView({ matchId }: MatchViewProps) {
               ? "It's a tie!"
               : winnerId === player.id
                 ? 'You won!'
-                : 'You lost — good game.'}
+                : 'You lost - good game.'}
           </p>
           <Button onClick={handleBackToLobby}>Back to Lobby</Button>
         </div>
@@ -62,3 +68,6 @@ export function MatchView({ matchId }: MatchViewProps) {
     </div>
   );
 }
+
+
+

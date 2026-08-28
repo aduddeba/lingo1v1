@@ -8,7 +8,7 @@ import type { ForgeryConfig } from '@/types/practice';
 export function useForgery() {
   const store = useForgeryStore();
 
-  // Timer — same pattern as usePractice
+  // Timer - same pattern as usePractice
   useEffect(() => {
     if (store.phase !== 'question') return;
 

@@ -5,3 +5,4 @@ export { usePracticeStore } from './practiceStore';
 export { useForgeryStore } from './forgeryStore';
 export { useScriptBlitzStore } from './scriptBlitzStore';
 export { useCityCountryStore } from './cityCountryStore';
+export { useAuthStore, type AuthStatus } from './authStore';

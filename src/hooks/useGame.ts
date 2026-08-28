@@ -13,6 +13,8 @@ export function useGame() {
     lastAnswerResult,
     winnerId,
     setMatch,
+    localPlayerId,
+    setLocalPlayerId,
     updateRound,
     updateScores,
     setTimeRemaining,
@@ -22,7 +24,10 @@ export function useGame() {
 
   const emit = useSocketEmit();
 
-  useSocketEvent('match:start', ({ match: m }) => setMatch(m));
+  useSocketEvent('match:start', ({ match: m, localPlayerId: id }) => {
+    setMatch(m);
+    setLocalPlayerId(id);
+  });
   useSocketEvent('match:state', ({ match: m }) => setMatch(m));
   useSocketEvent('match:end', ({ match: m, winnerId: w }) => {
     setMatch(m);
@@ -52,5 +57,20 @@ export function useGame() {
     [match, emit]
   );
 
-  return { match, timeRemaining, lastAnswerResult, winnerId, submitAnswer };
+  const surrenderMatch = useCallback(() => {
+    if (!match?.id) return;
+    emit('match:surrender', { matchId: match.id });
+  }, [match?.id, emit]);
+
+  return {
+    match,
+    localPlayerId,
+    timeRemaining,
+    lastAnswerResult,
+    winnerId,
+    submitAnswer,
+    surrenderMatch,
+  };
 }
+
+

@@ -10,8 +10,8 @@ export default function HomePage() {
           Lingo<span className="text-brand-600">1v1</span>
         </h1>
         <p className="mx-auto mt-4 max-w-md text-balance text-lg text-gray-500">
-          Challenge opponents to real-time linguistics duels — anagrams, word chains, definition
-          races &amp; more.
+          Battle through fake-language spotting, word histories, script IDs, surname origins,
+          and city-country challenges in real time.
         </p>
         <div className="mt-8 flex justify-center gap-3">
           <Link href="/lobby">

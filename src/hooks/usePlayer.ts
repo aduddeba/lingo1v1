@@ -1,19 +1,22 @@
 'use client';
 
-import { usePlayerStore } from '@/store';
-import type { LocalPlayer } from '@/types';
+import { useAuthStore, usePlayerStore } from '@/store';
+import type { LocalPlayer, PublicUser } from '@/types';
 
 export function usePlayer(): {
   player: LocalPlayer | null;
+  user: PublicUser | null;
   isAuthenticated: boolean;
   setPlayer: (p: LocalPlayer | null) => void;
   clearPlayer: () => void;
 } {
   const { player, setPlayer, clearPlayer } = usePlayerStore();
+  const user = useAuthStore((s) => s.user);
 
   return {
     player,
-    isAuthenticated: player !== null,
+    user,
+    isAuthenticated: user !== null,
     setPlayer,
     clearPlayer,
   };

@@ -1,5 +1,5 @@
 // crypto.randomUUID() requires a secure context (HTTPS or localhost) and is
-// simply missing from `crypto` over plain HTTP on a LAN IP — which is exactly
+// simply missing from `crypto` over plain HTTP on a LAN IP - which is exactly
 // how a second device reaches this app during local multiplayer testing.
 // crypto.getRandomValues() has no such restriction, so build a UUID v4 from
 // it whenever the native method isn't available.

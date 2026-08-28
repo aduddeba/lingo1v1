@@ -63,7 +63,7 @@ export interface ForgeryQuestion {
   id: string;
   type: 'forgery';
   language: string;
-  script: string;       // e.g. 'Latin', 'Cyrillic', 'Arabic' — shown as context
+  script: string;       // e.g. 'Latin', 'Cyrillic', 'Arabic' - shown as context
   region: string;       // region id, e.g. 'europe', 'south_asia'
   realText: string;
   fakeText: string;
@@ -99,7 +99,7 @@ export interface PracticeAnswerResult {
   correct: boolean;
   selectedAnswer: string;
   correctAnswer: string;
-  correctAnswerLanguage: string; // e.g. "Old French" — for display in feedback
+  correctAnswerLanguage: string; // e.g. "Old French" - for display in feedback
   explanation: string;
   targetWord: string;            // modern word (word-form) or predicted language name (ancestry)
   targetLabel: string;           // "Evolved into" (word-form) or "Language" (ancestry)
@@ -138,7 +138,7 @@ export interface CityCountryQuestion {
   id: string;
   type: 'city_country';
   city: string;          // e.g. "Porto"
-  continent: string;     // e.g. "Europe" — shown in feedback alongside the answer
+  continent: string;     // e.g. "Europe" - shown in feedback alongside the answer
   prompt: string;        // e.g. "Which country is Porto in?"
   answer: string;        // the correct country, canonical form
   aliases: string[];     // accepted alternate spellings/abbreviations (e.g. "USA", "UK")

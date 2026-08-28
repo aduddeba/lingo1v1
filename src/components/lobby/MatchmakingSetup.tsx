@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 import { useLobby } from '@/hooks';
-import { usePlayerStore } from '@/store';
+import { useLobbyStore, usePlayerStore } from '@/store';
 import type { Difficulty } from '@/types';
 
 const DIFFICULTIES: { value: Difficulty; label: string; description: string }[] = [
@@ -17,12 +17,13 @@ const DIFFICULTIES: { value: Difficulty; label: string; description: string }[] 
 
 // Quick Match picker: pick a difficulty, then join the matching server-side
 // queue. The match itself draws questions from every game mode at random
-// (see server/src/questions.ts buildMixedQuestionSet) — there's no mode
+// (see server/src/questions.ts buildMixedQuestionSet) - there's no mode
 // choice here on purpose.
 export function MatchmakingSetup() {
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const { joinLobby } = useLobby();
   const player = usePlayerStore((s) => s.player);
+  const joinError = useLobbyStore((s) => s.joinError);
 
   const handleFindMatch = () => {
     if (!player) return;
@@ -37,7 +38,7 @@ export function MatchmakingSetup() {
     >
       <h2 className="mb-2 text-xl font-bold text-gray-900">Quick Match</h2>
       <p className="mb-6 text-sm text-gray-500">
-        Questions are drawn at random from every game mode — pick a difficulty and go.
+        Questions are drawn at random from every game mode - pick a difficulty and go.
       </p>
 
       <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
@@ -61,6 +62,7 @@ export function MatchmakingSetup() {
           </button>
         ))}
       </div>
+      {joinError && <p className="mt-4 text-sm text-red-600">{joinError}</p>}
 
       <Button className="mt-6 w-full" onClick={handleFindMatch}>
         Find Match
@@ -68,3 +70,6 @@ export function MatchmakingSetup() {
     </motion.div>
   );
 }
+
+
+

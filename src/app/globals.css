@@ -95,7 +95,7 @@
     color: rgb(56 189 248); /* brand-400 */
   }
 
-  /* Status colors in dark mode — keep vibrant on dark bg */
+  /* Status colors in dark mode - keep vibrant on dark bg */
   .dark .bg-green-50 {
     background-color: rgb(20 83 45 / 0.3);
   }

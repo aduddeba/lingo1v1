@@ -7,7 +7,7 @@ import type { HistoricalEvolutionQuestion } from '@/types/practice';
 
 export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
 
-  // ── EASY — predict_end: the hidden stage is always the modern English word ──
+  // ── EASY - predict_end: the hidden stage is always the modern English word ──
 
   {
     id: 'he-001', difficulty: 1, type: 'predict_end',
@@ -18,7 +18,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
       { language: 'Modern English', form: 'window' },
     ],
     hiddenIndex: 2,
-    prompt: 'Old Norse sailors called wall openings "wind eyes." Follow the chain — what modern English word did it become?',
+    prompt: 'Old Norse sailors called wall openings "wind eyes." Follow the chain - what modern English word did it become?',
     options: ['window', 'wander', 'wicket', 'windle'],
     answer: 'window',
     explanation: '"Window" from Old Norse vindauga (vindr=wind + auga=eye). Norse settlers brought the compound to Britain, replacing Old English "eagþyrl" (eye-hole). The word describes exactly what a window does: it is the eye through which wind and light enter. The silent w-sound in Norse became the familiar English word.',
@@ -68,7 +68,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Latin "discus" (flat plate) travelled into kitchens through Old French. What humble household word did it become?',
     options: ['dish', 'disc', 'dais', 'desk'],
     answer: 'dish',
-    explanation: 'Latin discus spawned a remarkable word family: "dish" (for food), "dais" (a raised platform, from the same Old French deis), "desk" (via Medieval Latin discus), and "disc/disk." All four are siblings — different English words from the same Roman flat plate. A desk is literally a dish you write on.',
+    explanation: 'Latin discus spawned a remarkable word family: "dish" (for food), "dais" (a raised platform, from the same Old French deis), "desk" (via Medieval Latin discus), and "disc/disk." All four are siblings - different English words from the same Roman flat plate. A desk is literally a dish you write on.',
   },
 
   {
@@ -81,7 +81,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
       { language: 'Modern English', form: 'sugar' },
     ],
     hiddenIndex: 3,
-    prompt: 'Sanskrit "śarkarā" (meaning grit or gravel — describing raw sugar crystals) sweetened its way through Arabic and Old French. What did English make of it?',
+    prompt: 'Sanskrit "śarkarā" (meaning grit or gravel - describing raw sugar crystals) sweetened its way through Arabic and Old French. What did English make of it?',
     options: ['sugar', 'sucker', 'liquor', 'sachet'],
     answer: 'sugar',
     explanation: 'Sanskrit śarkarā (grit/gravel, for the texture of raw sugar) → Arabic sukkar → Old French sucre → English "sugar." The same Sanskrit root reached English via Greek and Latin as "saccharine." Sugar cane was unknown to ancient Europeans; the word travelled with the crop from South Asia through the Arab world to medieval Europe.',
@@ -100,7 +100,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Greek "kathedra" (a seat you sit DOWN into) became a bishop\'s throne in Latin. What everyday English word did it evolve into?',
     options: ['chair', 'choir', 'cathedral', 'chore'],
     answer: 'chair',
-    explanation: '"Chair" and "cathedral" are doublets from the same Greek kathedra (kata=down + hedra=seat). Via Old French "chaire," it became the everyday chair. Via Latin ecclesiastical use, cathedra became "cathedral" — the church containing the bishop\'s throne. The bishop\'s authority is still called their "cathedra," giving us "ex cathedra" (from the seat of authority).',
+    explanation: '"Chair" and "cathedral" are doublets from the same Greek kathedra (kata=down + hedra=seat). Via Old French "chaire," it became the everyday chair. Via Latin ecclesiastical use, cathedra became "cathedral" - the church containing the bishop\'s throne. The bishop\'s authority is still called their "cathedra," giving us "ex cathedra" (from the seat of authority).',
   },
 
   {
@@ -131,7 +131,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Latin "camera" (a vaulted room) was borrowed by Italian scientists for an optical device. What did that device give English?',
     options: ['camera', 'chamber', 'cameo', 'camouflage'],
     answer: 'camera',
-    explanation: 'Latin camera (vaulted room) → Italian camera oscura (dark chamber) — a box that projected images through a pinhole. When Daguerre invented photography (1839), the box kept the name "camera." "Chamber" is a doublet: the same Latin word entered English through a different Old French route. Both a bedroom and a camera are, etymologically, just rooms.',
+    explanation: 'Latin camera (vaulted room) → Italian camera oscura (dark chamber) - a box that projected images through a pinhole. When Daguerre invented photography (1839), the box kept the name "camera." "Chamber" is a doublet: the same Latin word entered English through a different Old French route. Both a bedroom and a camera are, etymologically, just rooms.',
   },
 
   {
@@ -147,7 +147,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Arabic "al-kīmiyā" (the art of transmuting metals) passed through Latin and French. What did English call it?',
     options: ['alchemy', 'algebra', 'algorithm', 'almanac'],
     answer: 'alchemy',
-    explanation: '"Alchemy" from Arabic al-kīmiyā (the Greek khēmeia, art of transmuting metals). Medieval alchemists sought to turn lead into gold. As "alchemy" lost its al- prefix in English, it became "chemistry" — the modern science. The al- article is an Arabic fingerprint on many English words: algebra, algorithm, alcohol, alkaline, alkali.',
+    explanation: '"Alchemy" from Arabic al-kīmiyā (the Greek khēmeia, art of transmuting metals). Medieval alchemists sought to turn lead into gold. As "alchemy" lost its al- prefix in English, it became "chemistry" - the modern science. The al- article is an Arabic fingerprint on many English words: algebra, algorithm, alcohol, alkaline, alkali.',
   },
 
   {
@@ -162,10 +162,10 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Old English joined "wīf" (woman) and "mann" (person/human) into a compound. What single word does it give us today?',
     options: ['woman', 'womb', 'wimple', 'warden'],
     answer: 'woman',
-    explanation: '"Woman" from Old English wīfmann — wīf (woman/wife) + mann (person). Old English "mann" was gender-neutral (any human); the gendered sense of "man" developed later. So "woman" literally means "female person" — the gender-neutral "person" (mann) qualified by the female marker (wīf). The pronunciation shifted: wīfmann → wimman → wumman → woman.',
+    explanation: '"Woman" from Old English wīfmann - wīf (woman/wife) + mann (person). Old English "mann" was gender-neutral (any human); the gendered sense of "man" developed later. So "woman" literally means "female person" - the gender-neutral "person" (mann) qualified by the female marker (wīf). The pronunciation shifted: wīfmann → wimman → wumman → woman.',
   },
 
-  // ── MEDIUM — mix of predict_end (surprising origins) and fill_gap ──────────
+  // ── MEDIUM - mix of predict_end (surprising origins) and fill_gap ──────────
 
   {
     id: 'he-011', difficulty: 2, type: 'predict_end',
@@ -179,7 +179,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: '"Hlāford" fused the words for "loaf" (bread) and "guardian." What title of authority did it become?',
     options: ['lord', 'lore', 'laud', 'lard'],
     answer: 'lord',
-    explanation: '"Lord" from Old English hlāford — hlāf (loaf/bread) + weard (guardian). A lord was literally the one who guarded and distributed the bread. Similarly, "lady" comes from hlǣfdīge (loaf-kneader). The social hierarchy was built on who controlled the bread supply. Bread — not gold — defined power in Anglo-Saxon England.',
+    explanation: '"Lord" from Old English hlāford - hlāf (loaf/bread) + weard (guardian). A lord was literally the one who guarded and distributed the bread. Similarly, "lady" comes from hlǣfdīge (loaf-kneader). The social hierarchy was built on who controlled the bread supply. Bread - not gold - defined power in Anglo-Saxon England.',
   },
 
   {
@@ -194,7 +194,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: '"Hlǣfdīge" combined "hlāf" (loaf) with "dīge" (kneader of dough). What did it become in modern English?',
     options: ['lady', 'laity', 'lass', 'lacy'],
     answer: 'lady',
-    explanation: '"Lady" from Old English hlǣfdīge — hlāf (loaf) + dīge (one who kneads). "Lord" (loaf-guardian) and "lady" (loaf-kneader) are a matching pair, both built on the same bread. "Dairy" shares the same dīge root — a dairy was originally a place where dough was worked. Power and sustenance were inseparable in Old English social vocabulary.',
+    explanation: '"Lady" from Old English hlǣfdīge - hlāf (loaf) + dīge (one who kneads). "Lord" (loaf-guardian) and "lady" (loaf-kneader) are a matching pair, both built on the same bread. "Dairy" shares the same dīge root - a dairy was originally a place where dough was worked. Power and sustenance were inseparable in Old English social vocabulary.',
   },
 
   {
@@ -207,10 +207,10 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
       { language: 'Modern English', form: 'paradise' },
     ],
     hiddenIndex: 3,
-    prompt: 'A walled Persian royal garden — pairi (around) + daēza (wall) — passed through Greek and Latin. What did English make of it?',
+    prompt: 'A walled Persian royal garden - pairi (around) + daēza (wall) - passed through Greek and Latin. What did English make of it?',
     options: ['paradise', 'paradigm', 'parity', 'parable'],
     answer: 'paradise',
-    explanation: '"Paradise" from Old Persian pairi-daēza (a walled enclosure, a royal garden). Alexander the Great encountered these gardens and Greek writers adopted paradeisos. Early Bible translators chose the word for the Garden of Eden. The word travelled from mud-wall enclosure to royal pleasure ground to divine heaven — a journey of 2,500 years.',
+    explanation: '"Paradise" from Old Persian pairi-daēza (a walled enclosure, a royal garden). Alexander the Great encountered these gardens and Greek writers adopted paradeisos. Early Bible translators chose the word for the Garden of Eden. The word travelled from mud-wall enclosure to royal pleasure ground to divine heaven - a journey of 2,500 years.',
   },
 
   {
@@ -226,7 +226,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Greek "thēsauros" (a place where things are stored) entered Latin unchanged, then French. What did English take from it?',
     options: ['treasure', 'thesaurus', 'treasury', 'trestle'],
     answer: 'treasure',
-    explanation: '"Treasure" and "thesaurus" are doublets from the same Greek thēsauros. One path: Greek → Latin → Old French trésor → English "treasure" (13th c.). Another: Latin thēsaurus → English "thesaurus" for a word-storehouse (Roget, 1852). The Greek word is from tithēmi (to place) — literally "that which is placed in store."',
+    explanation: '"Treasure" and "thesaurus" are doublets from the same Greek thēsauros. One path: Greek → Latin → Old French trésor → English "treasure" (13th c.). Another: Latin thēsaurus → English "thesaurus" for a word-storehouse (Roget, 1852). The Greek word is from tithēmi (to place) - literally "that which is placed in store."',
   },
 
   {
@@ -239,10 +239,10 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
       { language: 'Modern English', form: 'wife' },
     ],
     hiddenIndex: 3,
-    prompt: 'Proto-Germanic "*wībą" meant simply "woman." Follow the narrowing of meaning — what did the word become?',
+    prompt: 'Proto-Germanic "*wībą" meant simply "woman." Follow the narrowing of meaning - what did the word become?',
     options: ['wife', 'waif', 'life', 'vine'],
     answer: 'wife',
-    explanation: '"Wife" from Proto-Germanic *wībą (any woman). Old English wīf kept the general sense — a "fishwife" or "midwife" is any woman, not necessarily a married one. By Middle English, "wife" narrowed to mean a married woman, as "woman" (from wīfmann) took over the general sense. The word specialised while its compound form generalised.',
+    explanation: '"Wife" from Proto-Germanic *wībą (any woman). Old English wīf kept the general sense - a "fishwife" or "midwife" is any woman, not necessarily a married one. By Middle English, "wife" narrowed to mean a married woman, as "woman" (from wīfmann) took over the general sense. The word specialised while its compound form generalised.',
   },
 
   {
@@ -258,7 +258,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Sanskrit "nīla" (dark blue) moved through Arabic and then a Spanish step before reaching English as "indigo." What was the Spanish form?',
     options: ['añil', 'índigo', 'anil', 'ñilo'],
     answer: 'añil',
-    explanation: '"Indigo" traces to Sanskrit nīla (dark blue) → Arabic nīl (the Nile; al-nīl the plant) → Spanish añil (the Arabic article al- fused into añil) → Portuguese índigo → English. Spain dominated the indigo trade through its American colonies, making the Spanish stage pivotal. The word also gives English "aniline" — the synthetic dye family that replaced natural indigo.',
+    explanation: '"Indigo" traces to Sanskrit nīla (dark blue) → Arabic nīl (the Nile; al-nīl the plant) → Spanish añil (the Arabic article al- fused into añil) → Portuguese índigo → English. Spain dominated the indigo trade through its American colonies, making the Spanish stage pivotal. The word also gives English "aniline" - the synthetic dye family that replaced natural indigo.',
   },
 
   {
@@ -273,7 +273,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Old English "bridd" (a nestling, not any bird) had its letters rearranged in Middle English. What was the transitional form?',
     options: ['brid', 'byrd', 'birde', 'bred'],
     answer: 'brid',
-    explanation: '"Bird" from Old English bridd (a nestling — not yet used for all birds). In Middle English the consonants transposed: bridd → brid → bird. This is metathesis — spontaneous transposition of sounds. The same process changed Old English "wæps" to "wasp," "þridda" to "third," and "frisian" to "firs." The letters rearranged to become more pronounceable.',
+    explanation: '"Bird" from Old English bridd (a nestling - not yet used for all birds). In Middle English the consonants transposed: bridd → brid → bird. This is metathesis - spontaneous transposition of sounds. The same process changed Old English "wæps" to "wasp," "þridda" to "third," and "frisian" to "firs." The letters rearranged to become more pronounceable.',
   },
 
   {
@@ -289,7 +289,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: '"Water of life" was borrowed into Gaelic from Latin, then compressed over centuries by English speakers. What is the result?',
     options: ['whisky', 'biscuit', 'wisket', 'whisper'],
     answer: 'whisky',
-    explanation: '"Whisky" from Gaelic uisce beatha (water of life — a translation of Latin aqua vitae). "Uisce" compressed through Middle English usquebaugh → whisky by the 18th century. Many languages name their spirits "water of life": French eau de vie, Scandinavian aquavit, Russian водка (voda=water). The word "whisky" lost about two-thirds of its syllables on the journey.',
+    explanation: '"Whisky" from Gaelic uisce beatha (water of life - a translation of Latin aqua vitae). "Uisce" compressed through Middle English usquebaugh → whisky by the 18th century. Many languages name their spirits "water of life": French eau de vie, Scandinavian aquavit, Russian водка (voda=water). The word "whisky" lost about two-thirds of its syllables on the journey.',
   },
 
   {
@@ -305,7 +305,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Latin "focus" (hearth) generated an Old French word for firewood that English compressed into "fuel." What was that Old French step?',
     options: ['fouaille', 'feu', 'foyer', 'flamme'],
     answer: 'fouaille',
-    explanation: 'Latin focus (hearth) → Old French fouaille (material for a hearth) → Middle English fewel → "fuel." The same Latin focus also gave "foyer" (the hearth/entrance hall of a theatre) and — via Kepler in 1604 — "focus" itself (he used it for the focal point of a lens). One Latin fireplace produced three unrelated English words.',
+    explanation: 'Latin focus (hearth) → Old French fouaille (material for a hearth) → Middle English fewel → "fuel." The same Latin focus also gave "foyer" (the hearth/entrance hall of a theatre) and - via Kepler in 1604 - "focus" itself (he used it for the focal point of a lens). One Latin fireplace produced three unrelated English words.',
   },
 
   {
@@ -321,10 +321,10 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'PIE "*bhreh₂tēr" (brother) → Latin "frāter" → then an Old French step → English "friar." What was the missing French form?',
     options: ['frère', 'fratre', 'frari', 'frier'],
     answer: 'frère',
-    explanation: 'PIE *bhreh₂tēr → Latin frāter → Old French frère → English "friar" (a religious brother). The same PIE root gives English "brother" (via Germanic), making "friar" and "brother" cognates — one French-borrowed, one Old English-inherited. Latin frāter also gives "fraternal," "confraternity," and (through Greek phrater) "phrase." The PIE root for "brother" is one of the most prolific in the language.',
+    explanation: 'PIE *bhreh₂tēr → Latin frāter → Old French frère → English "friar" (a religious brother). The same PIE root gives English "brother" (via Germanic), making "friar" and "brother" cognates - one French-borrowed, one Old English-inherited. Latin frāter also gives "fraternal," "confraternity," and (through Greek phrater) "phrase." The PIE root for "brother" is one of the most prolific in the language.',
   },
 
-  // ── HARD — fill_gap with obscure intermediate stages ─────────────────────
+  // ── HARD - fill_gap with obscure intermediate stages ─────────────────────
 
   {
     id: 'he-021', difficulty: 3, type: 'fill_gap',
@@ -339,7 +339,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Medieval scribes used a three-line mark resembling a crane\'s footprint to show family descent. What was the Old French phrase that named it?',
     options: ['pied de grue', 'pied de roi', 'pied-à-terre', 'pied de boeuf'],
     answer: 'pied de grue',
-    explanation: '"Pedigree" from Old French pied de grue (crane\'s foot). Scribes drew three radiating lines to mark genealogical descent in manuscripts — resembling a crane\'s three-toed print. "Pied de grue" → Middle English pedegru → pedigree. The crane appears elsewhere in etymology: "geranium" (from Greek geranos, crane) names the plant whose seed pods resemble a crane\'s beak.',
+    explanation: '"Pedigree" from Old French pied de grue (crane\'s foot). Scribes drew three radiating lines to mark genealogical descent in manuscripts - resembling a crane\'s three-toed print. "Pied de grue" → Middle English pedegru → pedigree. The crane appears elsewhere in etymology: "geranium" (from Greek geranos, crane) names the plant whose seed pods resemble a crane\'s beak.',
   },
 
   {
@@ -355,7 +355,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: '"Govern" descends from the Greek word for a ship\'s steersman. What was the crucial Latin step that transmitted it to Old French?',
     options: ['gubernāre', 'gubernator', 'cubernare', 'guberium'],
     answer: 'gubernāre',
-    explanation: '"Govern" from Greek kybernētēs (steersman) → Latin gubernāre → Old French governer → English. The same Greek root gave Norbert Wiener "cybernetics" (the science of control and communication, 1948). "Govern" and "cyber" are distant cousins — one arrived through Latin and French, one was coined directly from Greek. Both mean: the art of steering.',
+    explanation: '"Govern" from Greek kybernētēs (steersman) → Latin gubernāre → Old French governer → English. The same Greek root gave Norbert Wiener "cybernetics" (the science of control and communication, 1948). "Govern" and "cyber" are distant cousins - one arrived through Latin and French, one was coined directly from Greek. Both mean: the art of steering.',
   },
 
   {
@@ -384,7 +384,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
       { language: 'Modern English', form: 'salary' },
     ],
     hiddenIndex: 3,
-    prompt: 'Roman soldiers received a "salārium" — an allowance to buy salt. This payment gave English a word for all regular income. What is it?',
+    prompt: 'Roman soldiers received a "salārium" - an allowance to buy salt. This payment gave English a word for all regular income. What is it?',
     options: ['salary', 'sale', 'saline', 'salvage'],
     answer: 'salary',
     explanation: '"Salary" from Latin salārium (salt allowance, from sal = salt). Salt was essential for preserving food and precious enough to act as currency, hence "worth one\'s salt." The same sal root gives "sauce," "sausage," "salad" (salted vegetables), "salami," and "salve." Salt shaped Western language as much as it shaped Western history.',
@@ -436,7 +436,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Arabic "hashshāshīn" was Latinised by Crusader-era scholars before entering French and English. What was the Medieval Latin form?',
     options: ['assassinus', 'assassinator', 'hashiminus', 'assasarius'],
     answer: 'assassinus',
-    explanation: '"Assassin" from Arabic hashshāshīn (users of hashish), referring to the Nizari Ismaili sect of Alamut (c.1090–1275) who carried out political killings. Crusaders brought the word home. It was Latinised as assassinus, then adopted unchanged into French and English. Whether the hashish connection is historical fact or enemy slander remains debated — but the word spread with the fear.',
+    explanation: '"Assassin" from Arabic hashshāshīn (users of hashish), referring to the Nizari Ismaili sect of Alamut (c.1090–1275) who carried out political killings. Crusaders brought the word home. It was Latinised as assassinus, then adopted unchanged into French and English. Whether the hashish connection is historical fact or enemy slander remains debated - but the word spread with the fear.',
   },
 
   {
@@ -451,7 +451,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Arabic "al-jabr" (reunion of broken parts) needed a Latin form before Europeans could study it. What did medieval scholars call it?',
     options: ['algebra', 'algorismus', 'alchimia', 'alkali'],
     answer: 'algebra',
-    explanation: '"Algebra" from al-Khwārizmī\'s 9th-century treatise on solving equations. Medieval scholars Latinised al-jabr as algebra (identically), then English adopted it. Al-Khwārizmī\'s own name — Latinised as Algoritmi — gave us "algorithm." The same book introduced Hindu-Arabic numerals (0–9) to Europe. One Arab mathematician shaped how the entire Western world does mathematics.',
+    explanation: '"Algebra" from al-Khwārizmī\'s 9th-century treatise on solving equations. Medieval scholars Latinised al-jabr as algebra (identically), then English adopted it. Al-Khwārizmī\'s own name - Latinised as Algoritmi - gave us "algorithm." The same book introduced Hindu-Arabic numerals (0–9) to Europe. One Arab mathematician shaped how the entire Western world does mathematics.',
   },
 
   {
@@ -467,7 +467,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Latin "grammatica" became associated with magic in the Middle Ages and shifted meaning entirely. What was the Middle English form that linked grammar to sorcery?',
     options: ['grammarye', 'gramariye', 'grimoire', 'gramery'],
     answer: 'grammarye',
-    explanation: '"Glamour" is a Scottish corruption of "grammar." In the Middle Ages, Latin literacy was so rare it seemed magical — "grammarye" meant both learning and occult knowledge. Scottish speakers transformed grammarye into "glamour" (a magic spell). By the 1930s Hollywood adopted it for "alluring charm." Latin "grimoire" (a book of magic) is the same word again, via French.',
+    explanation: '"Glamour" is a Scottish corruption of "grammar." In the Middle Ages, Latin literacy was so rare it seemed magical - "grammarye" meant both learning and occult knowledge. Scottish speakers transformed grammarye into "glamour" (a magic spell). By the 1930s Hollywood adopted it for "alluring charm." Latin "grimoire" (a book of magic) is the same word again, via French.',
   },
 
   {
@@ -483,10 +483,10 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     prompt: 'Arabic "gharbala" (to sift carefully) passed through an Italian spice-trade term before reaching English with a completely reversed meaning. What was the Italian step?',
     options: ['garbellare', 'garbolare', 'garbare', 'garbarino'],
     answer: 'garbellare',
-    explanation: '"Garble" from Arabic gharbala (to sift, select) → Italian garbellare (to sift spices) → Middle English garbelen (to sort). Originally it meant careful, precise selection — the opposite of confusion. The meaning reversed because spice merchants who "garbled" goods were accused of secretly adulterating them. The act of sorting became synonymous with the deception it concealed.',
+    explanation: '"Garble" from Arabic gharbala (to sift, select) → Italian garbellare (to sift spices) → Middle English garbelen (to sort). Originally it meant careful, precise selection - the opposite of confusion. The meaning reversed because spice merchants who "garbled" goods were accused of secretly adulterating them. The act of sorting became synonymous with the deception it concealed.',
   },
 
-    // ── BONUS — my own questions ──────────────────────────────
+    // ── BONUS - my own questions ──────────────────────────────
 
   {
     id: 'he-031', difficulty: 2, type: 'fill_gap',

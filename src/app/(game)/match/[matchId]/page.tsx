@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { MatchView } from '@/components/game';
 
-// In Next.js 15, route params are Promises — always await them.
+// In Next.js 15, route params are Promises - always await them.
 interface Props {
   params: Promise<{ matchId: string }>;
 }

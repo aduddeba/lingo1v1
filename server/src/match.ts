@@ -4,7 +4,7 @@ import { buildMixedQuestionSet, type ServerQuestion } from './questions';
 import { matches, socketToMatch, type LobbyPlayer } from './state';
 
 // Delay between a round ending (reveal) and the next round starting, so both
-// players can see the correct answer — mirrors the 2s auto-clear timeout the
+// players can see the correct answer - mirrors the 2s auto-clear timeout the
 // client already applies to `lastAnswerResult` in useGame.ts.
 const REVEAL_DELAY_MS = 2_000;
 const TICK_INTERVAL_MS = 1_000;
@@ -70,7 +70,12 @@ export class MatchSession {
     this.beginRound(0);
     // match:start carries the first round already active, since the lobby's
     // own countdown already covered the "get ready" beat.
-    this.io.to(this.id).emit('match:start', { match: this.match });
+    for (const { socketId, player } of this.players) {
+      this.io.to(socketId).emit('match:start', {
+        match: this.match,
+        localPlayerId: player.id,
+      });
+    }
   }
 
   private beginRound(index: number): void {
@@ -176,12 +181,20 @@ export class MatchSession {
   // Ends the match immediately because `disconnectedSocketId` left; the
   // other player wins by forfeit.
   forfeit(disconnectedSocketId: string): void {
-    if (this.ended) return;
-    const winner = this.opponentOf(disconnectedSocketId);
-    this.finish(winner.player.id);
+    this.finishAsLoss(disconnectedSocketId, 'forfeit');
   }
 
-  private finish(winnerIdOverride?: string): void {
+  surrender(surrenderingSocketId: string): void {
+    this.finishAsLoss(surrenderingSocketId, 'surrender');
+  }
+
+  private finishAsLoss(losingSocketId: string, reason: 'forfeit' | 'surrender'): void {
+    if (this.ended) return;
+    const winner = this.opponentOf(losingSocketId);
+    this.finish(winner.player.id, reason);
+  }
+
+  private finish(winnerIdOverride?: string, reason: 'completed' | 'forfeit' | 'surrender' = 'completed'): void {
     if (this.ended) return;
     this.ended = true;
     this.clearTimers();
@@ -190,7 +203,7 @@ export class MatchSession {
     this.match.finishedAt = Date.now();
 
     const winnerId = winnerIdOverride ?? this.computeWinner();
-    this.io.to(this.id).emit('match:end', { match: this.match, winnerId });
+    this.io.to(this.id).emit('match:end', { match: this.match, winnerId, reason });
 
     for (const { socketId } of this.players) socketToMatch.delete(socketId);
     matches.delete(this.id);
@@ -213,3 +226,5 @@ export class MatchSession {
     this.revealTimeout = null;
   }
 }
+
+

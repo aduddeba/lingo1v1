@@ -16,7 +16,7 @@ interface ScriptBlitzState {
   phase: PracticePhase;
   config: ScriptBlitzConfig | null;
 
-  // Pool cycles infinitely — when poolIndex reaches pool.length, reshuffle
+  // Pool cycles infinitely - when poolIndex reaches pool.length, reshuffle
   pool: ScriptBlitzQuestion[];
   poolIndex: number;
 

@@ -11,7 +11,7 @@ interface GameBoardProps {
   timeRemaining: number;
 }
 
-// GameBoard is a pure display component — it receives all state as props
+// GameBoard is a pure display component - it receives all state as props
 // so it is trivially testable and reusable (e.g. spectator mode).
 const SCRIPT_BLITZ_PROMPT_PREFIXES = [
   'What script is this?',
@@ -38,12 +38,15 @@ function splitPrompt(prompt: string): { instruction: string; displayText?: strin
 
 export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProps) {
   const playerIds = Object.keys(match.scores);
-  const opponentId = playerIds.find((id) => id !== localPlayerId) ?? null;
+  const resolvedLocalPlayerId = match.scores[localPlayerId]
+    ? localPlayerId
+    : (playerIds[0] ?? localPlayerId);
+  const opponentId = playerIds.find((id) => id !== resolvedLocalPlayerId) ?? null;
 
   return (
     <div className="flex flex-col gap-6">
       <ScoreBanner
-        localScore={match.scores[localPlayerId]}
+        localScore={match.scores[resolvedLocalPlayerId]}
         opponentScore={opponentId ? match.scores[opponentId] : undefined}
         timeRemaining={timeRemaining}
         phase={match.phase}
@@ -118,3 +121,5 @@ function ScoreBanner({ localScore, opponentScore, timeRemaining, phase }: ScoreB
     </div>
   );
 }
+
+

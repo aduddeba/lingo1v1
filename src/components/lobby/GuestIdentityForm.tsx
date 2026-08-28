@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button, Input } from '@/components/ui';
 import { usePlayerStore } from '@/store';
 import { generateId } from '@/lib/utils/id';
 
-// Multiplayer only needs a display name to key scores/rooms by — there's no
-// account system yet (see src/app/(auth)/login/page.tsx, still a stub).
-// This is the one place a LocalPlayer gets created.
 export function GuestIdentityForm() {
   const [username, setUsername] = useState('');
   const setPlayer = usePlayerStore((s) => s.setPlayer);
@@ -19,7 +17,7 @@ export function GuestIdentityForm() {
     if (!trimmed) return;
 
     setPlayer({
-      id: generateId(),
+      id: `guest_${generateId()}`,
       username: trimmed,
       avatarUrl: null,
       status: 'idle',
@@ -27,7 +25,7 @@ export function GuestIdentityForm() {
       wins: 0,
       losses: 0,
       createdAt: Date.now(),
-      sessionToken: generateId(),
+      identityKind: 'guest',
     });
   };
 
@@ -40,7 +38,7 @@ export function GuestIdentityForm() {
     >
       <h2 className="mb-2 text-xl font-bold text-gray-900">Choose a display name</h2>
       <p className="mb-6 text-sm text-gray-500">
-        This is how your opponent will see you — no account needed.
+        Continue as a guest, or <Link href="/login" className="font-semibold text-brand-600 hover:text-brand-700">log in</Link> to use your saved profile.
       </p>
 
       <Input
@@ -53,7 +51,7 @@ export function GuestIdentityForm() {
       />
 
       <Button type="submit" className="mt-4 w-full" disabled={!username.trim()}>
-        Continue
+        Continue as guest
       </Button>
     </motion.form>
   );

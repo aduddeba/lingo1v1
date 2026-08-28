@@ -101,9 +101,9 @@ function SettingsPanel({ onStart }: { onStart: (c: ScriptBlitzConfig) => void })
       <div className="rounded-xl border border-brand-100 bg-brand-50 p-4 text-sm text-brand-700">
         <p className="font-semibold">How to play</p>
         <ul className="mt-1 space-y-0.5 text-brand-600">
-          <li>• <span className="font-medium">Scripts</span> — name the writing system (e.g. "Cyrillic")</li>
-          <li>• <span className="font-medium">Languages</span> — name the language (e.g. "Finnish")</li>
-          <li>• <span className="font-medium">Surnames</span> — name the country (e.g. "Japan")</li>
+          <li>• <span className="font-medium">Scripts</span> - name the writing system (e.g. &quot;Cyrillic&quot;)</li>
+          <li>• <span className="font-medium">Languages</span> - name the language (e.g. &quot;Finnish&quot;)</li>
+          <li>• <span className="font-medium">Surnames</span> - name the country (e.g. &quot;Japan&quot;)</li>
           <li>• Press Enter to submit. Faster = more points. Streak = bonus.</li>
         </ul>
       </div>
@@ -417,7 +417,7 @@ function ArcadePanel({ onEnd }: ArcadeProps) {
           )}
         </AnimatePresence>
 
-        {/* Input field — visible only during question phase */}
+        {/* Input field - visible only during question phase */}
         {blitz.phase === 'question' && (
           <motion.div
             className="w-full max-w-sm"
@@ -518,12 +518,12 @@ function HistoryPanel({
                 </p>
                 <p className="mt-0.5 text-xs text-gray-500">
                   {r.correct
-                    ? `Correct — "${r.typedAnswer}"`
+                    ? `Correct - "${r.typedAnswer}"`
                     : r.skipped
                     ? 'Skipped'
                     : r.timedOut
                     ? 'Timed out'
-                    : `Wrong — typed "${r.typedAnswer}"`}
+                    : `Wrong - typed "${r.typedAnswer}"`}
                 </p>
                 {!r.correct && (
                   <p className="text-xs font-semibold text-gray-700">
@@ -679,3 +679,4 @@ export function ScriptBlitzGame() {
     </div>
   );
 }
+

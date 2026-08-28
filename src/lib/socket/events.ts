@@ -10,6 +10,7 @@ export const SOCKET_EVENTS = {
   LOBBY_PLAYER_JOINED: 'lobby:player_joined',
   LOBBY_PLAYER_LEFT: 'lobby:player_left',
   LOBBY_COUNTDOWN: 'lobby:countdown',
+  PLAYER_IDENTITY: 'player:identity',
   LOBBY_JOIN: 'lobby:join',
   LOBBY_LEAVE: 'lobby:leave',
   LOBBY_READY: 'lobby:ready',
@@ -17,6 +18,7 @@ export const SOCKET_EVENTS = {
   MATCH_START: 'match:start',
   MATCH_STATE: 'match:state',
   MATCH_END: 'match:end',
+  MATCH_SURRENDER: 'match:surrender',
 
   ROUND_START: 'round:start',
   ROUND_END: 'round:end',
@@ -31,3 +33,5 @@ export const SOCKET_EVENTS = {
 } as const;
 
 export type SocketEventValue = (typeof SOCKET_EVENTS)[keyof typeof SOCKET_EVENTS];
+
+

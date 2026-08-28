@@ -1,14 +1,15 @@
+
 import type { ForgeryQuestion } from '@/types/practice';
 
 // Forgery questions across three difficulty levels.
 // Each presents one genuine text and one AI-generated fake in the same language.
 // Players identify which is real.
-// Fakes use invented words or impossible phonotactic/character patterns —
-// not grammatical errors — so no language knowledge is required.
+// Fakes use invented words or impossible phonotactic/character patterns -
+// not grammatical errors - so no language knowledge is required.
 // Invariant: answer === realText
 
 export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
-  // ── EASY — familiar Latin-script languages ────────────────────────────────
+  // ── EASY - familiar Latin-script languages ────────────────────────────────
 
   {
     id: 'fo-001',
@@ -18,7 +19,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
     script: 'Latin',
     region: 'europe',
     realText: 'Ystäväni tulee huomenna.',
-    fakeText: 'Yrkälöö zzz-vanta kõõmna.',
+    fakeText: 'Yrkälöö äävanta köömnä.',
     options: [],
     answer: 'Ystäväni tulee huomenna.',
     explanation:
@@ -190,7 +191,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
       'The real sentence is authentic Romanian. The fake option is deliberately more visually distorted, using exaggerated clusters, repeated filler, or mismatched-looking word shapes so the forgery is easier to spot.',
   },
 
-  // ── MEDIUM — less familiar languages ─────────────────────────────────────
+  // ── MEDIUM - less familiar languages ─────────────────────────────────────
 
   {
     id: 'fo-044',
@@ -297,7 +298,7 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
       'The real sentence is authentic Indonesian. The fake option is deliberately more visually distorted, using exaggerated clusters, repeated filler, or mismatched-looking word shapes so the forgery is easier to spot.',
   },
 
-  // ── HARD — non-Latin scripts and subtle visual differences ────────────────
+  // ── HARD - non-Latin scripts and subtle visual differences ────────────────
 
   {
     id: 'fo-018',
@@ -351,10 +352,10 @@ export const FORGERY_QUESTIONS: ForgeryQuestion[] = [
     language: 'Russian',
     script: 'Cyrillic',
     region: 'europe',
-    realText: 'Санкт-Петербург — красивый город.',
+    realText: 'Санкт-Петербург - красивый город.',
     fakeText: 'Санкто-Блицбург - крашовый жжужжгород.',
     options: [],
-    answer: 'Санкт-Петербург — красивый город.',
+    answer: 'Санкт-Петербург - красивый город.',
     explanation:
       'The real sentence is authentic Russian. The fake option is deliberately more visually distorted, using exaggerated clusters, repeated filler, or mismatched-looking word shapes so the forgery is easier to spot.',
   },

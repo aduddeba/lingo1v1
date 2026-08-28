@@ -6,6 +6,9 @@ build/
 # Dependencies
 node_modules/
 
+# Local persistent data
+data/
+
 # Environment
 .env
 .env.local

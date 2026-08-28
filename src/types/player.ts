@@ -11,9 +11,8 @@ export interface Player {
   createdAt: number;
 }
 
-// LocalPlayer is the authenticated client-side representation of the current user.
-// The sessionToken is never sent back to the server as a plain field; it lives
-// only in client-side state and is attached to requests via headers/cookies.
 export interface LocalPlayer extends Player {
-  sessionToken: string;
+  identityKind: 'guest' | 'authenticated';
+  email?: string;
+  gamesPlayed?: number;
 }

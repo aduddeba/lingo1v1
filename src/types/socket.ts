@@ -4,7 +4,7 @@ import type { Player } from './player';
 // ─── Server → Client ─────────────────────────────────────────────────────────
 // These are the events the Socket.IO server broadcasts to connected clients.
 // Keeping them in a shared types file lets the future server package import
-// this same definition — one source of truth for the wire protocol.
+// this same definition - one source of truth for the wire protocol.
 
 export interface ServerToClientEvents {
   'lobby:update': (payload: {
@@ -15,10 +15,11 @@ export interface ServerToClientEvents {
   'lobby:player_joined': (payload: { player: Player }) => void;
   'lobby:player_left': (payload: { playerId: string }) => void;
   'lobby:countdown': (payload: { startsIn: number }) => void;
+  'player:identity': (payload: { player: Player; authenticated: boolean }) => void;
 
-  'match:start': (payload: { match: Match }) => void;
+  'match:start': (payload: { match: Match; localPlayerId: string }) => void;
   'match:state': (payload: { match: Match }) => void;
-  'match:end': (payload: { match: Match; winnerId: string | null }) => void;
+  'match:end': (payload: { match: Match; winnerId: string | null; reason?: 'completed' | 'forfeit' | 'surrender' }) => void;
 
   'round:start': (payload: { round: Round }) => void;
   'round:end': (payload: {
@@ -53,4 +54,8 @@ export interface ClientToServerEvents {
     roundId: string;
     answer: string;
   }) => void;
+  'match:surrender': (payload: { matchId: string }) => void;
 }
+
+
+

@@ -7,13 +7,13 @@ import type { LanguageAncestryQuestion } from '@/types/practice';
 
 export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
 
-  // ── EASY — well-known family trees, final stage hidden ──────────────────────
+  // ── EASY - well-known family trees, final stage hidden ──────────────────────
 
   {
     id: 'la-001', difficulty: 1, type: 'language_ancestry',
     languageChain: ['Latin', 'Vulgar Latin', '???', 'French'],
     hiddenIndex: 2,
-    prompt: 'Latin became French — but not overnight. What is the name of the stage spoken in Gaul between Vulgar Latin and Modern French?',
+    prompt: 'Latin became French - but not overnight. What is the name of the stage spoken in Gaul between Vulgar Latin and Modern French?',
     options: ['Old French', 'Gallo-Romance', 'Medieval Latin', 'Proto-Romance'],
     answer: 'Old French',
     explanation: 'Old French (8th–14th c.) is the direct bridge between Vulgar Latin and Modern French. It is attested from the Oaths of Strasbourg (842 CE), the oldest surviving text in a recognizable Romance language. Gallo-Romance is the broader branch label (ancestor of French and Occitan together), not a spoken stage. Medieval Latin was the written scholarly language, not a vernacular evolution of Vulgar Latin.',
@@ -26,7 +26,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'When Anglo-Saxon tribes crossed the North Sea to Britain around 450 CE, their Anglo-Frisian dialect became a distinct language. What is it called?',
     options: ['Old English', 'Old Frisian', 'Old Saxon', 'Gothic'],
     answer: 'Old English',
-    explanation: 'Old English (Anglo-Saxon, 450–1150 CE) emerged when Germanic tribes (Angles, Saxons, Jutes) settled Britain. Old Frisian remains its closest living relative — the two were mutually intelligible until around 1000 CE. Gothic is a separate East Germanic language. Old Saxon developed in northern Germany and eventually gave rise to Low German.',
+    explanation: 'Old English (Anglo-Saxon, 450–1150 CE) emerged when Germanic tribes (Angles, Saxons, Jutes) settled Britain. Old Frisian remains its closest living relative - the two were mutually intelligible until around 1000 CE. Gothic is a separate East Germanic language. Old Saxon developed in northern Germany and eventually gave rise to Low German.',
   },
 
   {
@@ -56,7 +56,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'The language of Kievan Rus split into three branches. Which descended through the Moscow dialect?',
     options: ['Russian', 'Ukrainian', 'Belarusian', 'Bulgarian'],
     answer: 'Russian',
-    explanation: 'Old East Slavic was spoken across Kievan Rus (9th–12th c.). After the state fragmented, the Moscow dialect became the foundation of Russian, the northeastern branch. Ukrainian developed in central and southwestern regions; Belarusian in the west. Bulgarian is South Slavic — a cousin, not a descendant of Old East Slavic.',
+    explanation: 'Old East Slavic was spoken across Kievan Rus (9th–12th c.). After the state fragmented, the Moscow dialect became the foundation of Russian, the northeastern branch. Ukrainian developed in central and southwestern regions; Belarusian in the west. Bulgarian is South Slavic - a cousin, not a descendant of Old East Slavic.',
   },
 
   {
@@ -76,7 +76,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'North Germanic split from the broader Germanic family around 2000 BCE. What is its earliest well-attested form?',
     options: ['Proto-Norse', 'Old Norse', 'Old Swedish', 'Old Danish'],
     answer: 'Proto-Norse',
-    explanation: 'Proto-Norse (also called Runic Norse) is attested in Elder Futhark runic inscriptions from approximately 200–700 CE. It preceded Old Norse, from which the modern Scandinavian languages descend. Old Norse, Old Swedish, and Old Danish are later stages — Proto-Norse is the direct first step after the Proto-Germanic / North Germanic split.',
+    explanation: 'Proto-Norse (also called Runic Norse) is attested in Elder Futhark runic inscriptions from approximately 200–700 CE. It preceded Old Norse, from which the modern Scandinavian languages descend. Old Norse, Old Swedish, and Old Danish are later stages - Proto-Norse is the direct first step after the Proto-Germanic / North Germanic split.',
   },
 
   {
@@ -89,7 +89,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     explanation: 'Polish is a West Slavic language that has consonant clusters like "cz", "sz", "rz" and has a unique alphabet with 32 letters.',
   },
 
-  // ── MEDIUM — less obvious intermediate stages ────────────────────────────────
+  // ── MEDIUM - less obvious intermediate stages ────────────────────────────────
 
   {
     id: 'la-009', difficulty: 2, type: 'language_ancestry',
@@ -98,7 +98,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'After the Arab conquest of the Sasanian Empire (651 CE), Pahlavi absorbed Arabic vocabulary and adopted a new script. What language did it become?',
     options: ['New Persian', 'Pashto', 'Sogdian', 'Kurdish'],
     answer: 'New Persian',
-    explanation: 'Pahlavi (Middle Persian) was the official language of the Sasanian Empire. After the Arab conquest it retained its grammar and core vocabulary but adopted the Perso-Arabic script and massive Arabic borrowings, becoming New Persian (Farsi/Dari). Pashto and Kurdish are related Iranian branches — parallel descendants, not direct successors of Pahlavi.',
+    explanation: 'Pahlavi (Middle Persian) was the official language of the Sasanian Empire. After the Arab conquest it retained its grammar and core vocabulary but adopted the Perso-Arabic script and massive Arabic borrowings, becoming New Persian (Farsi/Dari). Pashto and Kurdish are related Iranian branches - parallel descendants, not direct successors of Pahlavi.',
   },
 
   {
@@ -108,7 +108,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: "Proto-Greek developed into a rich landscape of classical dialects, later unified by Koine. What do we call this classical stage?",
     options: ['Ancient Greek', 'Latin', 'Phrygian', 'Etruscan'],
     answer: 'Ancient Greek',
-    explanation: "Ancient Greek (c.800–300 BCE) encompassed the classical dialects (Attic, Doric, Ionic, Aeolic) used in Homer's epics, Athenian democracy, and Platonic philosophy. Koine Greek (~300 BCE) arose when Alexander's conquests needed a common tongue, blending the dialects — especially Attic. Proto-Greek is the reconstructed ancestor from ~2000 BCE. Latin and Phrygian were separate Indo-European branches; Etruscan was non-Indo-European.",
+    explanation: "Ancient Greek (c.800–300 BCE) encompassed the classical dialects (Attic, Doric, Ionic, Aeolic) used in Homer's epics, Athenian democracy, and Platonic philosophy. Koine Greek (~300 BCE) arose when Alexander's conquests needed a common tongue, blending the dialects - especially Attic. Proto-Greek is the reconstructed ancestor from ~2000 BCE. Latin and Phrygian were separate Indo-European branches; Etruscan was non-Indo-European.",
   },
 
   {
@@ -118,7 +118,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'The Goidelic branch produced the oldest richly attested form of an Irish language. What is this earliest stage called?',
     options: ['Old Irish', 'Old Welsh', 'Old Cornish', 'Pictish'],
     answer: 'Old Irish',
-    explanation: "Old Irish (c.600–900 CE) is the oldest well-attested Goidelic stage, preserved in manuscripts and Ogham inscriptions. Its verb system could express over 500 forms — one of the most complex morphologies of any recorded language. Old Welsh and Old Cornish are Brittonic — a parallel Insular Celtic branch. Pictish, the poorly understood language of ancient Scotland, is not classified as Goidelic.",
+    explanation: "Old Irish (c.600–900 CE) is the oldest well-attested Goidelic stage, preserved in manuscripts and Ogham inscriptions. Its verb system could express over 500 forms - one of the most complex morphologies of any recorded language. Old Welsh and Old Cornish are Brittonic - a parallel Insular Celtic branch. Pictish, the poorly understood language of ancient Scotland, is not classified as Goidelic.",
   },
 
   {
@@ -138,7 +138,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: "Middle Chinese (Qieyun rhyming dictionary, 601 CE) was the common ancestor of all modern Chinese varieties. Which branch became China's modern lingua franca?",
     options: ['Early Mandarin', 'Cantonese', 'Min Chinese', 'Wu Chinese'],
     answer: 'Early Mandarin',
-    explanation: 'Early Mandarin (Old Mandarin) emerged in northern China during the Tang and Song dynasties and was documented in the Zhongyuan Yinyun (1324 CE). It became the basis for Modern Standard Chinese (Putonghua/Mandarin). Cantonese, Min, Wu, and Hakka are other Middle Chinese descendants that developed in southern China — parallel branches, not ancestors of Mandarin.',
+    explanation: 'Early Mandarin (Old Mandarin) emerged in northern China during the Tang and Song dynasties and was documented in the Zhongyuan Yinyun (1324 CE). It became the basis for Modern Standard Chinese (Putonghua/Mandarin). Cantonese, Min, Wu, and Hakka are other Middle Chinese descendants that developed in southern China - parallel branches, not ancestors of Mandarin.',
   },
 
   {
@@ -158,10 +158,10 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: "Old Babylonian (~2000–1500 BCE) was the language of Hammurabi's Code. What stage came next in the Babylonian dialect?",
     options: ['Middle Babylonian', 'Late Babylonian', 'Neo-Assyrian', 'Standard Babylonian'],
     answer: 'Middle Babylonian',
-    explanation: 'Babylonian Akkadian progressed: Old (2000–1500 BCE) → Middle (1500–1000 BCE) → Neo (1000–600 BCE) → Late Babylonian stages. Middle Babylonian is attested in the Amarna Letters — international Bronze Age diplomatic correspondence between Egypt and Mesopotamian kingdoms, demonstrating Babylonian as the lingua franca of the ancient Near East.',
+    explanation: 'Babylonian Akkadian progressed: Old (2000–1500 BCE) → Middle (1500–1000 BCE) → Neo (1000–600 BCE) → Late Babylonian stages. Middle Babylonian is attested in the Amarna Letters - international Bronze Age diplomatic correspondence between Egypt and Mesopotamian kingdoms, demonstrating Babylonian as the lingua franca of the ancient Near East.',
   },
 
-  // ── HARD — obscure branches, proto-languages, and less-taught lineages ───────
+  // ── HARD - obscure branches, proto-languages, and less-taught lineages ───────
 
   {
     id: 'la-016', difficulty: 3, type: 'language_ancestry',
@@ -170,7 +170,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'Shauraseni Prakrit was spoken in the Mathura region of northern India. What transitional stage immediately followed it on the path to modern Hindi?',
     options: ['Shauraseni Apabhramsha', 'Pali', 'Sanskrit', 'Ardhamagadhi Prakrit'],
     answer: 'Shauraseni Apabhramsha',
-    explanation: 'Prakrits evolved into Apabhramsha languages (~500–1200 CE) — the transitional bridge between Middle Indo-Aryan (Prakrits) and New Indo-Aryan (modern languages). Shauraseni Apabhramsha specifically gave rise to the Western Hindi dialects (Braj Bhasha, Khariboli), and through them to modern Hindi, Gujarati, and Rajasthani. Pali and Ardhamagadhi are different Prakrit branches serving different literary traditions.',
+    explanation: 'Prakrits evolved into Apabhramsha languages (~500–1200 CE) - the transitional bridge between Middle Indo-Aryan (Prakrits) and New Indo-Aryan (modern languages). Shauraseni Apabhramsha specifically gave rise to the Western Hindi dialects (Braj Bhasha, Khariboli), and through them to modern Hindi, Gujarati, and Rajasthani. Pali and Ardhamagadhi are different Prakrit branches serving different literary traditions.',
   },
 
   {
@@ -180,7 +180,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: "Ge'ez became the liturgical language of the Ethiopian Orthodox Church but gave rise to living descendants. Which is the most widely spoken modern Ethiopian Semitic language?",
     options: ['Amharic', 'Tigrinya', 'Tigre', 'Harari'],
     answer: 'Amharic',
-    explanation: "Amharic (spoken by ~25 million people and the official language of Ethiopia) is the most widely spoken modern descendant of the Ethiosemitic branch. Tigrinya, Tigre, and Harari are sister languages — all descended from the same South Ethiopic ancestor — but Amharic holds the greatest political prestige and number of speakers. Ge'ez itself has been maintained as a liturgical language for over 1,600 years.",
+    explanation: "Amharic (spoken by ~25 million people and the official language of Ethiopia) is the most widely spoken modern descendant of the Ethiosemitic branch. Tigrinya, Tigre, and Harari are sister languages - all descended from the same South Ethiopic ancestor - but Amharic holds the greatest political prestige and number of speakers. Ge'ez itself has been maintained as a liturgical language for over 1,600 years.",
   },
 
   {
@@ -190,7 +190,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'Luwian was spoken across Bronze Age Anatolia (~2000–1000 BCE). Which attested language is its most direct descendant within the Luwic subgroup?',
     options: ['Lycian', 'Lydian', 'Palaic', 'Carian'],
     answer: 'Lycian',
-    explanation: 'Lycian (southwestern Anatolia, attested ~5th–1st c. BCE) is classified within the Luwic branch of Anatolian as a direct descendant of Luwian. Carian has debated placement in Luwic. Lydian belongs to a separate Anatolian branch. Palaic is even older than Luwian — an earlier Anatolian branch, not a later one. The Luwic group represents one of the easternmost branches of Indo-European.',
+    explanation: 'Lycian (southwestern Anatolia, attested ~5th–1st c. BCE) is classified within the Luwic branch of Anatolian as a direct descendant of Luwian. Carian has debated placement in Luwic. Lydian belongs to a separate Anatolian branch. Palaic is even older than Luwian - an earlier Anatolian branch, not a later one. The Luwic group represents one of the easternmost branches of Indo-European.',
   },
 
   {
@@ -200,7 +200,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'Proto-Tahitic split when Polynesian navigators reached Aotearoa around 1300 CE. Which language descended through that southern migration?',
     options: ['Māori', 'Hawaiian', 'Samoan', 'Tongan'],
     answer: 'Māori',
-    explanation: 'The Tahitic branch includes Tahitian and Māori (and Rarotongan). Hawaiian descended through the Marquesic branch — a parallel Eastern Polynesian line, not Tahitic. Samoan and Tongan are Polynesian but are not Eastern Polynesian — they diverged much earlier from Proto-Polynesian. The Māori language preserves many Proto-Tahitic features due to the relative isolation of New Zealand after settlement.',
+    explanation: 'The Tahitic branch includes Tahitian and Māori (and Rarotongan). Hawaiian descended through the Marquesic branch - a parallel Eastern Polynesian line, not Tahitic. Samoan and Tongan are Polynesian but are not Eastern Polynesian - they diverged much earlier from Proto-Polynesian. The Māori language preserves many Proto-Tahitic features due to the relative isolation of New Zealand after settlement.',
   },
 
   {
@@ -210,7 +210,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'Pali was the scriptural language of Theravāda Buddhism. Which Middle Indo-Aryan language evolved directly from Pali as a vernacular?',
     options: ['Sinhalese', 'Tamil', 'Telugu', 'Kannada'],
     answer: 'Sinhalese',
-    explanation: 'Sinhalese (spoken in Sri Lanka) is the only modern Indo-Aryan language that can trace a continuous lineage through Pali. Pali was brought to Sri Lanka by Buddhist missionaries in the 3rd century BCE, and the island\'s Indo-Aryan vernacular evolved under its strong influence. Tamil, Telugu, and Kannada are Dravidian languages — a completely separate family from Indo-Aryan.',
+    explanation: 'Sinhalese (spoken in Sri Lanka) is the only modern Indo-Aryan language that can trace a continuous lineage through Pali. Pali was brought to Sri Lanka by Buddhist missionaries in the 3rd century BCE, and the island\'s Indo-Aryan vernacular evolved under its strong influence. Tamil, Telugu, and Kannada are Dravidian languages - a completely separate family from Indo-Aryan.',
   },
 
   {
@@ -220,7 +220,7 @@ export const LANGUAGE_ANCESTRY_QUESTIONS: LanguageAncestryQuestion[] = [
     prompt: 'Narrow Bantu languages spread from Cameroon/Nigeria across sub-Saharan Africa over 3,000 years. Which of these belongs directly within Narrow Bantu?',
     options: ['Swahili', 'Hausa', 'Yoruba', 'Amharic'],
     answer: 'Swahili',
-    explanation: 'Swahili (Kiswahili) is a Narrow Bantu language spoken by ~200 million people across East Africa as a lingua franca. Hausa is Afroasiatic (Chadic branch). Yoruba is Atlantic-Congo but belongs to the Defoid branch of Volta-Congo — it diverged long before the Bantu expansion. Amharic is Semitic. The Bantu expansion from the Cameroon–Nigeria highlands is one of the most dramatic language spreads in human history.',
+    explanation: 'Swahili (Kiswahili) is a Narrow Bantu language spoken by ~200 million people across East Africa as a lingua franca. Hausa is Afroasiatic (Chadic branch). Yoruba is Atlantic-Congo but belongs to the Defoid branch of Volta-Congo - it diverged long before the Bantu expansion. Amharic is Semitic. The Bantu expansion from the Cameroon–Nigeria highlands is one of the most dramatic language spreads in human history.',
   },
 
   {

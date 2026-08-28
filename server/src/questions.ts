@@ -22,7 +22,7 @@ const ALL_MODES: readonly GameMode[] = [
 ];
 
 // A round's worth of authoritative question data. The answer key never
-// leaves this module — `isCorrect`/`score` are closures over it, and only
+// leaves this module - `isCorrect`/`score` are closures over it, and only
 // `mode`/`prompt`/`options`/`timeLimitMs` are ever serialized to clients.
 export interface ServerQuestion {
   id: string;
@@ -61,7 +61,7 @@ function buildForgeryQuestions(difficulty: Difficulty, count: number): ServerQue
   const questions = selectForgeryQuestions({
     mode: 'forgery',
     difficulty: toPracticeDifficulty(difficulty),
-    // Runtime only ever slices to this count — the 5|10|15|20 union just
+    // Runtime only ever slices to this count - the 5|10|15|20 union just
     // reflects the single-player picker's UI options, not a real constraint.
     questionCount: count as PracticeQuestionCount,
     regions: [],
@@ -158,7 +158,7 @@ function buildQuestionsForMode(mode: GameMode, difficulty: Difficulty, count: nu
   }
 }
 
-// Players only pick a difficulty (see MatchmakingSetup) — the match itself
+// Players only pick a difficulty (see MatchmakingSetup) - the match itself
 // splits MAX_ROUNDS_PER_MATCH as evenly as possible across all 4 modes (e.g.
 // 3/3/2/2 for 10 rounds, the extra rounds going to a random pair of modes
 // each match), draws that many *distinct* questions from each mode's own

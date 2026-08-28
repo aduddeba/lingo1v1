@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { HistoricalEvolutionGame } from '@/components/practice';
 
 export const metadata: Metadata = {
-  title: 'Historical Evolution Battles — Practice',
+  title: 'Historical Evolution Battles - Practice',
 };
 
 // This page is intentionally a thin Server Component shell.

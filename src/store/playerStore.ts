@@ -12,7 +12,7 @@ interface PlayerActions {
 }
 
 // Persisted to localStorage so the player survives a page refresh.
-// The sessionToken inside LocalPlayer is intentionally kept client-side only —
+// The sessionToken inside LocalPlayer is intentionally kept client-side only -
 // it is never stored in a cookie that goes to the server as a plain header.
 export const usePlayerStore = create<PlayerState & PlayerActions>()(
   devtools(

@@ -67,7 +67,7 @@ export function PracticeHUD({
         </div>
       </div>
 
-      {/* Timer bar — only visible during the question phase */}
+      {/* Timer bar - only visible during the question phase */}
       <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
         <div
           className={`h-full rounded-full transition-[width] duration-1000 ease-linear ${

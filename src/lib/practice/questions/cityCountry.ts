@@ -2,12 +2,12 @@ import type { CityCountryQuestion } from '@/types/practice';
 
 // ─── City → Country question bank ─────────────────────────────────────────────
 // Player types the country name; matching is forgiving (see cityCountryEngine's
-// checkAnswer) against `answer` plus any `aliases` — common abbreviations or
+// checkAnswer) against `answer` plus any `aliases` - common abbreviations or
 // alternate names.
 //
 // difficulty 1: iconic capitals/cities
 // difficulty 2: well-known but non-obvious cities (not always the capital)
-// difficulty 3: lesser-known capitals — easy to confuse with neighboring countries
+// difficulty 3: lesser-known capitals - easy to confuse with neighboring countries
 
 export const CITY_COUNTRY_QUESTIONS: CityCountryQuestion[] = [
   // ── Easy ──────────────────────────────────────────────────────────────────
@@ -189,7 +189,7 @@ export const CITY_COUNTRY_QUESTIONS: CityCountryQuestion[] = [
     explanation: 'Samarkand was a major Silk Road hub and is famed for its Registan square.', difficulty: 2 },
   { id: 'cc-m-036', type: 'city_country', city: 'Hyderabad', continent: 'Asia',
     prompt: 'Which country is Hyderabad in?', answer: 'India', aliases: ['Pakistan'],
-    explanation: 'There are two major cities named Hyderabad — one in India’s Telangana state, another in Pakistan’s Sindh province — both are accepted here.', difficulty: 2 },
+    explanation: 'There are two major cities named Hyderabad - one in India’s Telangana state, another in Pakistan’s Sindh province - both are accepted here.', difficulty: 2 },
   { id: 'cc-m-037', type: 'city_country', city: 'Odesa', continent: 'Europe',
     prompt: 'Which country is Odesa in?', answer: 'Ukraine', aliases: ['Odessa'],
     explanation: 'Odesa is Ukraine’s largest Black Sea port, known for its 19th-century Potemkin Stairs.', difficulty: 2 },

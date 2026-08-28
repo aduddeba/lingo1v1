@@ -16,7 +16,7 @@ export function usePractice() {
   // Re-runs every time the phase changes to/from 'question', and whenever
   // currentIndex changes (new question resets the interval).
   // We read the latest state via getState() inside the interval to avoid
-  // stale closures — the standard Zustand pattern.
+  // stale closures - the standard Zustand pattern.
   useEffect(() => {
     if (store.phase !== 'question') return;
 

@@ -10,6 +10,7 @@ interface LobbyState {
   maxPlayers: number;
   isReady: boolean;
   countdown: number | null;
+  joinError: string | null;
 }
 
 interface LobbyActions {
@@ -21,6 +22,7 @@ interface LobbyActions {
   setMaxPlayers: (max: number) => void;
   setReady: (ready: boolean) => void;
   setCountdown: (seconds: number | null) => void;
+  setJoinError: (error: string | null) => void;
   resetLobby: () => void;
 }
 
@@ -31,6 +33,7 @@ const initialState: LobbyState = {
   maxPlayers: 2,
   isReady: false,
   countdown: null,
+  joinError: null,
 };
 
 export const useLobbyStore = create<LobbyState & LobbyActions>()(
@@ -46,6 +49,7 @@ export const useLobbyStore = create<LobbyState & LobbyActions>()(
       setPlayers: (players) =>
         set((state) => {
           state.players = players;
+          state.joinError = null;
         }),
 
       addPlayer: (player) =>
@@ -78,6 +82,11 @@ export const useLobbyStore = create<LobbyState & LobbyActions>()(
       setCountdown: (seconds) =>
         set((state) => {
           state.countdown = seconds;
+        }),
+
+      setJoinError: (error) =>
+        set((state) => {
+          state.joinError = error;
         }),
 
       resetLobby: () => set(() => ({ ...initialState })),

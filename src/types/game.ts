@@ -23,7 +23,7 @@ export interface Round {
   id: string;
   number: number;
   // Multiplayer mixes questions from every mode into one match (see
-  // MatchmakingSetup — players only pick a difficulty), so mode is a
+  // MatchmakingSetup - players only pick a difficulty), so mode is a
   // per-round property, not a per-match one.
   mode: GameMode;
   prompt: string;

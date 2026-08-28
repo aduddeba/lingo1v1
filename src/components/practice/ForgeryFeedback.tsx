@@ -49,7 +49,7 @@ export function ForgeryFeedback({ result, isLast, onNext }: ForgeryFeedbackProps
       {/* Real vs Fake reveal */}
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-          {language} — Real vs Fake
+          {language} - Real vs Fake
         </p>
 
         <div className="rounded-xl border-2 border-green-300 bg-green-50 px-4 py-3">

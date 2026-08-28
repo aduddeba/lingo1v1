@@ -24,7 +24,7 @@ export const viewport: Viewport = {
   themeColor: '#0284c7',
 };
 
-// Root layout is a Server Component — providers are client components rendered
+// Root layout is a Server Component - providers are client components rendered
 // inside it, keeping the HTML shell on the server for fast first paint.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

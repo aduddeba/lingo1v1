@@ -3,8 +3,6 @@ import type { ServerToClientEvents, ClientToServerEvents } from '@/types';
 
 export type AppSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
-// Module-level singleton — one socket per browser tab, shared across all hooks.
-// Stored outside React state so it survives re-renders and StrictMode double-mounts.
 let socket: AppSocket | null = null;
 
 export function getSocket(): AppSocket {
@@ -32,7 +30,28 @@ export function getSocket(): AppSocket {
   return socket;
 }
 
-// Called on sign-out or unmount of the root socket provider.
+export async function prepareSocketAuth(isAuthenticated: boolean): Promise<void> {
+  const activeSocket = getSocket();
+  if (!isAuthenticated) {
+    activeSocket.auth = {};
+    return;
+  }
+
+  const response = await fetch('/api/auth/socket-token', {
+    method: 'POST',
+    credentials: 'include',
+    cache: 'no-store',
+  }).catch(() => null);
+
+  if (!response?.ok) {
+    activeSocket.auth = {};
+    return;
+  }
+
+  const data = (await response.json().catch(() => ({}))) as { token?: unknown };
+  activeSocket.auth = typeof data.token === 'string' ? { token: data.token } : {};
+}
+
 export function disconnectSocket(): void {
   if (socket) {
     socket.disconnect();
