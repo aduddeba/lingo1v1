@@ -53,6 +53,12 @@ export function Header() {
           >
             Play
           </Link>
+          <a
+            href="/leaderboard"
+            className="text-sm font-semibold text-gray-500 transition-colors hover:text-brand-600"
+          >
+            Leaderboard
+          </a>
           {authUser && (
             <a
               href="/dashboard"

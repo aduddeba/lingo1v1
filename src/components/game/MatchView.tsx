@@ -7,6 +7,8 @@ import { AnswerPanel } from './AnswerPanel';
 import { Button } from '@/components/ui';
 import { useGame, usePlayer } from '@/hooks';
 import { useGameStore, useLobbyStore } from '@/store';
+import { formatScore } from '@/lib/utils/format';
+import type { MatchCompletionReason } from '@/types';
 
 interface MatchViewProps {
   matchId: string;
@@ -49,6 +51,11 @@ export function MatchView({ matchId }: MatchViewProps) {
     );
   }
 
+  const localScore = match.scores[localPlayerId ?? player.id]?.score ?? match.scores[player.id]?.score;
+  const opponentScore = Object.values(match.scores).find(
+    (score) => score.playerId !== (localPlayerId ?? player.id)
+  )?.score;
+
   return (
     <div className="flex flex-col gap-8">
       <GameBoard
@@ -69,6 +76,14 @@ export function MatchView({ matchId }: MatchViewProps) {
               : winnerId === player.id
                 ? 'You won!'
                 : 'You lost - good game.'}
+          </p>
+          {typeof localScore === 'number' && typeof opponentScore === 'number' && (
+            <p className="text-lg font-bold text-gray-900">
+              {formatScore(localScore)} - {formatScore(opponentScore)}
+            </p>
+          )}
+          <p className="text-sm font-semibold text-gray-500">
+            {formatCompletionReason(match.completionReason, match.roundsPlayed)}
           </p>
           {ratingResult ? (
             <div className="rounded-lg border border-gray-200 bg-gray-50 px-5 py-3">
@@ -94,6 +109,23 @@ export function MatchView({ matchId }: MatchViewProps) {
       )}
     </div>
   );
+}
+
+function formatCompletionReason(reason: MatchCompletionReason | null, roundsPlayed: number): string {
+  switch (reason) {
+    case 'target_score':
+      return 'Target score reached';
+    case 'round_limit':
+      return `Won after ${roundsPlayed} rounds`;
+    case 'draw':
+      return `Draw after ${roundsPlayed} rounds`;
+    case 'forfeit':
+      return 'Won by forfeit';
+    case 'surrender':
+      return 'Won by surrender';
+    default:
+      return 'Match complete';
+  }
 }
 
 

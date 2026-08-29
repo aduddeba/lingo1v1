@@ -1,5 +1,5 @@
 import { runUserDatabaseTransaction, type StoredMatchResult, type UserDatabase } from '@/lib/auth/users';
-import type { PlayerScore, RatingResult } from '@/types';
+import type { MatchCompletionReason, PlayerScore, RatingResult } from '@/types';
 import { calculateEloMatchResult } from './elo';
 import type { LobbyPlayer } from './state';
 
@@ -16,6 +16,8 @@ export interface RankedMatchCompletionInput {
   createdAt: number;
   completedAt?: number;
   ranked?: boolean;
+  roundsPlayed?: number;
+  completionReason?: MatchCompletionReason;
   outcome?: { type: 'score' } | { type: 'server_forced'; winnerId: string };
 }
 
@@ -79,6 +81,8 @@ export async function completeRankedMatch(
       player1RatingAfter: eloResult.playerA.newRating,
       player2RatingBefore: eloResult.playerB.previousRating,
       player2RatingAfter: eloResult.playerB.newRating,
+      roundsPlayed: input.roundsPlayed,
+      completionReason: input.completionReason,
       status: 'completed',
       ranked: true,
       createdAt: input.createdAt,

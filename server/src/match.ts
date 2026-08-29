@@ -1,8 +1,14 @@
-import type { Match, PlayerScore, Difficulty } from '@/types';
+import { MAX_ROUNDS_PER_MATCH, TARGET_SCORE_PER_MATCH } from '@/lib/constants/game';
+import type { Match, PlayerScore, Difficulty, MatchCompletionReason } from '@/types';
 import type { AppServer } from './types';
 import { buildMixedQuestionSet, type ServerQuestion } from './questions';
 import { matches, socketToMatch, type LobbyPlayer } from './state';
 import { completeRankedMatch } from './matchResults';
+import {
+  evaluateMatchProgress,
+  getRoundAdvanceDecision,
+  type MatchProgressResult,
+} from './matchCompletion';
 
 // Delay between a round ending (reveal) and the next round starting, so both
 // players can see the correct answer - mirrors the 2s auto-clear timeout the
@@ -23,6 +29,7 @@ export class MatchSession {
   private roundTimeout: ReturnType<typeof setTimeout> | null = null;
   private revealTimeout: ReturnType<typeof setTimeout> | null = null;
   private ended = false;
+  private roundEnding = false;
 
   constructor(
     io: AppServer,
@@ -51,10 +58,13 @@ export class MatchSession {
       difficulty,
       phase: 'active',
       currentRound: null,
+      targetScore: TARGET_SCORE_PER_MATCH,
       maxRounds: this.questions.length,
+      roundsPlayed: 0,
       scores,
       startedAt: Date.now(),
       finishedAt: null,
+      completionReason: null,
     };
   }
 
@@ -82,12 +92,16 @@ export class MatchSession {
   private beginRound(index: number): void {
     const question = this.questions[index];
     if (!question) {
-      void this.finish();
+      void this.finish({
+        reason: this.computeWinner() ? 'round_limit' : 'draw',
+        roundsPlayed: this.match.roundsPlayed,
+      });
       return;
     }
 
     this.roundIndex = index;
     this.answeredThisRound.clear();
+    this.roundEnding = false;
 
     const startedAt = Date.now();
     this.match.currentRound = {
@@ -114,6 +128,8 @@ export class MatchSession {
   }
 
   private endRound(): void {
+    if (this.ended || this.roundEnding) return;
+    this.roundEnding = true;
     if (this.tickInterval) clearInterval(this.tickInterval);
     if (this.roundTimeout) clearTimeout(this.roundTimeout);
     this.tickInterval = null;
@@ -122,6 +138,7 @@ export class MatchSession {
     const round = this.match.currentRound;
     const question = this.currentQuestion();
     if (!round || !question) return;
+    this.match.roundsPlayed = Math.max(this.match.roundsPlayed, round.number);
 
     this.io.to(this.id).emit('round:end', {
       round,
@@ -129,10 +146,15 @@ export class MatchSession {
       correctAnswer: question.correctAnswer,
     });
 
-    const isLastRound = this.roundIndex + 1 >= this.questions.length;
+    const progress = this.evaluateProgressAfterRound();
+    const hasNextRound = this.roundIndex + 1 < this.questions.length;
+    const advanceDecision = getRoundAdvanceDecision(progress, hasNextRound);
     this.revealTimeout = setTimeout(() => {
-      if (isLastRound) {
-        void this.finish();
+      if (advanceDecision === 'finish_match') {
+        void this.finish({
+          reason: progress.reason ?? (this.computeWinner() ? 'round_limit' : 'draw'),
+          roundsPlayed: this.match.roundsPlayed,
+        });
       } else {
         this.beginRound(this.roundIndex + 1);
       }
@@ -199,35 +221,46 @@ export class MatchSession {
   private async finishAsLoss(losingSocketId: string, reason: 'forfeit' | 'surrender'): Promise<void> {
     if (this.ended) return;
     const winner = this.opponentOf(losingSocketId);
-    await this.finish(winner.player.id, reason);
+    await this.finish({
+      winnerIdOverride: winner.player.id,
+      reason,
+      roundsPlayed: this.match.roundsPlayed,
+    });
   }
 
-  private async finish(
-    winnerIdOverride?: string,
-    reason: 'completed' | 'forfeit' | 'surrender' = 'completed'
-  ): Promise<void> {
+  private async finish(input: {
+    winnerIdOverride?: string;
+    reason: MatchCompletionReason;
+    roundsPlayed: number;
+  }): Promise<void> {
     if (this.ended) return;
     this.ended = true;
     this.clearTimers();
 
     this.match.phase = 'game_over';
     this.match.finishedAt = Date.now();
+    this.match.roundsPlayed = input.roundsPlayed;
+    this.match.completionReason = input.reason;
 
-    const winnerId = winnerIdOverride ?? this.computeWinner();
+    const winnerId = input.winnerIdOverride ?? this.computeWinner();
     const ratingCompletion = await completeRankedMatch({
       matchId: this.id,
       players: this.players,
       scores: this.match.scores,
       createdAt: this.match.startedAt ?? Date.now(),
       completedAt: this.match.finishedAt,
-      outcome: winnerIdOverride ? { type: 'server_forced', winnerId: winnerIdOverride } : { type: 'score' },
+      roundsPlayed: this.match.roundsPlayed,
+      completionReason: input.reason,
+      outcome: input.winnerIdOverride
+        ? { type: 'server_forced', winnerId: input.winnerIdOverride }
+        : { type: 'score' },
     });
 
     for (const { socketId, authenticatedUserId } of this.players) {
       this.io.to(socketId).emit('match:end', {
         match: this.match,
         winnerId,
-        reason,
+        reason: input.reason,
         ratingResult: authenticatedUserId ? ratingCompletion?.ratingResults[authenticatedUserId] : undefined,
       });
       socketToMatch.delete(socketId);
@@ -242,6 +275,16 @@ export class MatchSession {
     const scoreB = this.match.scores[b.player.id]?.score ?? 0;
     if (scoreA === scoreB) return null;
     return scoreA > scoreB ? a.player.id : b.player.id;
+  }
+
+  private evaluateProgressAfterRound(): MatchProgressResult {
+    return evaluateMatchProgress({
+      players: this.players,
+      scores: this.match.scores,
+      roundsPlayed: this.match.roundsPlayed,
+      targetScore: this.match.targetScore,
+      maxRounds: MAX_ROUNDS_PER_MATCH,
+    });
   }
 
   private clearTimers(): void {

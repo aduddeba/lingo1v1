@@ -1,7 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import type { PublicUser } from '@/types';
+import type { MatchCompletionReason, PublicUser } from '@/types';
 
 export interface StoredUser extends PublicUser {
   passwordHash: string;
@@ -18,6 +18,8 @@ export interface StoredMatchResult {
   player1RatingAfter: number;
   player2RatingBefore: number;
   player2RatingAfter: number;
+  roundsPlayed?: number;
+  completionReason?: MatchCompletionReason;
   status: 'completed';
   ranked: boolean;
   createdAt: number;
@@ -49,6 +51,44 @@ export interface PublicRankedMatchSummary {
   scoreAgainst: number;
   ratingChange: number;
   createdAt: number;
+}
+
+export interface PublicCompetitiveStanding {
+  rank: number | null;
+  totalRankedUsers: number;
+  percentile: number | null;
+  topPercent: number | null;
+}
+
+export interface PublicLeaderboardEntry {
+  rank: number;
+  username: string;
+  eloRating: number;
+  wins: number;
+  losses: number;
+  gamesPlayed: number;
+  winPercentage: number;
+  percentile: number;
+  topPercent: number;
+  isCurrentUser: boolean;
+}
+
+export interface PublicLeaderboardCurrentUser {
+  rank: number | null;
+  username: string;
+  eloRating: number;
+  percentile: number | null;
+  topPercent: number | null;
+  totalRankedUsers: number;
+}
+
+export interface PublicLeaderboardPage {
+  entries: PublicLeaderboardEntry[];
+  page: number;
+  pageSize: number;
+  totalRankedUsers: number;
+  totalPages: number;
+  currentUser: PublicLeaderboardCurrentUser | null;
 }
 
 export interface UserDatabase {
@@ -225,6 +265,164 @@ export async function getRecentRankedResultsForUser(
         createdAt: match.completedAt,
       };
     });
+}
+
+export async function getCompetitiveStandingForUser(
+  userId: string
+): Promise<PublicCompetitiveStanding> {
+  const database = await readDatabase();
+  const rankedUserIds = getRankedUserIds(database);
+  const rankedUsers = getRankedUsers(database);
+  const totalRankedUsers = rankedUsers.length;
+
+  if (totalRankedUsers === 0 || !rankedUserIds.has(userId)) {
+    return {
+      rank: null,
+      totalRankedUsers,
+      percentile: null,
+      topPercent: null,
+    };
+  }
+
+  const standing = getCompetitiveStandingFromRankedUsers(rankedUsers, userId);
+  if (!standing) {
+    return {
+      rank: null,
+      totalRankedUsers,
+      percentile: null,
+      topPercent: null,
+    };
+  }
+
+  return {
+    rank: standing.rank,
+    totalRankedUsers,
+    percentile: standing.percentile,
+    topPercent: standing.topPercent,
+  };
+}
+
+export async function getLeaderboardPage(input: {
+  page?: number;
+  pageSize?: number;
+  currentUserId?: string | null;
+}): Promise<PublicLeaderboardPage> {
+  const database = await readDatabase();
+  const rankedUsers = getRankedUsers(database).sort(compareCompetitiveUsers);
+  const totalRankedUsers = rankedUsers.length;
+  const pageSize = normalizeLeaderboardPageSize(input.pageSize);
+  const totalPages = Math.ceil(totalRankedUsers / pageSize);
+  const requestedPage = normalizeLeaderboardPage(input.page);
+  const page = totalPages === 0 ? 1 : Math.min(requestedPage, totalPages);
+  const start = (page - 1) * pageSize;
+  const entries = rankedUsers.slice(start, start + pageSize).map((user, index) =>
+    toLeaderboardEntry(user, rankedUsers, start + index + 1, input.currentUserId ?? null)
+  );
+
+  const currentUser = input.currentUserId
+    ? toLeaderboardCurrentUser(database.users, rankedUsers, input.currentUserId)
+    : null;
+
+  return {
+    entries,
+    page,
+    pageSize,
+    totalRankedUsers,
+    totalPages,
+    currentUser,
+  };
+}
+
+export function compareCompetitiveUsers(a: StoredUser, b: StoredUser): number {
+  return (
+    b.eloRating - a.eloRating ||
+    b.wins - a.wins ||
+    a.gamesPlayed - b.gamesPlayed ||
+    a.username.localeCompare(b.username) ||
+    a.id.localeCompare(b.id)
+  );
+}
+
+function getRankedUserIds(database: UserDatabase): Set<string> {
+  return new Set(database.ratingHistory.map((entry) => entry.userId));
+}
+
+function getRankedUsers(database: UserDatabase): StoredUser[] {
+  const rankedUserIds = getRankedUserIds(database);
+  return database.users.filter((user) => rankedUserIds.has(user.id));
+}
+
+function getCompetitiveStandingFromRankedUsers(
+  rankedUsers: StoredUser[],
+  userId: string
+): { rank: number; percentile: number; topPercent: number } | null {
+  const sortedUsers = [...rankedUsers].sort(compareCompetitiveUsers);
+  const rank = sortedUsers.findIndex((user) => user.id === userId) + 1;
+  const user = sortedUsers[rank - 1];
+  if (!user) return null;
+
+  return {
+    rank,
+    percentile: calculateEloPercentile(rankedUsers, user.eloRating),
+    topPercent: Math.max(1, Math.ceil((rank / rankedUsers.length) * 100)),
+  };
+}
+
+function calculateEloPercentile(rankedUsers: StoredUser[], eloRating: number): number {
+  if (rankedUsers.length === 0) return 0;
+  const usersAtOrBelowRating = rankedUsers.filter((user) => user.eloRating <= eloRating).length;
+  return Math.round((usersAtOrBelowRating / rankedUsers.length) * 100);
+}
+
+function normalizeLeaderboardPage(page?: number): number {
+  return Number.isInteger(page) && page && page > 0 ? page : 1;
+}
+
+function normalizeLeaderboardPageSize(pageSize?: number): number {
+  if (!Number.isInteger(pageSize) || !pageSize || pageSize <= 0) return 25;
+  return Math.min(pageSize, 25);
+}
+
+function toLeaderboardEntry(
+  user: StoredUser,
+  rankedUsers: StoredUser[],
+  rank: number,
+  currentUserId: string | null
+): PublicLeaderboardEntry {
+  const decidedGames = user.wins + user.losses;
+
+  return {
+    rank,
+    username: user.username,
+    eloRating: user.eloRating,
+    wins: user.wins,
+    losses: user.losses,
+    gamesPlayed: user.gamesPlayed,
+    winPercentage: decidedGames === 0 ? 0 : Math.round((user.wins / decidedGames) * 100),
+    percentile: calculateEloPercentile(rankedUsers, user.eloRating),
+    topPercent: Math.max(1, Math.ceil((rank / rankedUsers.length) * 100)),
+    isCurrentUser: currentUserId === user.id,
+  };
+}
+
+function toLeaderboardCurrentUser(
+  users: StoredUser[],
+  rankedUsers: StoredUser[],
+  currentUserId: string
+): PublicLeaderboardCurrentUser | null {
+  const user = users.find((candidate) => candidate.id === currentUserId);
+  if (!user) return null;
+
+  const standing = getCompetitiveStandingFromRankedUsers(rankedUsers, currentUserId);
+
+  return {
+    rank: standing?.rank ?? null,
+    username: user.username,
+    eloRating: user.eloRating,
+    percentile: standing?.percentile ?? null,
+    topPercent: standing?.topPercent ?? null,
+    totalRankedUsers: rankedUsers.length,
+  };
 }
 
 export function sanitizeUser(user: StoredUser): PublicUser {

@@ -7,10 +7,14 @@ import type { PlayerScore } from '@/types';
 interface ScoreDisplayProps {
   score: PlayerScore;
   label: string;
+  targetScore: number;
   highlight?: boolean;
 }
 
-export function ScoreDisplay({ score, label, highlight = false }: ScoreDisplayProps) {
+export function ScoreDisplay({ score, label, targetScore, highlight = false }: ScoreDisplayProps) {
+  const progress = Math.min(100, Math.max(0, (score.score / targetScore) * 100));
+  const progressClass = highlight ? 'bg-white/90' : 'bg-brand-600';
+
   return (
     <div
       className={`flex flex-col items-center rounded-xl p-4 ${
@@ -31,6 +35,17 @@ export function ScoreDisplay({ score, label, highlight = false }: ScoreDisplayPr
           {formatScore(score.score)}
         </motion.span>
       </AnimatePresence>
+      <span className="mt-1 text-xs font-semibold opacity-70">
+        / {formatScore(targetScore)}
+      </span>
+      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-black/10">
+        <motion.div
+          className={`h-full rounded-full ${progressClass}`}
+          initial={false}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.2 }}
+        />
+      </div>
 
       {score.streak >= 3 && (
         <motion.span

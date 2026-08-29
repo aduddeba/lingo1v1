@@ -1,4 +1,12 @@
-import type { Match, Round, PlayerScore, AnswerResult, Difficulty, RatingResult } from './game';
+import type {
+  Match,
+  Round,
+  PlayerScore,
+  AnswerResult,
+  Difficulty,
+  RatingResult,
+  MatchCompletionReason,
+} from './game';
 import type { Player } from './player';
 
 // ─── Server → Client ─────────────────────────────────────────────────────────
@@ -22,7 +30,7 @@ export interface ServerToClientEvents {
   'match:end': (payload: {
     match: Match;
     winnerId: string | null;
-    reason?: 'completed' | 'forfeit' | 'surrender';
+    reason?: MatchCompletionReason;
     ratingResult?: RatingResult;
   }) => void;
 

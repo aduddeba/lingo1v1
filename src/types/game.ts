@@ -17,6 +17,13 @@ export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert' | 'mixed';
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'error';
 
+export type MatchCompletionReason =
+  | 'target_score'
+  | 'round_limit'
+  | 'draw'
+  | 'forfeit'
+  | 'surrender';
+
 // ─── Domain Objects ───────────────────────────────────────────────────────────
 
 export interface Round {
@@ -48,10 +55,13 @@ export interface Match {
   difficulty: Difficulty;
   phase: GamePhase;
   currentRound: Round | null;
+  targetScore: number;
   maxRounds: number;
+  roundsPlayed: number;
   scores: Record<string, PlayerScore>;
   startedAt: number | null;
   finishedAt: number | null;
+  completionReason: MatchCompletionReason | null;
 }
 
 export type RankedMatchResult = 'win' | 'loss' | 'draw';

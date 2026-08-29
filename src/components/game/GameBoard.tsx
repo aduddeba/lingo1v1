@@ -49,6 +49,9 @@ export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProp
         localScore={match.scores[resolvedLocalPlayerId]}
         opponentScore={opponentId ? match.scores[opponentId] : undefined}
         timeRemaining={timeRemaining}
+        targetScore={match.targetScore}
+        roundNumber={match.currentRound?.number ?? match.roundsPlayed}
+        maxRounds={match.maxRounds}
         phase={match.phase}
       />
 
@@ -62,7 +65,7 @@ export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProp
             className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-gray-100"
           >
             <p className="mb-3 text-xs uppercase tracking-widest text-gray-400">
-              Round {match.currentRound.number}
+              Round {match.currentRound.number} / {match.maxRounds}
             </p>
             {(() => {
               const { instruction, displayText } = splitPrompt(match.currentRound.prompt);
@@ -89,15 +92,36 @@ interface ScoreBannerProps {
   localScore: PlayerScore | undefined;
   opponentScore: PlayerScore | undefined;
   timeRemaining: number;
+  targetScore: number;
+  roundNumber: number;
+  maxRounds: number;
   phase: Match['phase'];
 }
 
-function ScoreBanner({ localScore, opponentScore, timeRemaining, phase }: ScoreBannerProps) {
+function ScoreBanner({
+  localScore,
+  opponentScore,
+  timeRemaining,
+  targetScore,
+  roundNumber,
+  maxRounds,
+  phase,
+}: ScoreBannerProps) {
   return (
     <div className="grid grid-cols-3 items-center gap-4">
-      {localScore ? <ScoreDisplay score={localScore} label="You" highlight /> : <div />}
+      {localScore ? (
+        <ScoreDisplay score={localScore} label="You" targetScore={targetScore} highlight />
+      ) : (
+        <div />
+      )}
 
       <div className="text-center">
+        <p className="mb-1 text-xs font-bold uppercase tracking-widest text-brand-600">
+          First to {targetScore.toLocaleString()}
+        </p>
+        <p className="mb-2 text-xs font-semibold text-gray-400">
+          Round {roundNumber} / {maxRounds}
+        </p>
         {phase === 'active' && (
           <span className="font-mono text-2xl font-bold text-gray-700">
             {formatTime(timeRemaining)}
@@ -117,7 +141,11 @@ function ScoreBanner({ localScore, opponentScore, timeRemaining, phase }: ScoreB
         )}
       </div>
 
-      {opponentScore ? <ScoreDisplay score={opponentScore} label="Opponent" /> : <div />}
+      {opponentScore ? (
+        <ScoreDisplay score={opponentScore} label="Opponent" targetScore={targetScore} />
+      ) : (
+        <div />
+      )}
     </div>
   );
 }

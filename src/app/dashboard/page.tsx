@@ -16,7 +16,21 @@ export default async function DashboardPage() {
   const result = await getDashboardDataForUser(session.user.id);
   if (result.status !== 200) redirect('/login');
 
-  const { user, ratingHistory, peakElo, recentEloChange, recentResults } = result.dashboard;
+  const {
+    user,
+    ratingHistory,
+    peakElo,
+    recentEloChange,
+    recentResults,
+    competitiveStanding,
+  } = result.dashboard;
+  const rankLabel = competitiveStanding.rank
+    ? `#${competitiveStanding.rank} / ${competitiveStanding.totalRankedUsers}`
+    : 'Unranked';
+  const percentileLabel =
+    competitiveStanding.percentile === null
+      ? 'Unranked'
+      : `${competitiveStanding.percentile}%`;
 
   return (
     <div className="flex flex-col gap-6">
@@ -31,7 +45,7 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-6">
+      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Wins" value={user.wins} />
         <Stat label="Losses" value={user.losses} />
         <Stat label="Played" value={user.gamesPlayed} />
@@ -42,6 +56,8 @@ export default async function DashboardPage() {
           value={`${recentEloChange >= 0 ? '+' : ''}${recentEloChange}`}
           tone={recentEloChange >= 0 ? 'positive' : 'negative'}
         />
+        <Stat label="Global Rank" value={rankLabel} />
+        <Stat label="Percentile" value={percentileLabel} />
       </section>
 
       <Card variant="bordered" className="rounded-lg">

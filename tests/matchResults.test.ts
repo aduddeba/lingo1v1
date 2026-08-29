@@ -154,6 +154,66 @@ describe('ranked match completion persistence', () => {
     assert.equal(completion?.ratingResults[player1.authenticatedUserId ?? '']?.result, 'win');
   });
 
+  it('persists rounds played and target-score completion reason', async () => {
+    const input = await completionInput('match-target-reason', 1000, 1000, 3100, 2200);
+
+    await completeRankedMatch({
+      ...input,
+      roundsPlayed: 8,
+      completionReason: 'target_score',
+    });
+    const database = await readDatabase();
+
+    assert.equal(database.matches[0]?.roundsPlayed, 8);
+    assert.equal(database.matches[0]?.completionReason, 'target_score');
+  });
+
+  it('updates Elo exactly once for target-score completion', async () => {
+    const input = await completionInput('match-target-once', 1000, 1000, 3100, 2200);
+
+    await completeRankedMatch({
+      ...input,
+      roundsPlayed: 8,
+      completionReason: 'target_score',
+    });
+    await completeRankedMatch({
+      ...input,
+      roundsPlayed: 8,
+      completionReason: 'target_score',
+    });
+    const database = await readDatabase();
+
+    assert.equal(database.matches.length, 1);
+    assert.equal(database.ratingHistory.length, 2);
+    assert.deepEqual(
+      database.users.map((user) => user.gamesPlayed),
+      [1, 1]
+    );
+  });
+
+  it('updates Elo exactly once for round-limit completion', async () => {
+    const input = await completionInput('match-round-limit-once', 1000, 1000, 2910, 2840);
+
+    await completeRankedMatch({
+      ...input,
+      roundsPlayed: 12,
+      completionReason: 'round_limit',
+    });
+    await completeRankedMatch({
+      ...input,
+      roundsPlayed: 12,
+      completionReason: 'round_limit',
+    });
+    const database = await readDatabase();
+
+    assert.equal(database.matches.length, 1);
+    assert.equal(database.ratingHistory.length, 2);
+    assert.deepEqual(
+      database.users.map((user) => user.gamesPlayed),
+      [1, 1]
+    );
+  });
+
   it('creates one rating history entry for each ranked player', async () => {
     const input = await completionInput('match-history', 1000, 1000, 500, 200);
     const [player1, player2] = input.players;

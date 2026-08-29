@@ -35,7 +35,12 @@ export const DIFFICULTY_CONFIG: Record<
 export const CHOICE_BASED_MODES: readonly GameMode[] = ['forgery', 'historical_evolution'];
 
 export const MAX_PLAYERS_PER_MATCH = 2;
-export const MAX_ROUNDS_PER_MATCH = 10;
+export const STANDARD_MATCH_CONFIG = {
+  targetScore: 3_000,
+  maxRounds: 25,
+} as const;
+export const TARGET_SCORE_PER_MATCH = STANDARD_MATCH_CONFIG.targetScore;
+export const MAX_ROUNDS_PER_MATCH = STANDARD_MATCH_CONFIG.maxRounds;
 export const BASE_POINTS_PER_CORRECT = 100;
 export const STREAK_BONUS_THRESHOLD = 3;
 export const STREAK_BONUS_MULTIPLIER = 0.25;

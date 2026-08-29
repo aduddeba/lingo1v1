@@ -338,6 +338,19 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-wel-007', category: 'language', displayText: 'Llangollen', answer: 'Welsh', aliases: ['cymraeg', 'welsh language'], hint: 'A town in Wales - double-L is a Welsh consonant', difficulty: 'medium' },
   { id: 'sb-wel-008', category: 'language', displayText: 'Cymraeg yw fy iaith gyntaf', answer: 'Welsh', aliases: ['cymraeg', 'welsh language'], hint: 'Welsh is my first language', difficulty: 'hard' },
 
+  // ── Additional Languages ─────────────────────────────────────────────────────
+
+  { id: 'sb-odi-001', category: 'language', displayText: 'ନମସ୍କାର', answer: 'Odia', aliases: ['oriya', 'odia language', 'oriya language'], hint: 'A greeting in Odia, written in the rounded Odia script', difficulty: 'hard' },
+  { id: 'sb-mar-001', category: 'language', displayText: 'तुम्ही कसे आहात?', answer: 'Marathi', aliases: ['marathi language', 'marāṭhī', 'marathi'], hint: 'How are you? - Devanagari, but the तुम्ही form points toward Marathi', difficulty: 'hard' },
+  { id: 'sb-san-001', category: 'language', displayText: 'सर्वे भवन्तु सुखिनः', answer: 'Sanskrit', aliases: ['samskrita', 'saṃskṛta', 'sanskrit language'], hint: 'A classical Sanskrit benediction', difficulty: 'hard' },
+  { id: 'sb-lat-001', category: 'language', displayText: 'Carpe diem', answer: 'Latin', aliases: ['latina', 'latin language'], hint: 'A famous Latin phrase meaning "seize the day"', difficulty: 'medium' },
+  { id: 'sb-alb-001', category: 'language', displayText: 'Mirëdita', answer: 'Albanian', aliases: ['shqip', 'albanian language'], hint: 'Good day in Albanian - ë is common in Albanian spelling', difficulty: 'medium' },
+  { id: 'sb-nep-001', category: 'language', displayText: 'तपाईंलाई कस्तो छ?', answer: 'Nepali', aliases: ['nepali language', 'nepali'], hint: 'How are you? - Devanagari with Nepali forms like तपाईंलाई', difficulty: 'hard' },
+  { id: 'sb-uig-001', category: 'language', displayText: 'ياخشىمۇسىز', answer: 'Uyghur', aliases: ['uygur', 'uighur', 'uyghur language'], hint: 'A Uyghur greeting written in the Arabic-based Uyghur script', difficulty: 'hard' },
+  { id: 'sb-uzb-001', category: 'language', displayText: 'O‘zbekiston go‘zal mamlakat', answer: 'Uzbek', aliases: ['o‘zbek', 'ozbek', 'uzbek language'], hint: 'Uzbek text in Latin script; look for O‘zbekiston and the okina-like mark', difficulty: 'hard' },
+  { id: 'sb-kaz-001', category: 'language', displayText: 'Сәлеметсіз бе?', answer: 'Kazakh', aliases: ['qazaq', 'kazakh language'], hint: 'A Kazakh greeting; ә and і distinguish it from Russian Cyrillic', difficulty: 'hard' },
+  { id: 'sb-kur-001', category: 'language', displayText: 'Tu çawa yî?', answer: 'Kurdish', aliases: ['kurmanji', 'sorani', 'kurdish language'], hint: 'How are you? - Kurmanji Kurdish in Latin script', difficulty: 'hard' },
+
   // ── Polish ────────────────────────────────────────────────────────────────────
 
   { id: 'sb-pol-001', category: 'language', displayText: 'Dzień dobry', answer: 'Polish', aliases: ['polski', 'polish language'], hint: 'Good day - look for ń and the ń cluster', difficulty: 'easy' },

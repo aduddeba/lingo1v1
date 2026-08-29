@@ -1,7 +1,9 @@
 import {
   getPublicUserById,
+  getCompetitiveStandingForUser,
   getRatingHistoryForUser,
   getRecentRankedResultsForUser,
+  type PublicCompetitiveStanding,
   type PublicRatingHistoryEntry,
   type PublicRankedMatchSummary,
 } from '@/lib/auth/users';
@@ -21,6 +23,7 @@ export interface DashboardData {
   peakElo: number;
   recentEloChange: number;
   recentResults: PublicRankedMatchSummary[];
+  competitiveStanding: PublicCompetitiveStanding;
 }
 
 export type DashboardAccessResult =
@@ -41,6 +44,7 @@ export async function getDashboardDataForUser(
 
   const ratingHistory = await getRatingHistoryForUser(authenticatedUserId);
   const recentResults = await getRecentRankedResultsForUser(authenticatedUserId, 5);
+  const competitiveStanding = await getCompetitiveStandingForUser(authenticatedUserId);
   const decidedGames = user.wins + user.losses;
   const winPercentage = decidedGames === 0 ? 0 : Math.round((user.wins / decidedGames) * 100);
   const peakElo = Math.max(user.eloRating, ...ratingHistory.map((entry) => entry.ratingAfter));
@@ -61,6 +65,7 @@ export async function getDashboardDataForUser(
       peakElo,
       recentEloChange,
       recentResults,
+      competitiveStanding,
     },
   };
 }
