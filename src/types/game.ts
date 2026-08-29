@@ -54,17 +54,29 @@ export interface Match {
   finishedAt: number | null;
 }
 
+export type RankedMatchResult = 'win' | 'loss' | 'draw';
+
+export interface RatingResult {
+  result: RankedMatchResult;
+  previousRating: number;
+  newRating: number;
+  ratingChange: number;
+}
+
 // ─── Action Payloads ─────────────────────────────────────────────────────────
 
 export interface AnswerSubmission {
   matchId: string;
   roundId: string;
   answer: string;
+  pointsDelta?: number;
   submittedAt: number;
 }
 
 export interface AnswerResult {
   correct: boolean;
+  specificityLevel?: 'incorrect' | 'broad' | 'specific' | 'preferred';
+  specificityPoints?: 0 | 1 | 2 | 3;
   pointsDelta: number;
   newScore: number;
   newStreak: number;

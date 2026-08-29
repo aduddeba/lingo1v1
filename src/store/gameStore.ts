@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import type { Match, Round, PlayerScore, ConnectionStatus, AnswerResult } from '@/types';
+import type { Match, Round, PlayerScore, ConnectionStatus, AnswerResult, RatingResult } from '@/types';
 
 interface GameState {
   match: Match | null;
@@ -9,6 +9,7 @@ interface GameState {
   connectionStatus: ConnectionStatus;
   timeRemaining: number;
   lastAnswerResult: AnswerResult | null;
+  ratingResult: RatingResult | null;
   winnerId: string | null;
 }
 
@@ -20,6 +21,7 @@ interface GameActions {
   updateScores: (scores: Record<string, PlayerScore>) => void;
   setTimeRemaining: (ms: number) => void;
   setLastAnswerResult: (result: AnswerResult | null) => void;
+  setRatingResult: (result: RatingResult | null) => void;
   setWinnerId: (winnerId: string | null) => void;
   resetGame: () => void;
 }
@@ -30,6 +32,7 @@ const initialState: GameState = {
   connectionStatus: 'disconnected',
   timeRemaining: 0,
   lastAnswerResult: null,
+  ratingResult: null,
   winnerId: null,
 };
 
@@ -71,6 +74,11 @@ export const useGameStore = create<GameState & GameActions>()(
       setLastAnswerResult: (result) =>
         set((state) => {
           state.lastAnswerResult = result;
+        }),
+
+      setRatingResult: (result) =>
+        set((state) => {
+          state.ratingResult = result;
         }),
 
       setWinnerId: (winnerId) =>

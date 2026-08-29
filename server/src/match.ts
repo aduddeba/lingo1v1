@@ -2,6 +2,7 @@ import type { Match, PlayerScore, Difficulty } from '@/types';
 import type { AppServer } from './types';
 import { buildMixedQuestionSet, type ServerQuestion } from './questions';
 import { matches, socketToMatch, type LobbyPlayer } from './state';
+import { completeRankedMatch } from './matchResults';
 
 // Delay between a round ending (reveal) and the next round starting, so both
 // players can see the correct answer - mirrors the 2s auto-clear timeout the
@@ -81,7 +82,7 @@ export class MatchSession {
   private beginRound(index: number): void {
     const question = this.questions[index];
     if (!question) {
-      this.finish();
+      void this.finish();
       return;
     }
 
@@ -131,14 +132,19 @@ export class MatchSession {
     const isLastRound = this.roundIndex + 1 >= this.questions.length;
     this.revealTimeout = setTimeout(() => {
       if (isLastRound) {
-        this.finish();
+        void this.finish();
       } else {
         this.beginRound(this.roundIndex + 1);
       }
     }, REVEAL_DELAY_MS);
   }
 
-  submitAnswer(socketId: string, roundId: string, answer: string): void {
+  submitAnswer(
+    socketId: string,
+    roundId: string,
+    answer: string,
+    _clientPointsDelta?: number
+  ): void {
     if (this.ended) return;
     const round = this.match.currentRound;
     const question = this.currentQuestion();
@@ -155,17 +161,19 @@ export class MatchSession {
     if (!score) return;
 
     const timeRemaining = Math.max(0, (round.endsAt ?? Date.now()) - Date.now());
-    const correct = question.isCorrect(answer);
-    const newStreak = correct ? score.streak + 1 : 0;
-    const pointsDelta = question.score(correct, timeRemaining, newStreak);
+    const evaluation = question.evaluate(answer);
+    const newStreak = evaluation.correct ? score.streak + 1 : 0;
+    const pointsDelta = question.score(evaluation, timeRemaining, newStreak);
 
     score.score += pointsDelta;
     score.streak = newStreak;
     score.answersTotal += 1;
-    if (correct) score.answersCorrect += 1;
+    if (evaluation.correct) score.answersCorrect += 1;
 
     this.io.to(socketId).emit('answer:result', {
-      correct,
+      correct: evaluation.correct,
+      specificityLevel: evaluation.specificityLevel,
+      specificityPoints: evaluation.specificityPoints,
       pointsDelta,
       newScore: score.score,
       newStreak,
@@ -181,20 +189,23 @@ export class MatchSession {
   // Ends the match immediately because `disconnectedSocketId` left; the
   // other player wins by forfeit.
   forfeit(disconnectedSocketId: string): void {
-    this.finishAsLoss(disconnectedSocketId, 'forfeit');
+    void this.finishAsLoss(disconnectedSocketId, 'forfeit');
   }
 
   surrender(surrenderingSocketId: string): void {
-    this.finishAsLoss(surrenderingSocketId, 'surrender');
+    void this.finishAsLoss(surrenderingSocketId, 'surrender');
   }
 
-  private finishAsLoss(losingSocketId: string, reason: 'forfeit' | 'surrender'): void {
+  private async finishAsLoss(losingSocketId: string, reason: 'forfeit' | 'surrender'): Promise<void> {
     if (this.ended) return;
     const winner = this.opponentOf(losingSocketId);
-    this.finish(winner.player.id, reason);
+    await this.finish(winner.player.id, reason);
   }
 
-  private finish(winnerIdOverride?: string, reason: 'completed' | 'forfeit' | 'surrender' = 'completed'): void {
+  private async finish(
+    winnerIdOverride?: string,
+    reason: 'completed' | 'forfeit' | 'surrender' = 'completed'
+  ): Promise<void> {
     if (this.ended) return;
     this.ended = true;
     this.clearTimers();
@@ -203,9 +214,25 @@ export class MatchSession {
     this.match.finishedAt = Date.now();
 
     const winnerId = winnerIdOverride ?? this.computeWinner();
-    this.io.to(this.id).emit('match:end', { match: this.match, winnerId, reason });
+    const ratingCompletion = await completeRankedMatch({
+      matchId: this.id,
+      players: this.players,
+      scores: this.match.scores,
+      createdAt: this.match.startedAt ?? Date.now(),
+      completedAt: this.match.finishedAt,
+      outcome: winnerIdOverride ? { type: 'server_forced', winnerId: winnerIdOverride } : { type: 'score' },
+    });
 
-    for (const { socketId } of this.players) socketToMatch.delete(socketId);
+    for (const { socketId, authenticatedUserId } of this.players) {
+      this.io.to(socketId).emit('match:end', {
+        match: this.match,
+        winnerId,
+        reason,
+        ratingResult: authenticatedUserId ? ratingCompletion?.ratingResults[authenticatedUserId] : undefined,
+      });
+      socketToMatch.delete(socketId);
+    }
+
     matches.delete(this.id);
   }
 

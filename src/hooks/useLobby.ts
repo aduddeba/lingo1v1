@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore, useLobbyStore, useGameStore, usePlayerStore } from '@/store';
 import { useSocketEvent, useSocketEmit } from '@/lib/socket/hooks';
-import type { Difficulty } from '@/types';
 
 // Wires lobby socket events to the lobby store and returns actions that
 // emit to the server and update local state atomically.
@@ -57,9 +56,9 @@ export function useLobby() {
   });
 
   const joinLobby = useCallback(
-    (difficulty: Difficulty, player: { id: string; username: string }) => {
+    (player: { id: string; username: string }) => {
       setJoinError(null);
-      emit('lobby:join', { difficulty, player }, (err) => {
+      emit('lobby:join', { player }, (err) => {
         if (err) setJoinError(err);
       });
     },

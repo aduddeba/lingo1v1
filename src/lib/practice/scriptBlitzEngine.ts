@@ -34,8 +34,11 @@ function normalize(s: string): string {
 export function checkAnswer(input: string, question: ScriptBlitzQuestion): boolean {
   if (!input.trim()) return false;
   const n = normalize(input);
-  if (n === normalize(question.answer)) return true;
-  return question.aliases.some((a) => normalize(a) === n);
+  const acceptedAnswers = question.acceptedAnswers?.map((acceptedAnswer) => acceptedAnswer.value) ?? [
+    question.answer,
+    ...question.aliases,
+  ];
+  return acceptedAnswers.some((answer) => normalize(answer) === n);
 }
 
 // ─── Question selection ───────────────────────────────────────────────────────

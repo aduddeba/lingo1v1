@@ -142,6 +142,7 @@ export interface CityCountryQuestion {
   prompt: string;        // e.g. "Which country is Porto in?"
   answer: string;        // the correct country, canonical form
   aliases: string[];     // accepted alternate spellings/abbreviations (e.g. "USA", "UK")
+  acceptedAnswers?: AcceptedAnswer[];
   explanation: string;
   difficulty: 1 | 2 | 3;
 }
@@ -163,8 +164,16 @@ export interface ScriptBlitzQuestion {
   displayText: string;
   answer: string;
   aliases: string[];      // alternate accepted forms (including all valid countries for surname questions)
+  acceptedAnswers?: AcceptedAnswer[];
   hint: string;           // shown after timeout
   difficulty: 'easy' | 'medium' | 'hard';
+}
+
+export type AnswerSpecificity = 'broad' | 'specific' | 'preferred';
+
+export interface AcceptedAnswer {
+  value: string;
+  specificity: AnswerSpecificity;
 }
 
 export interface ScriptBlitzConfig {

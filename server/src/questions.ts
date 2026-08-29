@@ -2,17 +2,19 @@ import type { GameMode, Difficulty } from '@/types';
 import type { PracticeDifficulty, PracticeQuestionCount, PracticeQuestion } from '@/types/practice';
 import { selectQuestions, calculatePoints, TIME_LIMITS, shuffle } from '@/lib/practice/engine';
 import { selectForgeryQuestions } from '@/lib/practice/forgeryEngine';
-import {
-  selectCityCountryQuestions,
-  checkAnswer as checkCityCountryAnswer,
-} from '@/lib/practice/cityCountryEngine';
+import { selectCityCountryQuestions } from '@/lib/practice/cityCountryEngine';
 import {
   buildBlitzPool,
-  checkAnswer as checkBlitzAnswer,
   calculateBlitzPoints,
   BLITZ_TIME_LIMIT,
 } from '@/lib/practice/scriptBlitzEngine';
 import { MAX_ROUNDS_PER_MATCH } from '@/lib/constants/game';
+import {
+  evaluateAnswer,
+  scalePointsBySpecificity,
+  type AcceptedAnswer,
+  type AnswerEvaluation,
+} from './answerEvaluation';
 
 const ALL_MODES: readonly GameMode[] = [
   'forgery',
@@ -31,8 +33,9 @@ export interface ServerQuestion {
   options?: string[];
   timeLimitMs: number;
   correctAnswer: string;
-  isCorrect: (answer: string) => boolean;
-  score: (correct: boolean, timeRemainingMs: number, streak: number) => number;
+  acceptedAnswers: AcceptedAnswer[];
+  evaluate: (answer: string) => AnswerEvaluation;
+  score: (evaluation: AnswerEvaluation, timeRemainingMs: number, streak: number) => number;
 }
 
 // The multiplayer picker only offers easy/medium/hard/mixed; 'expert' exists
@@ -44,6 +47,7 @@ function toPracticeDifficulty(difficulty: Difficulty): PracticeDifficulty {
 
 function fromPracticeQuestion(mode: GameMode, q: PracticeQuestion): ServerQuestion {
   const timeLimitMs = TIME_LIMITS[q.difficulty] * 1000;
+  const acceptedAnswers = toAcceptedAnswers(q.answer, []);
   return {
     id: q.id,
     mode,
@@ -51,10 +55,29 @@ function fromPracticeQuestion(mode: GameMode, q: PracticeQuestion): ServerQuesti
     options: q.options,
     timeLimitMs,
     correctAnswer: q.answer,
-    isCorrect: (answer) => answer === q.answer,
-    score: (correct, timeRemainingMs, streak) =>
-      calculatePoints(correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+    acceptedAnswers,
+    evaluate: (answer) => evaluateAnswer(acceptedAnswers, answer),
+    score: (evaluation, timeRemainingMs, streak) =>
+      scalePointsBySpecificity(
+        calculatePoints(evaluation.correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+        evaluation
+      ),
   };
+}
+
+function toAcceptedAnswers(answer: string, aliases: readonly string[]): AcceptedAnswer[] {
+  return [
+    { value: answer, specificity: 'preferred' },
+    ...aliases.map((alias) => ({ value: alias, specificity: 'preferred' }) as const),
+  ];
+}
+
+function fromQuestionAcceptedAnswers(
+  answer: string,
+  aliases: readonly string[],
+  acceptedAnswers?: readonly AcceptedAnswer[]
+): AcceptedAnswer[] {
+  return acceptedAnswers?.length ? [...acceptedAnswers] : toAcceptedAnswers(answer, aliases);
 }
 
 function buildForgeryQuestions(difficulty: Difficulty, count: number): ServerQuestion[] {
@@ -69,6 +92,7 @@ function buildForgeryQuestions(difficulty: Difficulty, count: number): ServerQue
 
   return questions.map((q) => {
     const timeLimitMs = TIME_LIMITS[q.difficulty] * 1000;
+    const acceptedAnswers = toAcceptedAnswers(q.answer, []);
     return {
       id: q.id,
       mode: 'forgery' as const,
@@ -76,9 +100,13 @@ function buildForgeryQuestions(difficulty: Difficulty, count: number): ServerQue
       options: q.options,
       timeLimitMs,
       correctAnswer: q.answer,
-      isCorrect: (answer: string) => answer === q.answer,
-      score: (correct: boolean, timeRemainingMs: number, streak: number) =>
-        calculatePoints(correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+      acceptedAnswers,
+      evaluate: (answer: string) => evaluateAnswer(acceptedAnswers, answer),
+      score: (evaluation: AnswerEvaluation, timeRemainingMs: number, streak: number) =>
+        scalePointsBySpecificity(
+          calculatePoints(evaluation.correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+          evaluation
+        ),
     };
   });
 }
@@ -101,15 +129,20 @@ function buildCityCountryQuestions(difficulty: Difficulty, count: number): Serve
 
   return questions.map((q) => {
     const timeLimitMs = TIME_LIMITS[q.difficulty] * 1000;
+    const acceptedAnswers = fromQuestionAcceptedAnswers(q.answer, q.aliases, q.acceptedAnswers);
     return {
       id: q.id,
       mode: 'city_country' as const,
       prompt: q.prompt,
       timeLimitMs,
       correctAnswer: q.answer,
-      isCorrect: (answer: string) => checkCityCountryAnswer(answer, q),
-      score: (correct: boolean, timeRemainingMs: number, streak: number) =>
-        calculatePoints(correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+      acceptedAnswers,
+      evaluate: (answer: string) => evaluateAnswer(acceptedAnswers, answer),
+      score: (evaluation: AnswerEvaluation, timeRemainingMs: number, streak: number) =>
+        scalePointsBySpecificity(
+          calculatePoints(evaluation.correct, timeRemainingMs, timeLimitMs, streak, q.difficulty),
+          evaluation
+        ),
     };
   });
 }
@@ -132,16 +165,23 @@ function buildScriptBlitzQuestions(difficulty: Difficulty, count: number): Serve
   }).slice(0, count);
   const timeLimitMs = BLITZ_TIME_LIMIT * 1000;
 
-  return pool.map((q) => ({
-    id: q.displayText + ':' + q.answer,
-    mode: 'script_blitz' as const,
-    prompt: formatScriptBlitzPrompt(q),
-    timeLimitMs,
-    correctAnswer: q.answer,
-    isCorrect: (answer: string) => checkBlitzAnswer(answer, q),
-    score: (correct: boolean, timeRemainingMs: number, streak: number) =>
-      correct ? calculateBlitzPoints(timeRemainingMs, timeLimitMs, streak) : 0,
-  }));
+  return pool.map((q) => {
+    const acceptedAnswers = fromQuestionAcceptedAnswers(q.answer, q.aliases, q.acceptedAnswers);
+    return {
+      id: q.displayText + ':' + q.answer,
+      mode: 'script_blitz' as const,
+      prompt: formatScriptBlitzPrompt(q),
+      timeLimitMs,
+      correctAnswer: q.answer,
+      acceptedAnswers,
+      evaluate: (answer: string) => evaluateAnswer(acceptedAnswers, answer),
+      score: (evaluation: AnswerEvaluation, timeRemainingMs: number, streak: number) =>
+        scalePointsBySpecificity(
+          evaluation.correct ? calculateBlitzPoints(timeRemainingMs, timeLimitMs, streak) : 0,
+          evaluation
+        ),
+    };
+  });
 }
 
 function buildQuestionsForMode(mode: GameMode, difficulty: Difficulty, count: number): ServerQuestion[] {

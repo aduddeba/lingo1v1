@@ -1,4 +1,4 @@
-import type { Match, Round, PlayerScore, AnswerResult, Difficulty } from './game';
+import type { Match, Round, PlayerScore, AnswerResult, Difficulty, RatingResult } from './game';
 import type { Player } from './player';
 
 // ─── Server → Client ─────────────────────────────────────────────────────────
@@ -19,7 +19,12 @@ export interface ServerToClientEvents {
 
   'match:start': (payload: { match: Match; localPlayerId: string }) => void;
   'match:state': (payload: { match: Match }) => void;
-  'match:end': (payload: { match: Match; winnerId: string | null; reason?: 'completed' | 'forfeit' | 'surrender' }) => void;
+  'match:end': (payload: {
+    match: Match;
+    winnerId: string | null;
+    reason?: 'completed' | 'forfeit' | 'surrender';
+    ratingResult?: RatingResult;
+  }) => void;
 
   'round:start': (payload: { round: Round }) => void;
   'round:end': (payload: {
@@ -41,7 +46,7 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
   'lobby:join': (
     payload: {
-      difficulty: Difficulty;
+      difficulty?: Difficulty;
       player: { id: string; username: string };
     },
     callback: (err: string | null) => void
@@ -53,6 +58,7 @@ export interface ClientToServerEvents {
     matchId: string;
     roundId: string;
     answer: string;
+    pointsDelta?: number;
   }) => void;
   'match:surrender': (payload: { matchId: string }) => void;
 }

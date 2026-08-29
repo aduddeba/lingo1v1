@@ -56,10 +56,10 @@ io.use(async (socket: AppSocket, next) => {
 io.on('connection', (socket: AppSocket) => {
   registerLobbyHandlers(io, socket);
 
-  socket.on('answer:submit', ({ matchId, roundId, answer }) => {
+  socket.on('answer:submit', ({ matchId, roundId, answer, pointsDelta }) => {
     const activeMatchId = socketToMatch.get(socket.id);
     if (activeMatchId !== matchId) return;
-    matches.get(activeMatchId)?.submitAnswer(socket.id, roundId, answer);
+    matches.get(activeMatchId)?.submitAnswer(socket.id, roundId, answer, pointsDelta);
   });
 
   socket.on('match:surrender', ({ matchId }) => {

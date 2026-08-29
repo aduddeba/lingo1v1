@@ -4,15 +4,12 @@ import type {
   ClientToServerEvents,
   ServerToClientEvents,
   Player,
-  Difficulty,
 } from '@/types';
 
 export interface SocketData {
   player?: Player;
   authenticatedUser?: AuthenticatedSocketUser;
-  // Difficulty queue being solo-waited on, or, once paired, the lobby/match
-  // room id (the two share an id - see matchmaking.ts).
-  queueDifficulty?: Difficulty;
+  queuedRanked?: boolean;
   lobbyId?: string;
 }
 

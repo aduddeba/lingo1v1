@@ -53,6 +53,14 @@ export function Header() {
           >
             Play
           </Link>
+          {authUser && (
+            <a
+              href="/dashboard"
+              className="text-sm font-semibold text-gray-500 transition-colors hover:text-brand-600"
+            >
+              Dashboard
+            </a>
+          )}
           <ConnectionBadge status={connectionStatus} />
           {player && (
             <span className="text-sm font-medium text-gray-700">

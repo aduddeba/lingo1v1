@@ -12,6 +12,7 @@ import {
   type PendingLobby,
 } from './state';
 import { MatchSession } from './match';
+import { getRankedQueueKey, selectRankedQuestionDifficulty } from './rankedDifficulty';
 
 const COUNTDOWN_SECONDS = 3;
 
@@ -44,43 +45,52 @@ export function canPlayersBeMatched(waitingPlayer: Player, joiningPlayer: Player
   return normalizeUsername(waitingPlayer.username) !== normalizeUsername(joiningPlayer.username);
 }
 
-function resolveJoiningPlayer(socket: AppSocket, player: { id: string; username: string }): Player {
+function resolveJoiningPlayer(socket: AppSocket, player: { id: string; username: string }): LobbyPlayer {
   const authenticatedUser = socket.data.authenticatedUser;
   if (authenticatedUser) {
-    return toPlayer({
-      id: authenticatedUser.id,
-      username: authenticatedUser.username,
-      rating: authenticatedUser.eloRating,
-      wins: authenticatedUser.wins,
-      losses: authenticatedUser.losses,
-      createdAt: authenticatedUser.createdAt,
-    });
+    return {
+      socketId: socket.id,
+      authenticatedUserId: authenticatedUser.id,
+      player: toPlayer({
+        id: authenticatedUser.id,
+        username: authenticatedUser.username,
+        rating: authenticatedUser.eloRating,
+        wins: authenticatedUser.wins,
+        losses: authenticatedUser.losses,
+        createdAt: authenticatedUser.createdAt,
+      }),
+    };
   }
 
-  return toPlayer({
-    id: player.id.startsWith('guest_') ? player.id : `guest_${randomUUID()}`,
-    username: player.username.trim().slice(0, 20) || 'Guest',
-    rating: 0,
-    wins: 0,
-    losses: 0,
-    createdAt: Date.now(),
-  });
+  return {
+    socketId: socket.id,
+    player: toPlayer({
+      id: player.id.startsWith('guest_') ? player.id : `guest_${randomUUID()}`,
+      username: player.username.trim().slice(0, 20) || 'Guest',
+      rating: 0,
+      wins: 0,
+      losses: 0,
+      createdAt: Date.now(),
+    }),
+  };
 }
 
 export function registerLobbyHandlers(io: AppServer, socket: AppSocket): void {
   socket.on('lobby:join', ({ difficulty, player }, callback) => {
-    const fullPlayer = resolveJoiningPlayer(socket, player);
+    const joining = resolveJoiningPlayer(socket, player);
+    const fullPlayer = joining.player;
+    const queueKey = getRankedQueueKey(difficulty);
     connectedPlayers.set(socket.id, fullPlayer);
     socket.data.player = fullPlayer;
 
-    const waiting = queues.get(difficulty);
+    const waiting = queues.get(queueKey);
     const waitingSocket = waiting ? io.sockets.sockets.get(waiting.socketId) : undefined;
 
     // No one waiting (or the waiting entry went stale because that socket
     // disconnected without cleanup) - start a fresh wait.
     if (!waiting || !waitingSocket) {
-      queues.set(difficulty, { socketId: socket.id, player: fullPlayer });
-      socket.data.queueDifficulty = difficulty;
+      queues.set(queueKey, joining);
+      socket.data.queuedRanked = true;
       io.to(socket.id).emit('lobby:update', {
         players: [fullPlayer],
         readyCount: 0,
@@ -105,7 +115,8 @@ export function registerLobbyHandlers(io: AppServer, socket: AppSocket): void {
 
     // Pair up. The lobby id becomes the matchId later - both sockets are
     // already members of that Socket.IO room by the time the match starts.
-    queues.delete(difficulty);
+    queues.delete(queueKey);
+    waitingSocket.data.queuedRanked = undefined;
     const lobbyId = randomUUID();
 
     socket.data.lobbyId = lobbyId;
@@ -115,11 +126,10 @@ export function registerLobbyHandlers(io: AppServer, socket: AppSocket): void {
 
     const players: [LobbyPlayer, LobbyPlayer] = [
       waiting,
-      { socketId: socket.id, player: fullPlayer },
+      joining,
     ];
 
     pendingLobbies.set(lobbyId, {
-      difficulty,
       players,
       ready: new Set<string>(),
       countdownTimeout: null,
@@ -170,12 +180,13 @@ export function registerLobbyHandlers(io: AppServer, socket: AppSocket): void {
 }
 
 function startCountdown(io: AppServer, lobbyId: string, pending: PendingLobby): void {
-  const tick = (secondsLeft: number): void => {
+  const tick = async (secondsLeft: number): Promise<void> => {
     if (secondsLeft <= 0) {
       pending.countdownTimeout = null;
       pendingLobbies.delete(lobbyId);
 
-      const session = new MatchSession(io, lobbyId, pending.difficulty, pending.players);
+      const difficulty = await selectRankedQuestionDifficulty(pending.players);
+      const session = new MatchSession(io, lobbyId, difficulty, pending.players);
       matches.set(lobbyId, session);
       for (const { socketId } of pending.players) socketToMatch.set(socketId, lobbyId);
       session.start();
@@ -183,18 +194,17 @@ function startCountdown(io: AppServer, lobbyId: string, pending: PendingLobby): 
     }
 
     io.to(lobbyId).emit('lobby:countdown', { startsIn: secondsLeft });
-    pending.countdownTimeout = setTimeout(() => tick(secondsLeft - 1), 1_000);
+    pending.countdownTimeout = setTimeout(() => void tick(secondsLeft - 1), 1_000);
   };
 
-  tick(COUNTDOWN_SECONDS);
+  void tick(COUNTDOWN_SECONDS);
 }
 
 function leaveLobbyOrQueue(io: AppServer, socket: AppSocket): void {
-  const queuedDifficulty = socket.data.queueDifficulty;
-  if (queuedDifficulty) {
-    const waiting = queues.get(queuedDifficulty);
-    if (waiting?.socketId === socket.id) queues.delete(queuedDifficulty);
-    socket.data.queueDifficulty = undefined;
+  if (socket.data.queuedRanked) {
+    const waiting = queues.get('ranked');
+    if (waiting?.socketId === socket.id) queues.delete('ranked');
+    socket.data.queuedRanked = undefined;
   }
 
   const lobbyId = socket.data.lobbyId;

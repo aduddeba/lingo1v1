@@ -1,4 +1,4 @@
-import type { ScriptBlitzQuestion } from '@/types/practice';
+import type { AcceptedAnswer, ScriptBlitzQuestion } from '@/types/practice';
 
 // ─── Script Blitz Question Bank ───────────────────────────────────────────────
 // 380+ questions across two categories:
@@ -31,6 +31,18 @@ const KANNADA_ALIASES  = ['kannada script', 'kannada alphabet'];
 const MALAYALAM_ALIASES = ['malayalam script', 'malayalam alphabet'];
 const SINHALA_ALIASES  = ['sinhala script', 'sinhala alphabet', 'sinhalese', 'sinhalese script'];
 const ETHIOPIC_ALIASES = ["ge'ez", 'geez', 'ethiopic script', 'fidel', "ge'ez script"];
+
+function surnameAnswers(input: {
+  broad: readonly string[];
+  specific?: readonly string[];
+  preferred?: readonly string[];
+}): AcceptedAnswer[] {
+  return [
+    ...input.broad.map((value) => ({ value, specificity: 'broad' }) as const),
+    ...(input.specific ?? []).map((value) => ({ value, specificity: 'specific' }) as const),
+    ...(input.preferred ?? []).map((value) => ({ value, specificity: 'preferred' }) as const),
+  ];
+}
 
 export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
 
@@ -616,21 +628,21 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
 
   // ── India ─────────────────────────────────────────────────────────────────────
 
-  { id: 'sb-sur-i001', category: 'surname', displayText: 'Patel', answer: 'India', aliases: ['indian', 'gujarat', 'gujarati'], hint: 'Originating from Gujarat; now one of the most recognizable Indian surnames', difficulty: 'easy' },
+  { id: 'sb-sur-i001', category: 'surname', displayText: 'Patel', answer: 'India', aliases: ['indian', 'gujarat', 'gujarati'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Gujarati'], preferred: ['Gujarat'] }), hint: 'Originating from Gujarat; now one of the most recognizable Indian surnames', difficulty: 'easy' },
   { id: 'sb-sur-i002', category: 'surname', displayText: 'Singh', answer: 'India', aliases: ['indian', 'punjabi', 'sikh', 'pakistan'], hint: 'Borne by Sikhs and many Hindus across North India', difficulty: 'easy' },
   { id: 'sb-sur-i003', category: 'surname', displayText: 'Sharma', answer: 'India', aliases: ['indian', 'nepali', 'nepal'], hint: 'Brahmin surname across North India and Nepal', difficulty: 'easy' },
   { id: 'sb-sur-i004', category: 'surname', displayText: 'Gupta', answer: 'India', aliases: ['indian'], hint: 'Common Hindu surname from North and Central India', difficulty: 'easy' },
   { id: 'sb-sur-i005', category: 'surname', displayText: 'Kapoor', answer: 'India', aliases: ['indian', 'punjabi'], hint: 'Prominent surname among Punjabi Hindus; linked to Bollywood families', difficulty: 'medium' },
-  { id: 'sb-sur-i006', category: 'surname', displayText: 'Iyer', answer: 'India', aliases: ['indian', 'tamil', 'tamil brahmin'], hint: 'Tamil Brahmin surname, primarily from Tamil Nadu', difficulty: 'medium' },
-  { id: 'sb-sur-i007', category: 'surname', displayText: 'Nair', answer: 'India', aliases: ['indian', 'kerala', 'malayali'], hint: 'An influential caste surname from Kerala', difficulty: 'medium' },
-  { id: 'sb-sur-i008', category: 'surname', displayText: 'Mukherjee', answer: 'India', aliases: ['indian', 'bengali', 'west bengal'], hint: 'Prominent Bengali Brahmin surname', difficulty: 'medium' },
-  { id: 'sb-sur-i009', category: 'surname', displayText: 'Reddy', answer: 'India', aliases: ['indian', 'andhra', 'telangana', 'telugu'], hint: 'Common Telugu surname from Andhra Pradesh and Telangana', difficulty: 'medium' },
-  { id: 'sb-sur-i010', category: 'surname', displayText: 'Chatterjee', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
-  { id: 'sb-sur-i011', category: 'surname', displayText: 'Chakraborty', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
-  { id: 'sb-sur-i012', category: 'surname', displayText: 'Gowda', answer: 'India', aliases: ['indian', 'kannada'], hint: 'Common surname in Karnataka', difficulty: 'hard' },
-  { id: 'sb-sur-i013', category: 'surname', displayText: 'Banerjee', answer: 'India', aliases: ['indian', 'bengali'], hint: 'Common surname in Bengal', difficulty: 'medium' },
+  { id: 'sb-sur-i006', category: 'surname', displayText: 'Iyer', answer: 'India', aliases: ['indian', 'tamil', 'tamil brahmin'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Tamil', 'Tamil Brahmin'], preferred: ['Tamil Nadu'] }), hint: 'Tamil Brahmin surname, primarily from Tamil Nadu', difficulty: 'medium' },
+  { id: 'sb-sur-i007', category: 'surname', displayText: 'Nair', answer: 'India', aliases: ['indian', 'kerala', 'malayali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Malayali'], preferred: ['Kerala'] }), hint: 'An influential caste surname from Kerala', difficulty: 'medium' },
+  { id: 'sb-sur-i008', category: 'surname', displayText: 'Mukherjee', answer: 'India', aliases: ['indian', 'bengali', 'west bengal'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Bengali'], preferred: ['West Bengal'] }), hint: 'Prominent Bengali Brahmin surname', difficulty: 'medium' },
+  { id: 'sb-sur-i009', category: 'surname', displayText: 'Reddy', answer: 'India', aliases: ['indian', 'andhra', 'telangana', 'telugu'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Telugu'], preferred: ['Andhra', 'Andhra Pradesh', 'Telangana'] }), hint: 'Common Telugu surname from Andhra Pradesh and Telangana', difficulty: 'medium' },
+  { id: 'sb-sur-i010', category: 'surname', displayText: 'Chatterjee', answer: 'India', aliases: ['indian', 'bengali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Bengali'], preferred: ['West Bengal'] }), hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
+  { id: 'sb-sur-i011', category: 'surname', displayText: 'Chakraborty', answer: 'India', aliases: ['indian', 'bengali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Bengali'], preferred: ['West Bengal'] }), hint: 'Bengali Brahmin surname from West Bengal', difficulty: 'medium' },
+  { id: 'sb-sur-i012', category: 'surname', displayText: 'Gowda', answer: 'India', aliases: ['indian', 'kannada'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Kannada'], preferred: ['Karnataka'] }), hint: 'Common surname in Karnataka', difficulty: 'hard' },
+  { id: 'sb-sur-i013', category: 'surname', displayText: 'Banerjee', answer: 'India', aliases: ['indian', 'bengali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Bengali'], preferred: ['West Bengal'] }), hint: 'Common surname in Bengal', difficulty: 'medium' },
   { id: 'sb-sur-i014', category: 'surname', displayText: 'Bhatt', answer: 'India', aliases: ['indian', 'punjabi', 'kashmiri'], hint: 'Common surname in Kashmir and Punjab meaning "scholar"', difficulty: 'medium' },
-  { id: 'sb-sur-i015', category: 'surname', displayText: 'Krishnan', answer: 'India', aliases: ['indian', 'tamil', 'malayali'], hint: 'Common surname in Tamil Nadu', difficulty: 'medium' },
+  { id: 'sb-sur-i015', category: 'surname', displayText: 'Krishnan', answer: 'India', aliases: ['indian', 'tamil', 'malayali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Tamil', 'Malayali'], preferred: ['Tamil Nadu'] }), hint: 'Common surname in Tamil Nadu', difficulty: 'medium' },
 
   // ── Sri Lanka ─────────────────────────────────────────────────────────────────
   { id: 'sb-sur-l001', category: 'surname', displayText: 'Gunawardene', answer: 'Sri Lanka', aliases: ['sri lankan', 'sinhalese'], hint: 'Common Sinhalese surname.', difficulty: 'hard' },

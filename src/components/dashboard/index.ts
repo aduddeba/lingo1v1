@@ -1,0 +1,1 @@
+export { EloHistoryChart } from './EloHistoryChart';

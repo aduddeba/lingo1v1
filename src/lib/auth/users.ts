@@ -7,12 +7,63 @@ export interface StoredUser extends PublicUser {
   passwordHash: string;
 }
 
-interface UserDatabase {
-  users: StoredUser[];
+export interface StoredMatchResult {
+  id: string;
+  player1Id: string;
+  player2Id: string;
+  winnerId: string | null;
+  player1Score: number;
+  player2Score: number;
+  player1RatingBefore: number;
+  player1RatingAfter: number;
+  player2RatingBefore: number;
+  player2RatingAfter: number;
+  status: 'completed';
+  ranked: boolean;
+  createdAt: number;
+  completedAt: number;
 }
 
+export interface StoredRatingHistoryEntry {
+  id: string;
+  userId: string;
+  matchId: string;
+  ratingBefore: number;
+  ratingAfter: number;
+  ratingChange: number;
+  createdAt: number;
+}
+
+export interface PublicRatingHistoryEntry {
+  matchId: string;
+  ratingBefore: number;
+  ratingAfter: number;
+  ratingChange: number;
+  createdAt: number;
+}
+
+export interface PublicRankedMatchSummary {
+  matchId: string;
+  result: 'win' | 'loss' | 'draw';
+  scoreFor: number;
+  scoreAgainst: number;
+  ratingChange: number;
+  createdAt: number;
+}
+
+export interface UserDatabase {
+  users: StoredUser[];
+  matches: StoredMatchResult[];
+  ratingHistory: StoredRatingHistoryEntry[];
+}
+
+let transactionQueue = Promise.resolve();
+
 function dataFilePath(): string {
-  const dataDir = process.env['LINGO_DATA_DIR'] ?? path.join(process.cwd(), 'data');
+  const cwd = process.cwd();
+  const defaultDataDir =
+    path.basename(cwd) === 'server' ? path.join(cwd, '..', 'data') : path.join(cwd, 'data');
+  const dataDir = process.env['LINGO_DATA_DIR'] ?? defaultDataDir;
   return path.join(dataDir, 'users.json');
 }
 
@@ -38,9 +89,15 @@ async function readDatabase(): Promise<UserDatabase> {
   try {
     const raw = await readFile(filePath, 'utf8');
     const parsed = JSON.parse(raw) as Partial<UserDatabase>;
-    return { users: Array.isArray(parsed.users) ? parsed.users : [] };
+    return {
+      users: Array.isArray(parsed.users) ? parsed.users : [],
+      matches: Array.isArray(parsed.matches) ? parsed.matches : [],
+      ratingHistory: Array.isArray(parsed.ratingHistory) ? parsed.ratingHistory : [],
+    };
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return { users: [] };
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return { users: [], matches: [], ratingHistory: [] };
+    }
     throw error;
   }
 }
@@ -51,6 +108,24 @@ async function writeDatabase(database: UserDatabase): Promise<void> {
   const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
   await writeFile(tempPath, JSON.stringify(database, null, 2), 'utf8');
   await rename(tempPath, filePath);
+}
+
+export async function runUserDatabaseTransaction<T>(
+  callback: (database: UserDatabase) => T | Promise<T>
+): Promise<T> {
+  const run = async (): Promise<T> => {
+    const database = await readDatabase();
+    const result = await callback(database);
+    await writeDatabase(database);
+    return result;
+  };
+
+  const result = transactionQueue.then(run, run);
+  transactionQueue = result.then(
+    () => undefined,
+    () => undefined
+  );
+  return result;
 }
 
 export async function createUser(input: {
@@ -100,6 +175,56 @@ export async function findUserById(id: string): Promise<StoredUser | null> {
 export async function getPublicUserById(id: string): Promise<PublicUser | null> {
   const user = await findUserById(id);
   return user ? toPublicUser(user) : null;
+}
+
+export async function getRatingHistoryForUser(
+  userId: string
+): Promise<PublicRatingHistoryEntry[]> {
+  const database = await readDatabase();
+
+  return database.ratingHistory
+    .filter((entry) => entry.userId === userId)
+    .sort((a, b) => a.createdAt - b.createdAt || a.matchId.localeCompare(b.matchId))
+    .map((entry) => ({
+      matchId: entry.matchId,
+      ratingBefore: entry.ratingBefore,
+      ratingAfter: entry.ratingAfter,
+      ratingChange: entry.ratingChange,
+      createdAt: entry.createdAt,
+    }));
+}
+
+export async function getRecentRankedResultsForUser(
+  userId: string,
+  limit = 5
+): Promise<PublicRankedMatchSummary[]> {
+  const database = await readDatabase();
+  const ratingChanges = new Map(
+    database.ratingHistory
+      .filter((entry) => entry.userId === userId)
+      .map((entry) => [entry.matchId, entry.ratingChange])
+  );
+
+  return database.matches
+    .filter((match) => match.ranked && (match.player1Id === userId || match.player2Id === userId))
+    .sort((a, b) => b.completedAt - a.completedAt || b.id.localeCompare(a.id))
+    .slice(0, limit)
+    .map((match) => {
+      const isPlayer1 = match.player1Id === userId;
+      const scoreFor = isPlayer1 ? match.player1Score : match.player2Score;
+      const scoreAgainst = isPlayer1 ? match.player2Score : match.player1Score;
+      const result =
+        match.winnerId === null ? 'draw' : match.winnerId === userId ? 'win' : 'loss';
+
+      return {
+        matchId: match.id,
+        result,
+        scoreFor,
+        scoreAgainst,
+        ratingChange: ratingChanges.get(match.id) ?? 0,
+        createdAt: match.completedAt,
+      };
+    });
 }
 
 export function sanitizeUser(user: StoredUser): PublicUser {

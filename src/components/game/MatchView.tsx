@@ -14,7 +14,15 @@ interface MatchViewProps {
 
 export function MatchView({ matchId }: MatchViewProps) {
   const { player } = usePlayer();
-  const { match, localPlayerId, timeRemaining, winnerId, submitAnswer, surrenderMatch } = useGame();
+  const {
+    match,
+    localPlayerId,
+    timeRemaining,
+    ratingResult,
+    winnerId,
+    submitAnswer,
+    surrenderMatch,
+  } = useGame();
   const router = useRouter();
   const resetGame = useGameStore((s) => s.resetGame);
   const resetLobby = useLobbyStore((s) => s.resetLobby);
@@ -62,6 +70,25 @@ export function MatchView({ matchId }: MatchViewProps) {
                 ? 'You won!'
                 : 'You lost - good game.'}
           </p>
+          {ratingResult ? (
+            <div className="rounded-lg border border-gray-200 bg-gray-50 px-5 py-3">
+              <p
+                className={
+                  ratingResult.ratingChange >= 0
+                    ? 'text-lg font-bold text-green-600'
+                    : 'text-lg font-bold text-red-600'
+                }
+              >
+                {ratingResult.ratingChange >= 0 ? '+' : ''}
+                {ratingResult.ratingChange} Elo
+              </p>
+              <p className="mt-1 text-sm text-gray-500">
+                {ratingResult.previousRating} to {ratingResult.newRating}
+              </p>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500">No Elo change for this match.</p>
+          )}
           <Button onClick={handleBackToLobby}>Back to Lobby</Button>
         </div>
       )}
