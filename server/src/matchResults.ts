@@ -68,7 +68,15 @@ export async function completeRankedMatch(
         ? input.outcome.winnerId
         : determineWinnerFromScores(input.players, input.scores);
     const eloScore1 = winnerId === null ? 0.5 : winnerId === player1.player.id ? 1 : 0;
-    const eloResult = calculateEloMatchResult(user1.eloRating, user2.eloRating, eloScore1);
+    const scoreDifference =
+      input.outcome?.type === 'server_forced' ? undefined : Math.abs(player1Score - player2Score);
+    const eloResult = calculateEloMatchResult(
+      user1.eloRating,
+      user2.eloRating,
+      eloScore1,
+      undefined,
+      scoreDifference
+    );
 
     const matchResult: StoredMatchResult = {
       id: input.matchId,

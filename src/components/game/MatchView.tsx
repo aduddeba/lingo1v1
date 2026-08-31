@@ -20,6 +20,7 @@ export function MatchView({ matchId }: MatchViewProps) {
     match,
     localPlayerId,
     timeRemaining,
+    lastAnswerResult,
     ratingResult,
     winnerId,
     submitAnswer,
@@ -65,7 +66,12 @@ export function MatchView({ matchId }: MatchViewProps) {
       />
 
       {match.phase === 'active' && (
-        <AnswerPanel match={match} onSubmit={submitAnswer} onSurrender={surrenderMatch} />
+        <AnswerPanel
+          match={match}
+          lastAnswerResult={lastAnswerResult}
+          onSubmit={submitAnswer}
+          onSurrender={surrenderMatch}
+        />
       )}
 
       {match.phase === 'game_over' && (

@@ -1,3 +1,5 @@
+import type { ChainStage, PracticeQuestion } from './practice';
+
 // ─── Core Enumerations ───────────────────────────────────────────────────────
 
 export type GamePhase =
@@ -40,6 +42,12 @@ export interface Round {
   // Present only for choice-based modes (forgery, historical_evolution);
   // absent for text-input modes, which render a free-text answer field instead.
   options?: string[];
+  // Present for historical-evolution multiplayer rounds so the client can
+  // render the same chain-guessing UI used by practice mode.
+  questionType?: PracticeQuestion['type'];
+  chain?: ChainStage[];
+  languageChain?: string[];
+  hiddenIndex?: number;
 }
 
 export interface PlayerScore {

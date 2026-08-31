@@ -13,6 +13,8 @@ const REQUESTED_LANGUAGE_DIFFICULTIES = new Map([
   ['Uzbek', 'hard'],
   ['Kazakh', 'hard'],
   ['Kurdish', 'hard'],
+  ['Lao', 'hard'],
+  ['Burmese', 'hard'],
 ] as const);
 
 describe('Script Blitz language question bank', () => {

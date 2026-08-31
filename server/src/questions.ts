@@ -1,8 +1,15 @@
 import type { GameMode, Difficulty } from '@/types';
-import type { PracticeDifficulty, PracticeQuestionCount, PracticeQuestion } from '@/types/practice';
+import type {
+  HistoricalEvolutionQuestion,
+  PracticeQuestion,
+  PracticeDifficulty,
+  PracticeQuestionCount,
+  ChainStage,
+} from '@/types/practice';
 import { selectQuestions, calculatePoints, TIME_LIMITS, shuffle } from '@/lib/practice/engine';
 import { selectForgeryQuestions } from '@/lib/practice/forgeryEngine';
 import { selectCityCountryQuestions } from '@/lib/practice/cityCountryEngine';
+import { HISTORICAL_EVOLUTION_QUESTIONS } from '@/lib/practice/questions/historicalEvolution';
 import {
   buildBlitzPool,
   calculateBlitzPoints,
@@ -15,6 +22,10 @@ import {
   type AcceptedAnswer,
   type AnswerEvaluation,
 } from './answerEvaluation';
+
+const PREDICT_END_EVOLUTION_QUESTION_IDS = new Set(
+  HISTORICAL_EVOLUTION_QUESTIONS.filter((q) => q.type === 'predict_end').map((q) => q.id)
+);
 
 const ALL_MODES: readonly GameMode[] = [
   'forgery',
@@ -31,6 +42,10 @@ export interface ServerQuestion {
   mode: GameMode;
   prompt: string;
   options?: string[];
+  questionType?: PracticeQuestion['type'];
+  chain?: ChainStage[];
+  languageChain?: string[];
+  hiddenIndex?: number;
   timeLimitMs: number;
   correctAnswer: string;
   acceptedAnswers: AcceptedAnswer[];
@@ -53,6 +68,10 @@ function fromPracticeQuestion(mode: GameMode, q: PracticeQuestion): ServerQuesti
     mode,
     prompt: q.prompt,
     options: q.options,
+    questionType: q.type,
+    ...(q.type === 'language_ancestry'
+      ? { languageChain: q.languageChain, hiddenIndex: q.hiddenIndex }
+      : { chain: q.chain, hiddenIndex: q.hiddenIndex }),
     timeLimitMs,
     correctAnswer: q.answer,
     acceptedAnswers,
@@ -112,12 +131,40 @@ function buildForgeryQuestions(difficulty: Difficulty, count: number): ServerQue
 }
 
 function buildHistoricalEvolutionQuestions(difficulty: Difficulty, count: number): ServerQuestion[] {
+  const practiceDifficulty = toPracticeDifficulty(difficulty);
+  const difficultyNumber = toDifficultyNumber(practiceDifficulty);
+  const predictEndQuestions = shuffle(
+    HISTORICAL_EVOLUTION_QUESTIONS.filter(
+      (q) => q.type === 'predict_end' && q.difficulty === difficultyNumber
+    )
+  );
   const questions = selectQuestions({
     mode: 'historical_evolution',
-    difficulty: toPracticeDifficulty(difficulty),
+    difficulty: practiceDifficulty,
     questionCount: count as PracticeQuestionCount,
   });
-  return questions.map((q) => fromPracticeQuestion('historical_evolution', q));
+
+  const guaranteedPredictEnd = predictEndQuestions[0];
+  const selected = guaranteedPredictEnd
+    ? [
+        guaranteedPredictEnd,
+        ...questions.filter((q) => q.id !== guaranteedPredictEnd.id).slice(0, count - 1),
+      ]
+    : questions.slice(0, count);
+
+  return shuffle(selected).map((q) => fromPracticeQuestion('historical_evolution', q));
+}
+
+function toDifficultyNumber(difficulty: PracticeDifficulty): HistoricalEvolutionQuestion['difficulty'] {
+  switch (difficulty) {
+    case 'easy':
+      return 1;
+    case 'medium':
+      return 2;
+    case 'hard':
+    case 'mixed':
+      return 3;
+  }
 }
 
 function buildCityCountryQuestions(difficulty: Difficulty, count: number): ServerQuestion[] {
@@ -213,5 +260,19 @@ export function buildMixedQuestionSet(difficulty: Difficulty): ServerQuestion[] 
     buildQuestionsForMode(mode, difficulty, base + (i < remainder ? 1 : 0))
   );
 
-  return shuffle(pool);
+  return promotePredictEndEvolutionQuestion(shuffle(pool));
+}
+
+function promotePredictEndEvolutionQuestion(questions: ServerQuestion[]): ServerQuestion[] {
+  const index = questions.findIndex(
+    (question) =>
+      question.mode === 'historical_evolution' &&
+      PREDICT_END_EVOLUTION_QUESTION_IDS.has(question.id)
+  );
+  if (index <= 0) return questions;
+
+  const promoted = questions[index];
+  if (!promoted) return questions;
+
+  return [promoted, ...questions.slice(0, index), ...questions.slice(index + 1)];
 }

@@ -514,7 +514,7 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     ],
     hiddenIndex: 4,
     prompt: 'This word has ancient origins with a meaning that has been preserved through millenia. What is the current English form of this word?',
-    options: ['brother', 'bear', 'brought', 'bell'],
+    options: ['brother', 'bear', 'ball', 'bell'],
     answer: 'bear',
     explanation: 'The English word "bear" traces its origins all the way back to Proto-Indo-European and mostly preserved the original meaning.',
   },
@@ -550,5 +550,21 @@ export const HISTORICAL_EVOLUTION_QUESTIONS: HistoricalEvolutionQuestion[] = [
     options: ['āṉaikkonda', 'henakandayā', 'ānekonda', 'ānocānda'],
     answer: 'henakandayā',
     explanation: 'This word is the name of a Sri Lankan small whip snake endemic to Sri Lanka.',
+  },
+
+  {
+    id: 'he-035', difficulty: 2, type: 'predict_end',
+    targetWord: 'loot',
+    chain: [
+      { language: 'Proto-Indo-European', form: '*reup-', gloss: 'to snatch / tear away' },
+      { language: 'Sanskrit', form: 'loptra', gloss: 'booty / stolen property' },
+      { language: 'Hindi', form: 'lūṭ', gloss: 'plunder / booty' },
+      { language: 'Modern English', form: 'loot' },
+    ],
+    hiddenIndex: 3,
+    prompt: 'A word for seized goods travelled from Sanskrit into Hindi before British-era English borrowed it. What English word did Hindi "lūṭ" become?',
+    options: ['loot', 'lute', 'lot', 'lout'],
+    answer: 'loot',
+    explanation: '"Loot" entered English from Hindi lūṭ, meaning plunder or booty. Hindi traces it to Sanskrit forms such as loptra/lotra for stolen property, connected by some dictionaries to a Proto-Indo-European root meaning "to snatch." The word arrived in English through Anglo-Indian military and colonial usage, then broadened into its modern senses of stolen goods, spoils, and game rewards.',
   },
 ];

@@ -67,15 +67,16 @@ export function useGame() {
     if (ratingResult) void refreshAuthenticatedUser();
   });
 
-  useSocketEvent('round:start', ({ round }) => updateRound(round));
+  useSocketEvent('round:start', ({ round }) => {
+    setLastAnswerResult(null);
+    updateRound(round);
+  });
   useSocketEvent('round:tick', ({ timeRemaining: ms }) => setTimeRemaining(ms));
 
   useSocketEvent('score:update', ({ scores }) => updateScores(scores));
 
   useSocketEvent('answer:result', (result) => {
     setLastAnswerResult(result);
-    // Auto-clear feedback after 2 s so the UI can reset
-    setTimeout(() => setLastAnswerResult(null), 2_000);
   });
 
   const submitAnswer = useCallback(

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { ScoreDisplay } from './ScoreDisplay';
+import { LanguageAncestryChain, WordFormChain } from '@/components/practice/EvolutionChainGraphic';
 import { formatTime } from '@/lib/utils/format';
 import type { Match, PlayerScore } from '@/types';
 
@@ -69,10 +70,32 @@ export function GameBoard({ match, localPlayerId, timeRemaining }: GameBoardProp
             </p>
             {(() => {
               const { instruction, displayText } = splitPrompt(match.currentRound.prompt);
+              const isHistoricalEvolution = match.currentRound.mode === 'historical_evolution';
 
               return (
                 <div className="flex flex-col items-center gap-4">
+                  {isHistoricalEvolution && (
+                    <p className="text-xs font-bold uppercase tracking-widest text-brand-600">
+                      Evolution Guess
+                    </p>
+                  )}
                   <p className="text-lg font-semibold text-gray-500">{instruction}</p>
+                  {isHistoricalEvolution &&
+                    match.currentRound.chain &&
+                    match.currentRound.hiddenIndex !== undefined && (
+                      <WordFormChain
+                        chain={match.currentRound.chain}
+                        hiddenIndex={match.currentRound.hiddenIndex}
+                      />
+                    )}
+                  {isHistoricalEvolution &&
+                    match.currentRound.languageChain &&
+                    match.currentRound.hiddenIndex !== undefined && (
+                      <LanguageAncestryChain
+                        chain={match.currentRound.languageChain}
+                        hiddenIndex={match.currentRound.hiddenIndex}
+                      />
+                    )}
                   {displayText && (
                     <p className="text-4xl font-bold tracking-wide text-gray-900">
                       {displayText}
@@ -149,5 +172,6 @@ function ScoreBanner({
     </div>
   );
 }
+
 
 

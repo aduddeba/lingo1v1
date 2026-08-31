@@ -113,6 +113,10 @@ export class MatchSession {
       startedAt,
       endsAt: startedAt + question.timeLimitMs,
       ...(question.options ? { options: question.options } : {}),
+      ...(question.questionType ? { questionType: question.questionType } : {}),
+      ...(question.chain ? { chain: question.chain } : {}),
+      ...(question.languageChain ? { languageChain: question.languageChain } : {}),
+      ...(question.hiddenIndex !== undefined ? { hiddenIndex: question.hiddenIndex } : {}),
     };
 
     this.io.to(this.id).emit('round:start', { round: this.match.currentRound });

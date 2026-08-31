@@ -350,6 +350,9 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-uzb-001', category: 'language', displayText: 'O‘zbekiston go‘zal mamlakat', answer: 'Uzbek', aliases: ['o‘zbek', 'ozbek', 'uzbek language'], hint: 'Uzbek text in Latin script; look for O‘zbekiston and the okina-like mark', difficulty: 'hard' },
   { id: 'sb-kaz-001', category: 'language', displayText: 'Сәлеметсіз бе?', answer: 'Kazakh', aliases: ['qazaq', 'kazakh language'], hint: 'A Kazakh greeting; ә and і distinguish it from Russian Cyrillic', difficulty: 'hard' },
   { id: 'sb-kur-001', category: 'language', displayText: 'Tu çawa yî?', answer: 'Kurdish', aliases: ['kurmanji', 'sorani', 'kurdish language'], hint: 'How are you? - Kurmanji Kurdish in Latin script', difficulty: 'hard' },
+  { id: 'sb-lao-001', category: 'language', displayText: 'ສະບາຍດີ', answer: 'Lao', aliases: ['laotian', 'lao language'], hint: 'A Lao greeting; the script resembles Thai but has its own rounded forms', difficulty: 'hard' },
+  { id: 'sb-bur-001', category: 'language', displayText: 'မင်္ဂလာပါ', answer: 'Burmese', aliases: ['myanmar', 'myanmar language', 'burmese language'], hint: 'A Burmese greeting written in the rounded Myanmar script', difficulty: 'hard' },
+  { id: 'sb-khm-001', category: 'language', displayText: 'សូមស្វាគមន៍', answer: 'Khmer', aliases: ['cambodia', 'cambodia language'], hint: '\'Your welcome\' in Khmer. Khmer is spoken primarily in Cambodia.'},
 
   // ── Polish ────────────────────────────────────────────────────────────────────
 

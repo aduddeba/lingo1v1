@@ -141,11 +141,11 @@ describe('ranked match completion persistence', () => {
     const storedPlayer2 = database.users.find((user) => user.id === player2.authenticatedUserId);
 
     assert.equal(completion?.alreadyFinalized, false);
-    assert.equal(storedPlayer1?.eloRating, 1016);
+    assert.equal(storedPlayer1?.eloRating, 1005);
     assert.equal(storedPlayer1?.wins, 1);
     assert.equal(storedPlayer1?.losses, 0);
     assert.equal(storedPlayer1?.gamesPlayed, 1);
-    assert.equal(storedPlayer2?.eloRating, 984);
+    assert.equal(storedPlayer2?.eloRating, 995);
     assert.equal(storedPlayer2?.wins, 0);
     assert.equal(storedPlayer2?.losses, 1);
     assert.equal(storedPlayer2?.gamesPlayed, 1);
@@ -226,8 +226,8 @@ describe('ranked match completion persistence', () => {
       {
         matchId: 'match-history',
         ratingBefore: 1000,
-        ratingAfter: 1016,
-        ratingChange: 16,
+        ratingAfter: 1005,
+        ratingChange: 5,
         createdAt: 2_000,
       },
     ]);
@@ -235,8 +235,8 @@ describe('ranked match completion persistence', () => {
       {
         matchId: 'match-history',
         ratingBefore: 1000,
-        ratingAfter: 984,
-        ratingChange: -16,
+        ratingAfter: 995,
+        ratingChange: -5,
         createdAt: 2_000,
       },
     ]);
@@ -260,10 +260,25 @@ describe('ranked match completion persistence', () => {
         gamesPlayed: user.gamesPlayed,
       })),
       [
-        { eloRating: 1016, wins: 1, losses: 0, gamesPlayed: 1 },
-        { eloRating: 984, wins: 0, losses: 1, gamesPlayed: 1 },
+        { eloRating: 1005, wins: 1, losses: 0, gamesPlayed: 1 },
+        { eloRating: 995, wins: 0, losses: 1, gamesPlayed: 1 },
       ]
     );
+  });
+
+  it('makes narrow score-difference Elo changes smaller than wide wins', async () => {
+    const narrowInput = await completionInput('match-narrow-margin', 1000, 1000, 3100, 3000);
+    const wideInput = await completionInput('match-wide-margin', 1000, 1000, 3100, 100);
+
+    const narrow = await completeRankedMatch(narrowInput);
+    const wide = await completeRankedMatch(wideInput);
+    const narrowChange =
+      narrow?.ratingResults[narrowInput.players[0].authenticatedUserId ?? '']?.ratingChange ?? 0;
+    const wideChange =
+      wide?.ratingResults[wideInput.players[0].authenticatedUserId ?? '']?.ratingChange ?? 0;
+
+    assert.ok(narrowChange > 0);
+    assert.ok(wideChange > narrowChange);
   });
 
   it('keeps rating history changes consistent with before and after ratings', async () => {
