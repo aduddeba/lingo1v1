@@ -352,7 +352,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-kur-001', category: 'language', displayText: 'Tu çawa yî?', answer: 'Kurdish', aliases: ['kurmanji', 'sorani', 'kurdish language'], hint: 'How are you? - Kurmanji Kurdish in Latin script', difficulty: 'hard' },
   { id: 'sb-lao-001', category: 'language', displayText: 'ສະບາຍດີ', answer: 'Lao', aliases: ['laotian', 'lao language'], hint: 'A Lao greeting; the script resembles Thai but has its own rounded forms', difficulty: 'hard' },
   { id: 'sb-bur-001', category: 'language', displayText: 'မင်္ဂလာပါ', answer: 'Burmese', aliases: ['myanmar', 'myanmar language', 'burmese language'], hint: 'A Burmese greeting written in the rounded Myanmar script', difficulty: 'hard' },
-  { id: 'sb-khm-001', category: 'language', displayText: 'សូមស្វាគមន៍', answer: 'Khmer', aliases: ['cambodia', 'cambodia language'], hint: '\'Your welcome\' in Khmer. Khmer is spoken primarily in Cambodia.'},
+  { id: 'sb-khm-001', category: 'language', displayText: 'សូមស្វាគមន៍', answer: 'Khmer', aliases: ['cambodia', 'cambodia language'], hint: '\'Your welcome\' in Khmer. Khmer is spoken primarily in Cambodia.', difficulty: 'hard'},
 
   // ── Polish ────────────────────────────────────────────────────────────────────
 
@@ -632,6 +632,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-c008', category: 'surname', displayText: 'Wu', answer: 'China', aliases: ['chinese', 'taiwan'], hint: 'Ninth most common Chinese surname', difficulty: 'hard' },
   { id: 'sb-sur-c009', category: 'surname', displayText: 'Feng', answer: 'China', aliases: ['chinese', 'taiwan'], hint: 'Common Chinese surname.', difficulty: 'hard' },
   { id: 'sb-sur-c010', category: 'surname', displayText: 'Jiang', answer: 'China', aliases: ['chinese', 'taiwan', 'taiwanese'], hint: 'Common Chinese surname meaning "river"', difficulty: 'medium' },
+  { id: 'sb-sur-c011', category: 'surname', displayText: 'Pan', answer: 'China', aliases: ['chinese', 'taiwan', 'taiwanese', 'vietnam', 'vietnamese', 'korea', 'korean'], hint: 'East Asian surname best known as Mandarin Pan, with related Vietnamese and Korean forms', difficulty: 'hard' },
 
   // ── Vietnam ───────────────────────────────────────────────────────────────────
 
@@ -641,6 +642,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-v004', category: 'surname', displayText: 'Hoang', answer: 'Vietnam', aliases: ['vietnamese', 'hoàng'], hint: 'Common Vietnamese family name', difficulty: 'medium' },
   { id: 'sb-sur-v005', category: 'surname', displayText: 'Vo', answer: 'Vietnam', aliases: ['vietnamese', 'vũ', 'vu'], hint: 'Common Vietnamese surname, also romanized Vũ', difficulty: 'hard' },
   { id: 'sb-sur-v006', category: 'surname', displayText: 'Dang', answer: 'Vietnam', aliases: ['vietnamese', 'đặng'], hint: 'Common Vietnamese family name', difficulty: 'hard' },
+  { id: 'sb-sur-v007', category: 'surname', displayText: 'Giang', answer: 'Vietnam', aliases: ['vietnamese'], hint: 'Vietnamese surname also used as a given name', difficulty: 'hard' },
+  { id: 'sb-sur-v008', category: 'surname', displayText: 'Hồ', answer: 'Vietnam', aliases: ['vietnamese', 'ho'], hint: 'Vietnamese surname commonly written Ho without the tone mark', difficulty: 'hard' },
 
   // ── India ─────────────────────────────────────────────────────────────────────
 
@@ -659,6 +662,12 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-i013', category: 'surname', displayText: 'Banerjee', answer: 'India', aliases: ['indian', 'bengali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Bengali'], preferred: ['West Bengal'] }), hint: 'Common surname in Bengal', difficulty: 'medium' },
   { id: 'sb-sur-i014', category: 'surname', displayText: 'Bhatt', answer: 'India', aliases: ['indian', 'punjabi', 'kashmiri'], hint: 'Common surname in Kashmir and Punjab meaning "scholar"', difficulty: 'medium' },
   { id: 'sb-sur-i015', category: 'surname', displayText: 'Krishnan', answer: 'India', aliases: ['indian', 'tamil', 'malayali'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Tamil', 'Malayali'], preferred: ['Tamil Nadu'] }), hint: 'Common surname in Tamil Nadu', difficulty: 'medium' },
+  { id: 'sb-sur-i016', category: 'surname', displayText: 'Ghattamaneni', answer: 'India', aliases: ['indian', 'telugu', 'andhra', 'telangana'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Telugu'], preferred: ['Andhra Pradesh', 'Andhra', 'Telangana'] }), hint: 'Telugu surname associated with Andhra Pradesh and Telangana', difficulty: 'hard' },
+  { id: 'sb-sur-i017', category: 'surname', displayText: 'Pillai', answer: 'India', aliases: ['indian', 'sri lanka', 'sri lankan', 'tamil', 'tamil nadu'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian', 'Sri Lanka', 'Sri Lankan'], specific: ['Tamil'], preferred: ['Tamil Nadu'] }), hint: 'Tamil title and surname found especially in Tamil Nadu and Sri Lanka', difficulty: 'hard' },
+  { id: 'sb-sur-i018', category: 'surname', displayText: 'Thakur', answer: 'India', aliases: ['indian', 'nepal', 'nepali', 'north india', 'indian subcontinent'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian', 'Nepal', 'Nepali'], specific: ['Indian subcontinent'], preferred: ['North India'] }), hint: 'Title and surname used across the Indian subcontinent', difficulty: 'hard' },
+  { id: 'sb-sur-i019', category: 'surname', displayText: 'Ramasamy', answer: 'India', aliases: ['indian', 'tamil', 'tamil nadu'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['Tamil'], preferred: ['Tamil Nadu'] }), hint: 'Tamil name and surname built from Rama plus a respectful suffix', difficulty: 'hard' },
+  { id: 'sb-sur-i020', category: 'surname', displayText: 'Mishra', answer: 'India', aliases: ['indian', 'nepal', 'nepali', 'brahmin', 'north india'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian', 'Nepal', 'Nepali'], specific: ['Brahmin'], preferred: ['North India'] }), hint: 'Brahmin surname found in India and Nepal', difficulty: 'hard' },
+  { id: 'sb-sur-i021', category: 'surname', displayText: 'Jaiswal', answer: 'India', aliases: ['indian', 'north india', 'uttar pradesh'], acceptedAnswers: surnameAnswers({ broad: ['India', 'Indian'], specific: ['North India'], preferred: ['Uttar Pradesh'] }), hint: 'North Indian surname associated with trading communities', difficulty: 'hard' },
 
   // ── Sri Lanka ─────────────────────────────────────────────────────────────────
   { id: 'sb-sur-l001', category: 'surname', displayText: 'Gunawardene', answer: 'Sri Lanka', aliases: ['sri lankan', 'sinhalese'], hint: 'Common Sinhalese surname.', difficulty: 'hard' },
@@ -773,6 +782,20 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-ee016', category: 'surname', displayText: 'Kovalenko', answer: 'Ukraine', aliases: ['ukrainian'], hint: 'Very common Ukrainian surname - means "blacksmith"', difficulty: 'medium' },
   { id: 'sb-sur-ee017', category: 'surname', displayText: 'Petrov', answer: 'Russia', aliases: ['russian', 'bulgaria', 'bulgarian'], hint: 'Very common in Russia and Bulgaria - son of Peter', difficulty: 'medium' },
   { id: 'sb-sur-ee018', category: 'surname', displayText: 'Szczęsny', answer: 'Poland', aliases: ['polish'], hint: 'Polish surname meaning "lucky"', difficulty: 'medium' },
+  { id: 'sb-sur-ee019', category: 'surname', displayText: 'Szymański', answer: 'Poland', aliases: ['polish'], hint: '9th most common Polish surname - means son of Simon', difficulty: 'medium'},
+  { id: 'sb-sur-ee020', category: 'surname', displayText: 'Hradecký', answer: 'Czech Republic', aliases: ['czech', 'czechia', 'slovakia', 'slovak', 'czech republic'], hint: 'Czech and Slovak surname; the ý ending points toward West Slavic names', difficulty: 'hard' },
+  { id: 'sb-sur-ee021', category: 'surname', displayText: 'Krejčí', answer: 'Czech Republic', aliases: ['czech', 'czechia', 'czech republic'], hint: 'Czech surname meaning "tailor"; ř/č-style diacritics are a strong clue', difficulty: 'hard' },
+  { id: 'sb-sur-ee022', category: 'surname', displayText: 'Brožek', answer: 'Czech Republic', aliases: ['czech', 'czechia', 'czech republic'], hint: 'Czech surname; ž and the -ek ending are useful clues', difficulty: 'hard' },
+  { id: 'sb-sur-ee023', category: 'surname', displayText: 'Bednarek', answer: 'Poland', aliases: ['polish'], hint: 'Polish surname from bednarz, a cooper or barrel-maker', difficulty: 'hard' },
+  { id: 'sb-sur-ee024', category: 'surname', displayText: 'Křížek', answer: 'Czech Republic', aliases: ['czech', 'czechia', 'czech republic'], hint: 'Czech surname; ř and ž make the origin especially visible', difficulty: 'hard' },
+  { id: 'sb-sur-ee025', category: 'surname', displayText: 'Ibrahimović', answer: 'Bosnia and Herzegovina', aliases: ['bosnia', 'bosnian', 'bosniak', 'herzegovina', 'balkan'], hint: 'Bosnian patronymic surname meaning son of Ibrahim', difficulty: 'hard' },
+  { id: 'sb-sur-ee026', category: 'surname', displayText: 'Bajraktarević', answer: 'Bosnia and Herzegovina', aliases: ['bosnia', 'bosnian', 'bosniak', 'herzegovina', 'balkan'], hint: 'Predominantly Bosnian surname from Turkish bayraktar, meaning flag-bearer', difficulty: 'hard' },
+  { id: 'sb-sur-ee027', category: 'surname', displayText: 'Mehmedović', answer: 'Bosnia and Herzegovina', aliases: ['bosnia', 'bosnian', 'bosniak', 'herzegovina', 'balkan'], hint: 'Bosnian patronymic surname meaning son of Mehmed', difficulty: 'hard' },
+  { id: 'sb-sur-ee028', category: 'surname', displayText: 'Zieliński', answer: 'Poland', aliases: ['polish', 'zielinski'], hint: 'Polish surname from place names related to zielen, meaning green', difficulty: 'hard' },
+
+  // ── Thailand ─────────────────────────────────────────────────────────────────
+  { id: 'sb-sur-th001', category: 'surname', displayText: 'Ayutthaya', answer: 'Thailand', aliases: ['thai'], hint: 'Thai surname sharing its name with the historic kingdom and city of Ayutthaya', difficulty: 'hard' },
+  { id: 'sb-sur-th002', category: 'surname', displayText: 'Ratanakorn', answer: 'Thailand', aliases: ['thai'], hint: 'Thai surname built from elements associated with jewels and treasure', difficulty: 'hard' },
 
   // ── Ireland / Scotland / Wales ────────────────────────────────────────────────
 

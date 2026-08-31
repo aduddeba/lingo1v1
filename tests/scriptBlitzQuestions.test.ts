@@ -17,6 +17,29 @@ const REQUESTED_LANGUAGE_DIFFICULTIES = new Map([
   ['Burmese', 'hard'],
 ] as const);
 
+const REQUESTED_SURNAMES = new Map([
+  ['Hradecký', 'Czech Republic'],
+  ['Krejčí', 'Czech Republic'],
+  ['Brožek', 'Czech Republic'],
+  ['Bednarek', 'Poland'],
+  ['Křížek', 'Czech Republic'],
+  ['Ghattamaneni', 'India'],
+  ['Ibrahimović', 'Bosnia and Herzegovina'],
+  ['Bajraktarević', 'Bosnia and Herzegovina'],
+  ['Mehmedović', 'Bosnia and Herzegovina'],
+  ['Pillai', 'India'],
+  ['Thakur', 'India'],
+  ['Ramasamy', 'India'],
+  ['Mishra', 'India'],
+  ['Jaiswal', 'India'],
+  ['Ayutthaya', 'Thailand'],
+  ['Ratanakorn', 'Thailand'],
+  ['Giang', 'Vietnam'],
+  ['Hồ', 'Vietnam'],
+  ['Pan', 'China'],
+  ['Zieliński', 'Poland'],
+] as const);
+
 describe('Script Blitz language question bank', () => {
   it('includes the requested languages at the requested difficulties', () => {
     for (const [language, difficulty] of REQUESTED_LANGUAGE_DIFFICULTIES) {
@@ -28,6 +51,19 @@ describe('Script Blitz language question bank', () => {
       assert.equal(question.difficulty, difficulty);
       assert.ok(question.displayText.trim(), `${language} should have display text`);
       assert.ok(question.aliases.length > 0, `${language} should have aliases`);
+    }
+  });
+
+  it('includes the requested surnames as hard surname questions', () => {
+    for (const [surname, answer] of REQUESTED_SURNAMES) {
+      const question = SCRIPT_BLITZ_QUESTIONS.find(
+        (candidate) => candidate.category === 'surname' && candidate.displayText === surname
+      );
+
+      assert.ok(question, `${surname} should be present`);
+      assert.equal(question.answer, answer);
+      assert.equal(question.difficulty, 'hard');
+      assert.ok(question.aliases.length > 0, `${surname} should have aliases`);
     }
   });
 });
