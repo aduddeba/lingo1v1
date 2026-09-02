@@ -31,6 +31,66 @@ const KANNADA_ALIASES  = ['kannada script', 'kannada alphabet'];
 const MALAYALAM_ALIASES = ['malayalam script', 'malayalam alphabet'];
 const SINHALA_ALIASES  = ['sinhala script', 'sinhala alphabet', 'sinhalese', 'sinhalese script'];
 const ETHIOPIC_ALIASES = ["ge'ez", 'geez', 'ethiopic script', 'fidel', "ge'ez script"];
+const WIDELY_USED_MUSLIM_SURNAME_COUNTRIES = [
+  'Pakistan',
+  'India',
+  'Bangladesh',
+  'Afghanistan',
+  'Saudi Arabia',
+  'United Arab Emirates',
+  'UAE',
+  'Kuwait',
+  'Yemen',
+  'Oman',
+  'Egypt',
+  'Libya',
+  'Tunisia',
+  'Algeria',
+  'Mauritania',
+  'Sudan',
+  'Morocco',
+  'Qatar',
+  'Bahrain',
+  'Iraq',
+  'Jordan',
+  'Syria',
+  'Lebanon',
+  'Palestine',
+  'Iran',
+  'Turkey',
+] as const;
+const WIDELY_USED_MUSLIM_SURNAME_ALIASES = [
+  ...WIDELY_USED_MUSLIM_SURNAME_COUNTRIES,
+  'pakistani',
+  'indian',
+  'bengali',
+  'bangladeshi',
+  'afghan',
+  'saudi',
+  'emirati',
+  'arab',
+  'arabic',
+  'kuwaiti',
+  'yemeni',
+  'omani',
+  'egyptian',
+  'libyan',
+  'tunisian',
+  'algerian',
+  'mauritanian',
+  'sudanese',
+  'moroccan',
+  'qatari',
+  'bahraini',
+  'iraqi',
+  'jordanian',
+  'syrian',
+  'lebanese',
+  'palestinian',
+  'iranian',
+  'persian',
+  'turkish',
+] as const;
 
 function surnameAnswers(input: {
   broad: readonly string[];
@@ -42,6 +102,10 @@ function surnameAnswers(input: {
     ...(input.specific ?? []).map((value) => ({ value, specificity: 'specific' }) as const),
     ...(input.preferred ?? []).map((value) => ({ value, specificity: 'preferred' }) as const),
   ];
+}
+
+function widelyUsedMuslimSurnameAnswers(): AcceptedAnswer[] {
+  return surnameAnswers({ broad: WIDELY_USED_MUSLIM_SURNAME_ALIASES });
 }
 
 export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
@@ -685,15 +749,15 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
 
   // ── Pakistan / Muslim South Asia ──────────────────────────────────────────────
 
-  { id: 'sb-sur-p001', category: 'surname', displayText: 'Khan', answer: 'Pakistan', aliases: ['india', 'afghanistan', 'indian', 'pakistani', 'afghan', 'central asia'], hint: 'Most common surname in Pakistan; also widespread in India and Afghanistan', difficulty: 'medium' },
-  { id: 'sb-sur-p002', category: 'surname', displayText: 'Qureshi', answer: 'Pakistan', aliases: ['pakistani', 'india', 'indian'], hint: 'Descended from the Quraysh tribe - very common in Pakistan', difficulty: 'medium' },
-  { id: 'sb-sur-p003', category: 'surname', displayText: 'Malik', answer: 'Pakistan', aliases: ['pakistani', 'india', 'indian', 'arab'], hint: 'Common across Pakistan and Muslim India', difficulty: 'hard' },
+  { id: 'sb-sur-p001', category: 'surname', displayText: 'Khan', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES, 'central asia'], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Most common surname in Pakistan; also widespread across Muslim communities', difficulty: 'medium' },
+  { id: 'sb-sur-p002', category: 'surname', displayText: 'Qureshi', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Descended from the Quraysh tribe; common across Muslim communities', difficulty: 'medium' },
+  { id: 'sb-sur-p003', category: 'surname', displayText: 'Malik', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Common across Pakistan, Muslim South Asia, and the wider Muslim world', difficulty: 'hard' },
   { id: 'sb-sur-p004', category: 'surname', displayText: 'Chaudhry', answer: 'Pakistan', aliases: ['pakistani', 'india', 'indian', 'bengali', 'bangladesh', 'chaudhary'], hint: 'Landowner title-turned-surname in Punjab (Pakistan and India)', difficulty: 'hard' },
-  { id: 'sb-sur-p005', category: 'surname', displayText: 'Shah', answer: 'India', aliases: ['pakistan', 'iran', 'persian', 'india', 'indian', 'pakistani', 'nepal', 'bangladesh'], hint: 'Means "king" - found across South Asia and Iran', difficulty: 'medium' },
-  { id: 'sb-sur-p006', category: 'surname', displayText: 'Raza', answer: 'Pakistan', aliases: ['pakistan', 'india', 'indian', 'pakistani'], hint: 'Common across Muslims in South Asia.', difficulty: 'medium' },
-  { id: 'sb-sur-p007', category: 'surname', displayText: 'Ahmed', answer: 'Pakistan', aliases: ['pakistan', 'india', 'indian', 'pakistani', 'bengali', 'bangladesh'], hint: 'Commonly used as a last name and a first name in Muslim South Asia.', difficulty: 'medium' },
-  { id: 'sb-sur-p008', category: 'surname', displayText: 'Mustafa', answer: 'Pakistan', aliases: ['pakistan', 'india', 'indian', 'pakistani', 'bengali', 'bangladesh'], hint: 'Commonly used as a last name and a first name in Muslim South Asia.', difficulty: 'medium' },
-  { id: 'sb-sur-p009', category: 'surname', displayText: 'Sharif', answer: 'Pakistan', aliases: ['pakistan', 'india', 'indian', 'pakistani', 'bengali', 'bangladesh', 'iran', 'persian'], hint: 'Commonly used as a last name and a first name in Muslim South Asia.', difficulty: 'medium' },
+  { id: 'sb-sur-p005', category: 'surname', displayText: 'Shah', answer: 'India', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES, 'nepal'], acceptedAnswers: surnameAnswers({ broad: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES, 'Nepal', 'Nepali'] }), hint: 'Means "king" - found across South Asia, Iran, and the wider Muslim world', difficulty: 'medium' },
+  { id: 'sb-sur-p006', category: 'surname', displayText: 'Raza', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Common across Muslims in South Asia and beyond.', difficulty: 'medium' },
+  { id: 'sb-sur-p007', category: 'surname', displayText: 'Ahmed', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Commonly used as a last name and first name across Muslim communities.', difficulty: 'medium' },
+  { id: 'sb-sur-p008', category: 'surname', displayText: 'Mustafa', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Commonly used as a last name and first name across Muslim communities.', difficulty: 'medium' },
+  { id: 'sb-sur-p009', category: 'surname', displayText: 'Sharif', answer: 'Pakistan', aliases: [...WIDELY_USED_MUSLIM_SURNAME_ALIASES], acceptedAnswers: widelyUsedMuslimSurnameAnswers(), hint: 'Commonly used as a last name and first name across Muslim communities.', difficulty: 'medium' },
 
   // ── Germany ───────────────────────────────────────────────────────────────────
 
