@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
+import { firebaseAuth } from '@/lib/firebase/client';
 import { useAuthStore, useGameStore, usePlayerStore } from '@/store';
 import { disconnectSocket } from '@/lib/socket/client';
 import { ThemeToggle } from '@/components/ui';
@@ -17,7 +19,10 @@ export function Header() {
   const router = useRouter();
 
   const handleLogout = () => {
-    void fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).finally(() => {
+    void Promise.all([
+      fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }),
+      signOut(firebaseAuth).catch(() => undefined),
+    ]).finally(() => {
       clearSession();
       clearPlayer();
       disconnectSocket();

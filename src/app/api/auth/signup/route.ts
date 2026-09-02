@@ -4,18 +4,16 @@ import { AuthError, signup } from '@/lib/auth/service';
 
 interface SignupBody {
   username?: unknown;
-  email?: unknown;
-  password?: unknown;
+  idToken?: unknown;
 }
 
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as SignupBody | null;
   const username = typeof body?.username === 'string' ? body.username : '';
-  const email = typeof body?.email === 'string' ? body.email : '';
-  const password = typeof body?.password === 'string' ? body.password : '';
+  const idToken = typeof body?.idToken === 'string' ? body.idToken : '';
 
   try {
-    const { user, token } = await signup({ username, email, password });
+    const { user, token } = await signup({ username, idToken });
     await setSessionCookie(token);
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {

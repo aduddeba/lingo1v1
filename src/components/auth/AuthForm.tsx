@@ -2,7 +2,14 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  createUserWithEmailAndPassword,
+  deleteUser,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 import { Button, Card, Input } from '@/components/ui';
+import { firebaseAuth } from '@/lib/firebase/client';
 import { useAuthStore, usePlayerStore } from '@/store';
 import { userToPlayer } from '@/providers/AuthProvider';
 import type { PublicUser } from '@/types';
@@ -30,30 +37,60 @@ export function AuthForm() {
     setError(null);
     setIsLoading(true);
 
+    let createdFirebaseUser = false;
+    let idToken = '';
+    let useLegacyPasswordLogin = false;
+
+    try {
+      const credential =
+        mode === 'signup'
+          ? await createUserWithEmailAndPassword(firebaseAuth, email.trim(), password)
+          : await signInWithEmailAndPassword(firebaseAuth, email.trim(), password);
+      createdFirebaseUser = mode === 'signup';
+      idToken = await credential.user.getIdToken();
+    } catch {
+      if (mode === 'signup') {
+        setIsLoading(false);
+        setError('Invalid email or password.');
+        return;
+      }
+
+      useLegacyPasswordLogin = true;
+    }
+
     const response = await fetch(`/api/auth/${mode}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify(
-        mode === 'signup'
-          ? { username: username.trim(), email: email.trim(), password }
-          : { email: email.trim(), password }
+        useLegacyPasswordLogin
+          ? { email: email.trim(), password }
+          : mode === 'signup'
+          ? { username: username.trim(), idToken }
+          : { idToken }
       ),
     }).catch(() => null);
 
     setIsLoading(false);
 
     if (!response) {
+      if (createdFirebaseUser && firebaseAuth.currentUser) {
+        await deleteUser(firebaseAuth.currentUser).catch(() => undefined);
+      }
       setError('Unable to reach the server.');
       return;
     }
 
     const data = (await response.json().catch(() => ({}))) as AuthResponse;
     if (!response.ok || !data.user) {
+      if (createdFirebaseUser && firebaseAuth.currentUser) {
+        await deleteUser(firebaseAuth.currentUser).catch(() => undefined);
+      }
       setError(data.error ?? 'Authentication failed.');
       return;
     }
 
+    await signOut(firebaseAuth).catch(() => undefined);
     setSession(data.user);
     setPlayer(userToPlayer(data.user));
     router.push('/lobby');

@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { SESSION_DURATION_SECONDS } from './constants';
+import { FIREBASE_SESSION_DURATION_SECONDS, SESSION_DURATION_SECONDS } from './constants';
+import { getFirebaseAdminAuth } from '@/lib/firebase/admin';
 
 export interface SessionClaims {
   sub: string;
@@ -91,6 +92,38 @@ export function createSessionToken(input: {
 export function verifySessionToken(token: string | undefined | null): SessionClaims | null {
   const claims = verifySignedToken(token);
   return claims?.purpose === 'session' ? claims : null;
+}
+
+export async function createFirebaseSessionCookie(idToken: string): Promise<string> {
+  return getFirebaseAdminAuth().createSessionCookie(idToken, {
+    expiresIn: FIREBASE_SESSION_DURATION_SECONDS * 1000,
+  });
+}
+
+export async function verifyFirebaseSessionCookie(
+  sessionCookie: string | undefined | null
+): Promise<SessionClaims | null> {
+  if (!sessionCookie) return null;
+
+  try {
+    const decoded = await getFirebaseAdminAuth().verifySessionCookie(sessionCookie, true);
+    if (!decoded.uid) return null;
+
+    return {
+      sub: decoded.uid,
+      username:
+        typeof decoded['username'] === 'string'
+          ? decoded['username']
+          : typeof decoded.name === 'string'
+            ? decoded.name
+            : '',
+      email: typeof decoded.email === 'string' ? decoded.email : '',
+      exp: decoded.exp,
+      purpose: 'session',
+    };
+  } catch {
+    return null;
+  }
 }
 
 export function createSocketAuthToken(input: {

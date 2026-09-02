@@ -3,6 +3,7 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import { FIREBASE_SESSION_DURATION_SECONDS } from '@/lib/auth/constants';
 import { createSocketAuthToken, verifySessionToken, verifySocketAuthToken } from '@/lib/auth/session';
 import { AuthError, getOwnUserFromToken, login, sessionFromToken, signup } from '@/lib/auth/service';
 
@@ -21,6 +22,14 @@ afterEach(async () => {
 });
 
 describe('authentication and persistent users', () => {
+  it('keeps Firebase session cookie duration within Firebase limits', () => {
+    const fiveMinutes = 60 * 5;
+    const twoWeeks = 60 * 60 * 24 * 14;
+
+    assert.ok(FIREBASE_SESSION_DURATION_SECONDS >= fiveMinutes);
+    assert.ok(FIREBASE_SESSION_DURATION_SECONDS <= twoWeeks);
+  });
+
   it('creates an account with default ranked fields and no exposed password hash', async () => {
     const { user } = await signup({
       username: 'Polyglot',

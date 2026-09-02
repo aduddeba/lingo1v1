@@ -1,12 +1,22 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
 import { createServer } from 'node:http';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Server } from 'socket.io';
 import { SESSION_COOKIE_NAME } from '@/lib/auth/constants';
-import { parseCookieHeader, verifySessionToken, verifySocketAuthToken } from '@/lib/auth/session';
+import {
+  parseCookieHeader,
+  verifyFirebaseSessionCookie,
+  verifySocketAuthToken,
+} from '@/lib/auth/session';
 import { getPublicUserById } from '@/lib/auth/users';
 import type { AppSocket } from './types';
 import { registerLobbyHandlers } from './matchmaking';
 import { matches, socketToMatch } from './state';
+
+const serverDir = path.dirname(fileURLToPath(import.meta.url));
+config({ path: path.resolve(serverDir, '../../.env') });
+config();
 
 const PORT = Number(process.env['PORT'] ?? 3001);
 const HOST = process.env['HOST'] ?? '0.0.0.0';
@@ -39,7 +49,9 @@ io.use(async (socket: AppSocket, next) => {
   const authToken =
     typeof socket.handshake.auth['token'] === 'string' ? socket.handshake.auth['token'] : undefined;
   const cookies = parseCookieHeader(socket.handshake.headers.cookie);
-  const claims = verifySocketAuthToken(authToken) ?? verifySessionToken(cookies[SESSION_COOKIE_NAME]);
+  const claims =
+    verifySocketAuthToken(authToken) ??
+    (await verifyFirebaseSessionCookie(cookies[SESSION_COOKIE_NAME]));
   if (!claims) {
     next();
     return;

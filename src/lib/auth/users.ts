@@ -1,10 +1,12 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import type { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore';
+import { getFirebaseAdminDb, isFirebaseAdminConfigured } from '@/lib/firebase/admin';
 import type { MatchCompletionReason, PublicUser } from '@/types';
 
 export interface StoredUser extends PublicUser {
-  passwordHash: string;
+  passwordHash?: string;
 }
 
 export interface StoredMatchResult {
@@ -99,6 +101,14 @@ export interface UserDatabase {
 
 let transactionQueue = Promise.resolve();
 
+const USERS_COLLECTION = 'users';
+const MATCHES_COLLECTION = 'matches';
+const RATING_HISTORY_COLLECTION = 'ratingHistory';
+
+function shouldUseFirestorePersistence(): boolean {
+  return process.env['LINGO_AUTH_STORE'] !== 'json' && isFirebaseAdminConfigured();
+}
+
 function dataFilePath(): string {
   const cwd = process.cwd();
   const defaultDataDir =
@@ -124,7 +134,7 @@ function toPublicUser(user: StoredUser): PublicUser {
   };
 }
 
-async function readDatabase(): Promise<UserDatabase> {
+async function readJsonDatabase(): Promise<UserDatabase> {
   const filePath = dataFilePath();
   try {
     const raw = await readFile(filePath, 'utf8');
@@ -142,7 +152,17 @@ async function readDatabase(): Promise<UserDatabase> {
   }
 }
 
+async function readDatabase(): Promise<UserDatabase> {
+  if (shouldUseFirestorePersistence()) return readFirestoreDatabase();
+  return readJsonDatabase();
+}
+
 async function writeDatabase(database: UserDatabase): Promise<void> {
+  if (shouldUseFirestorePersistence()) {
+    await writeFirestoreDatabase(database);
+    return;
+  }
+
   const filePath = dataFilePath();
   await mkdir(path.dirname(filePath), { recursive: true });
   const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
@@ -150,9 +170,89 @@ async function writeDatabase(database: UserDatabase): Promise<void> {
   await rename(tempPath, filePath);
 }
 
+function snapshotData<T extends { id: string }>(snapshot: QueryDocumentSnapshot<DocumentData>): T {
+  return { id: snapshot.id, ...snapshot.data() } as T;
+}
+
+async function readFirestoreDatabase(): Promise<UserDatabase> {
+  const db = getFirebaseAdminDb();
+  const [users, matches, ratingHistory] = await Promise.all([
+    db.collection(USERS_COLLECTION).get(),
+    db.collection(MATCHES_COLLECTION).get(),
+    db.collection(RATING_HISTORY_COLLECTION).get(),
+  ]);
+
+  return {
+    users: users.docs.map((doc) => snapshotData<StoredUser>(doc)),
+    matches: matches.docs.map((doc) => snapshotData<StoredMatchResult>(doc)),
+    ratingHistory: ratingHistory.docs.map((doc) => snapshotData<StoredRatingHistoryEntry>(doc)),
+  };
+}
+
+function withoutUndefined<T extends object>(value: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entryValue]) => entryValue !== undefined)
+  ) as Partial<T>;
+}
+
+async function writeFirestoreDatabase(database: UserDatabase): Promise<void> {
+  const db = getFirebaseAdminDb();
+  const batch = db.batch();
+
+  for (const user of database.users) {
+    batch.set(db.collection(USERS_COLLECTION).doc(user.id), withoutUndefined(user));
+  }
+
+  for (const match of database.matches) {
+    batch.set(db.collection(MATCHES_COLLECTION).doc(match.id), withoutUndefined(match));
+  }
+
+  for (const entry of database.ratingHistory) {
+    batch.set(db.collection(RATING_HISTORY_COLLECTION).doc(entry.id), withoutUndefined(entry));
+  }
+
+  await batch.commit();
+}
+
 export async function runUserDatabaseTransaction<T>(
   callback: (database: UserDatabase) => T | Promise<T>
 ): Promise<T> {
+  if (shouldUseFirestorePersistence()) {
+    const db = getFirebaseAdminDb();
+
+    return db.runTransaction(async (transaction) => {
+      const usersRef = db.collection(USERS_COLLECTION);
+      const matchesRef = db.collection(MATCHES_COLLECTION);
+      const ratingHistoryRef = db.collection(RATING_HISTORY_COLLECTION);
+      const [users, matches, ratingHistory] = await Promise.all([
+        transaction.get(usersRef),
+        transaction.get(matchesRef),
+        transaction.get(ratingHistoryRef),
+      ]);
+
+      const database: UserDatabase = {
+        users: users.docs.map((doc) => snapshotData<StoredUser>(doc)),
+        matches: matches.docs.map((doc) => snapshotData<StoredMatchResult>(doc)),
+        ratingHistory: ratingHistory.docs.map((doc) => snapshotData<StoredRatingHistoryEntry>(doc)),
+      };
+      const result = await callback(database);
+
+      for (const user of database.users) {
+        transaction.set(usersRef.doc(user.id), withoutUndefined(user));
+      }
+
+      for (const match of database.matches) {
+        transaction.set(matchesRef.doc(match.id), withoutUndefined(match));
+      }
+
+      for (const entry of database.ratingHistory) {
+        transaction.set(ratingHistoryRef.doc(entry.id), withoutUndefined(entry));
+      }
+
+      return result;
+    });
+  }
+
   const run = async (): Promise<T> => {
     const database = await readDatabase();
     const result = await callback(database);
@@ -169,9 +269,10 @@ export async function runUserDatabaseTransaction<T>(
 }
 
 export async function createUser(input: {
+  id?: string;
   username: string;
   email: string;
-  passwordHash: string;
+  passwordHash?: string;
 }): Promise<PublicUser> {
   const username = input.username.trim();
   const email = normalizeEmail(input.email);
@@ -186,16 +287,16 @@ export async function createUser(input: {
   }
 
   const user: StoredUser = {
-    id: randomUUID(),
+    id: input.id ?? randomUUID(),
     username,
     email,
-    passwordHash: input.passwordHash,
     eloRating: 1000,
     wins: 0,
     losses: 0,
     gamesPlayed: 0,
     createdAt: Date.now(),
   };
+  if (input.passwordHash) user.passwordHash = input.passwordHash;
 
   database.users.push(user);
   await writeDatabase(database);
@@ -207,6 +308,11 @@ export async function findUserByEmail(email: string): Promise<StoredUser | null>
   return database.users.find((user) => user.email === normalizeEmail(email)) ?? null;
 }
 
+export async function findLegacyJsonUserByEmail(email: string): Promise<StoredUser | null> {
+  const database = await readJsonDatabase();
+  return database.users.find((user) => user.email === normalizeEmail(email)) ?? null;
+}
+
 export async function findUserById(id: string): Promise<StoredUser | null> {
   const database = await readDatabase();
   return database.users.find((user) => user.id === id) ?? null;
@@ -215,6 +321,50 @@ export async function findUserById(id: string): Promise<StoredUser | null> {
 export async function getPublicUserById(id: string): Promise<PublicUser | null> {
   const user = await findUserById(id);
   return user ? toPublicUser(user) : null;
+}
+
+export async function importLegacyJsonUserData(userId: string): Promise<PublicUser | null> {
+  const legacyDatabase = await readJsonDatabase();
+  const legacyUser = legacyDatabase.users.find((user) => user.id === userId);
+  if (!legacyUser) return null;
+
+  return runUserDatabaseTransaction((database) => {
+    const existingUser = database.users.find((user) => user.id === legacyUser.id);
+    if (!existingUser) {
+      const importedUser: StoredUser = {
+        id: legacyUser.id,
+        username: legacyUser.username,
+        email: normalizeEmail(legacyUser.email),
+        eloRating: legacyUser.eloRating,
+        wins: legacyUser.wins,
+        losses: legacyUser.losses,
+        gamesPlayed: legacyUser.gamesPlayed,
+        createdAt: legacyUser.createdAt,
+      };
+      database.users.push(importedUser);
+    }
+
+    const matchIds = new Set(database.matches.map((match) => match.id));
+    for (const match of legacyDatabase.matches) {
+      if (
+        !matchIds.has(match.id) &&
+        (match.player1Id === legacyUser.id || match.player2Id === legacyUser.id)
+      ) {
+        database.matches.push(match);
+        matchIds.add(match.id);
+      }
+    }
+
+    const historyIds = new Set(database.ratingHistory.map((entry) => entry.id));
+    for (const entry of legacyDatabase.ratingHistory) {
+      if (!historyIds.has(entry.id) && entry.userId === legacyUser.id) {
+        database.ratingHistory.push(entry);
+        historyIds.add(entry.id);
+      }
+    }
+
+    return toPublicUser(existingUser ?? legacyUser);
+  });
 }
 
 export async function getRatingHistoryForUser(
