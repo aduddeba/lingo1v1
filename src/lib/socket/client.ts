@@ -5,15 +5,35 @@ export type AppSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 let socket: AppSocket | null = null;
 
+function isLoopbackHost(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+}
+
+function getSocketUrl(): string {
+  const fallbackUrl = `${window.location.protocol}//${window.location.hostname}:3001`;
+  const configuredUrl = process.env['NEXT_PUBLIC_SOCKET_URL'];
+  if (!configuredUrl) return fallbackUrl;
+
+  try {
+    const parsedUrl = new URL(configuredUrl);
+    if (isLoopbackHost(parsedUrl.hostname) && !isLoopbackHost(window.location.hostname)) {
+      parsedUrl.hostname = window.location.hostname;
+      return parsedUrl.toString();
+    }
+
+    return configuredUrl;
+  } catch {
+    return fallbackUrl;
+  }
+}
+
 export function getSocket(): AppSocket {
   if (typeof window === 'undefined') {
     throw new Error('getSocket() must only be called on the client side.');
   }
 
   if (!socket) {
-    const socketUrl =
-      process.env['NEXT_PUBLIC_SOCKET_URL'] ??
-      `${window.location.protocol}//${window.location.hostname}:3001`;
+    const socketUrl = getSocketUrl();
 
     socket = io(socketUrl, {
       autoConnect: false,

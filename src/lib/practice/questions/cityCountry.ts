@@ -1,4 +1,4 @@
-import type { CityCountryQuestion } from '@/types/practice';
+import type { AcceptedAnswer, CityCountryQuestion } from '@/types/practice';
 
 // ─── City → Country question bank ─────────────────────────────────────────────
 // Player types the country name; matching is forgiving (see cityCountryEngine's
@@ -8,6 +8,16 @@ import type { CityCountryQuestion } from '@/types/practice';
 // difficulty 1: iconic capitals/cities
 // difficulty 2: well-known but non-obvious cities (not always the capital)
 // difficulty 3: lesser-known capitals - easy to confuse with neighboring countries
+
+function cityAnswers(input: {
+  broad: readonly string[];
+  preferred?: readonly string[];
+}): AcceptedAnswer[] {
+  return [
+    ...input.broad.map((value) => ({ value, specificity: 'broad' }) as const),
+    ...(input.preferred ?? []).map((value) => ({ value, specificity: 'preferred' }) as const),
+  ];
+}
 
 export const CITY_COUNTRY_QUESTIONS: CityCountryQuestion[] = [
   // ── Easy ──────────────────────────────────────────────────────────────────
@@ -86,7 +96,8 @@ export const CITY_COUNTRY_QUESTIONS: CityCountryQuestion[] = [
 
   // ── Medium ────────────────────────────────────────────────────────────────
   { id: 'cc-m-001', type: 'city_country', city: 'Barcelona', continent: 'Europe',
-    prompt: 'Which country is Barcelona in?', answer: 'Spain', aliases: [],
+    prompt: 'Which country is Barcelona in?', answer: 'Spain', aliases: ['Catalonia', 'Catalunya'],
+    acceptedAnswers: cityAnswers({ broad: ['Spain', 'Spanish'], preferred: ['Catalonia', 'Catalunya'] }),
     explanation: 'Barcelona is the capital of the autonomous region of Catalonia.', difficulty: 2 },
   { id: 'cc-m-002', type: 'city_country', city: 'Munich', continent: 'Europe',
     prompt: 'Which country is Munich in?', answer: 'Germany', aliases: [],
@@ -309,4 +320,18 @@ export const CITY_COUNTRY_QUESTIONS: CityCountryQuestion[] = [
   { id: 'cc-h-034', type: 'city_country', city: 'Nizhny Novgorod', continent: 'Europe',
     prompt: 'Which country is Nizhny Novgorod in?', answer: 'Russia', aliases: ['Nizhniy Novgorod'],
     explanation: 'Nizhny Novgorod sits at the confluence of the Volga and Oka rivers and was closed to foreigners for decades during the Soviet era.', difficulty: 3 },
+  { id: 'cc-h-035', type: 'city_country', city: 'Nuwara Eliya', continent: 'Asia',
+    prompt: 'Which country is Nuwara Eliya in?', answer: 'Sri Lanka', aliases: ['Sri Lankan'],
+    explanation: 'Nuwara Eliya is a hill-country city in Sri Lanka known for tea estates and cool highland weather.', difficulty: 3 },
+  { id: 'cc-h-036', type: 'city_country', city: 'Jaffna', continent: 'Asia',
+    prompt: 'Which country is Jaffna in?', answer: 'Sri Lanka', aliases: ['Sri Lankan'],
+    explanation: 'Jaffna is a major city in northern Sri Lanka and a historic center of Sri Lankan Tamil culture.', difficulty: 3 },
+  { id: 'cc-h-037', type: 'city_country', city: 'Rajamahendravaram', continent: 'Asia',
+    prompt: 'Which country is Rajamahendravaram in?', answer: 'India', aliases: ['Andhra Pradesh', 'Andhra'],
+    acceptedAnswers: cityAnswers({ broad: ['India', 'Indian'], preferred: ['Andhra Pradesh', 'Andhra'] }),
+    explanation: 'Rajamahendravaram, also called Rajahmundry, is a city in Andhra Pradesh, India.', difficulty: 3 },
+  { id: 'cc-h-038', type: 'city_country', city: 'Ballari', continent: 'Asia',
+    prompt: 'Which country is Ballari in?', answer: 'India', aliases: ['Karnataka', 'Bellary'],
+    acceptedAnswers: cityAnswers({ broad: ['India', 'Indian'], preferred: ['Karnataka'] }),
+    explanation: 'Ballari, also known as Bellary, is a city in Karnataka, India.', difficulty: 3 },
 ];

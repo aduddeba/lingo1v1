@@ -414,6 +414,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-uzb-001', category: 'language', displayText: 'O‘zbekiston go‘zal mamlakat', answer: 'Uzbek', aliases: ['o‘zbek', 'ozbek', 'uzbek language'], hint: 'Uzbek text in Latin script; look for O‘zbekiston and the okina-like mark', difficulty: 'hard' },
   { id: 'sb-kaz-001', category: 'language', displayText: 'Сәлеметсіз бе?', answer: 'Kazakh', aliases: ['qazaq', 'kazakh language'], hint: 'A Kazakh greeting; ә and і distinguish it from Russian Cyrillic', difficulty: 'hard' },
   { id: 'sb-kur-001', category: 'language', displayText: 'Tu çawa yî?', answer: 'Kurdish', aliases: ['kurmanji', 'sorani', 'kurdish language'], hint: 'How are you? - Kurmanji Kurdish in Latin script', difficulty: 'hard' },
+  { id: 'sb-cat-001', category: 'language', displayText: 'Bon dia, com estàs?', answer: 'Catalan', aliases: ['català', 'catala', 'catalan language'], hint: 'Good morning, how are you? - Catalan shares Romance vocabulary but keeps forms like estàs', difficulty: 'medium' },
+  { id: 'sb-aze-001', category: 'language', displayText: 'Salam, necəsən?', answer: 'Azeri', aliases: ['azerbaijani', 'azeri language', 'azerbaijani language', 'azərbaycan dili'], hint: 'Azerbaijani greeting; ə is a strong clue, and the language is Turkic', difficulty: 'hard' },
   { id: 'sb-lao-001', category: 'language', displayText: 'ສະບາຍດີ', answer: 'Lao', aliases: ['laotian', 'lao language'], hint: 'A Lao greeting; the script resembles Thai but has its own rounded forms', difficulty: 'hard' },
   { id: 'sb-bur-001', category: 'language', displayText: 'မင်္ဂလာပါ', answer: 'Burmese', aliases: ['myanmar', 'myanmar language', 'burmese language'], hint: 'A Burmese greeting written in the rounded Myanmar script', difficulty: 'hard' },
   { id: 'sb-khm-001', category: 'language', displayText: 'សូមស្វាគមន៍', answer: 'Khmer', aliases: ['cambodia', 'cambodia language'], hint: '\'Your welcome\' in Khmer. Khmer is spoken primarily in Cambodia.', difficulty: 'hard'},
@@ -826,6 +828,27 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-sc012', category: 'surname', displayText: 'Eriksen', answer: 'Norway', aliases: ['norwegian'], hint: 'Son of Erik - the -sen ending marks it as Norwegian/Danish', difficulty: 'hard' },
   { id: 'sb-sur-sc013', category: 'surname', displayText: 'Hansen', answer: 'Norway', aliases: ['norwegian', 'denmark', 'danish'], hint: 'Son of Hans - more common in Norway than Denmark', difficulty: 'medium' },
 
+  // ── Finland ───────────────────────────────────────────────────────────────────
+
+  { id: 'sb-sur-fi001', category: 'surname', displayText: 'Saarinen', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname from saari, meaning island; the -nen ending is a strong clue', difficulty: 'hard' },
+  { id: 'sb-sur-fi002', category: 'surname', displayText: 'Eskelinen', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname with the characteristic -nen ending', difficulty: 'hard' },
+  { id: 'sb-sur-fi003', category: 'surname', displayText: 'Jääskeläinen', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname; the double vowels, ä, and -nen ending point strongly to Finland', difficulty: 'hard' },
+  { id: 'sb-sur-fi004', category: 'surname', displayText: 'Hakanpää', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname; pää means head or end, and ä is a useful clue', difficulty: 'hard' },
+  { id: 'sb-sur-fi005', category: 'surname', displayText: 'Elomo', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname; short Finnish names often preserve rounded vowel patterns', difficulty: 'hard' },
+  { id: 'sb-sur-fi006', category: 'surname', displayText: 'Korhonen', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'One of Finland\'s most common surnames; the -nen ending is a strong clue', difficulty: 'hard' },
+  { id: 'sb-sur-fi007', category: 'surname', displayText: 'Mäkinen', answer: 'Finland', aliases: ['finnish', 'suomi', 'makinen'], hint: 'Finnish surname from mäki, meaning hill; also writable as Makinen', difficulty: 'hard' },
+  { id: 'sb-sur-fi008', category: 'surname', displayText: 'Laine', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Common Finnish surname meaning wave', difficulty: 'hard' },
+  { id: 'sb-sur-fi009', category: 'surname', displayText: 'Niemi', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Common Finnish surname meaning peninsula or cape', difficulty: 'hard' },
+  { id: 'sb-sur-fi010', category: 'surname', displayText: 'Aalto', answer: 'Finland', aliases: ['finnish', 'suomi'], hint: 'Finnish surname meaning wave; familiar from architect Alvar Aalto', difficulty: 'hard' },
+
+  // ── Iceland ───────────────────────────────────────────────────────────────────
+
+  { id: 'sb-sur-is001', category: 'surname', displayText: 'Jónsdóttir', answer: 'Iceland', aliases: ['icelandic', 'iceland'], hint: 'Icelandic patronymic surname meaning daughter of Jón', difficulty: 'hard' },
+  { id: 'sb-sur-is002', category: 'surname', displayText: 'Sigurðsson', answer: 'Iceland', aliases: ['icelandic', 'iceland'], hint: 'Icelandic patronymic surname meaning son of Sigurður', difficulty: 'hard' },
+  { id: 'sb-sur-is003', category: 'surname', displayText: 'Björnsson', answer: 'Iceland', aliases: ['icelandic', 'iceland'], hint: 'Icelandic patronymic surname meaning son of Björn', difficulty: 'hard' },
+  { id: 'sb-sur-is004', category: 'surname', displayText: 'Þorsteinsson', answer: 'Iceland', aliases: ['icelandic', 'iceland'], hint: 'Icelandic patronymic surname; þ and -sson are strong clues', difficulty: 'hard' },
+  { id: 'sb-sur-is005', category: 'surname', displayText: 'Sævarsdóttir', answer: 'Iceland', aliases: ['icelandic', 'iceland'], hint: 'Icelandic patronymic surname; æ and -dóttir point to Iceland', difficulty: 'hard' },
+
   // ── Eastern Europe ────────────────────────────────────────────────────────────
 
   { id: 'sb-sur-ee001', category: 'surname', displayText: 'Nowak', answer: 'Poland', aliases: ['polish'], hint: 'The most common surname in Poland - means "newcomer"', difficulty: 'easy' },
@@ -838,6 +861,7 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-ee008', category: 'surname', displayText: 'Nagy', answer: 'Hungary', aliases: ['hungarian'], hint: 'The most common Hungarian surname - means "big"', difficulty: 'easy' },
   { id: 'sb-sur-ee009', category: 'surname', displayText: 'Kovács', answer: 'Hungary', aliases: ['hungarian'], hint: 'Second most common in Hungary - means "blacksmith"', difficulty: 'easy' },
   { id: 'sb-sur-ee010', category: 'surname', displayText: 'Szabó', answer: 'Hungary', aliases: ['hungarian'], hint: 'Fourth most common in Hungary - means "tailor"', difficulty: 'medium' },
+  { id: 'sb-sur-ee031', category: 'surname', displayText: 'Csőke', answer: 'Hungary', aliases: ['hungarian'], hint: 'Hungarian surname; ő and the final -e are useful orthographic clues', difficulty: 'hard' },
   { id: 'sb-sur-ee011', category: 'surname', displayText: 'Papadopoulos', answer: 'Greece', aliases: ['greek'], hint: 'The most common Greek surname - means "son of a priest"', difficulty: 'easy' },
   { id: 'sb-sur-ee012', category: 'surname', displayText: 'Georgiou', answer: 'Greece', aliases: ['greek', 'cyprus', 'cypriot'], hint: 'Common in Greece and Cyprus - son of Georgios', difficulty: 'medium' },
   { id: 'sb-sur-ee013', category: 'surname', displayText: 'Ivanov', answer: 'Russia', aliases: ['russian', 'bulgaria', 'bulgarian'], hint: 'Most common in Russia and Bulgaria - son of Ivan', difficulty: 'easy' },
@@ -856,6 +880,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-ee026', category: 'surname', displayText: 'Bajraktarević', answer: 'Bosnia and Herzegovina', aliases: ['bosnia', 'bosnian', 'bosniak', 'herzegovina', 'balkan'], hint: 'Predominantly Bosnian surname from Turkish bayraktar, meaning flag-bearer', difficulty: 'hard' },
   { id: 'sb-sur-ee027', category: 'surname', displayText: 'Mehmedović', answer: 'Bosnia and Herzegovina', aliases: ['bosnia', 'bosnian', 'bosniak', 'herzegovina', 'balkan'], hint: 'Bosnian patronymic surname meaning son of Mehmed', difficulty: 'hard' },
   { id: 'sb-sur-ee028', category: 'surname', displayText: 'Zieliński', answer: 'Poland', aliases: ['polish', 'zielinski'], hint: 'Polish surname from place names related to zielen, meaning green', difficulty: 'hard' },
+  { id: 'sb-sur-ee029', category: 'surname', displayText: 'Bajrami', answer: 'Albania', aliases: ['albania', 'albanian', 'kosovo', 'balkan'], hint: 'Albanian surname derived from the Turkish word bayram, meaning holiday or festival.', difficulty: 'hard' },
+  { id: 'sb-sur-ee030', category: 'surname', displayText: 'Shaqiri', answer: 'Albania', aliases: ['albania', 'albanian', 'kosovo', 'balkan'], hint: 'Albanian surname derived from the Arabic name Shaqir, meaning grateful or thankful.', difficulty: 'hard' },
 
   // ── Thailand ─────────────────────────────────────────────────────────────────
   { id: 'sb-sur-th001', category: 'surname', displayText: 'Ayutthaya', answer: 'Thailand', aliases: ['thai'], hint: 'Thai surname sharing its name with the historic kingdom and city of Ayutthaya', difficulty: 'hard' },
@@ -874,6 +900,8 @@ export const SCRIPT_BLITZ_QUESTIONS: ScriptBlitzQuestion[] = [
   { id: 'sb-sur-gb009', category: 'surname', displayText: 'Jones', answer: 'Wales', aliases: ['welsh', 'uk', 'wales'], hint: 'The most common surname in Wales - son of John', difficulty: 'easy' },
   { id: 'sb-sur-gb010', category: 'surname', displayText: 'Evans', answer: 'Wales', aliases: ['welsh', 'uk', 'wales'], hint: 'Son of Evan - distinctly associated with Wales', difficulty: 'medium' },
   { id: 'sb-sur-gb011', category: 'surname', displayText: 'Davies', answer: 'Wales', aliases: ['welsh', 'uk'], hint: 'Welsh form of Davis - most common in Wales', difficulty: 'medium' },
+  { id: 'sb-sur-gb012', category: 'surname', displayText: 'Llewellyn', answer: 'Wales', aliases: ['welsh', 'uk'], hint: 'Comes from the Welsh word llyw, meaning leader or ruler.', difficulty: 'medium' },
+
 
   // ── England ───────────────────────────────────────────────────────────────────
   { id: 'sb-sur-en001', category: 'surname', displayText: 'Smith', answer: 'England', aliases: ['english', 'uk', 'england'], hint: 'The most common surname in England', difficulty: 'easy' },

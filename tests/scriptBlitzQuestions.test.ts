@@ -14,6 +14,8 @@ const REQUESTED_LANGUAGE_DIFFICULTIES = new Map([
   ['Uzbek', 'hard'],
   ['Kazakh', 'hard'],
   ['Kurdish', 'hard'],
+  ['Catalan', 'medium'],
+  ['Azeri', 'hard'],
   ['Lao', 'hard'],
   ['Burmese', 'hard'],
 ] as const);
@@ -39,6 +41,22 @@ const REQUESTED_SURNAMES = new Map([
   ['Hồ', 'Vietnam'],
   ['Pan', 'China'],
   ['Zieliński', 'Poland'],
+  ['Saarinen', 'Finland'],
+  ['Eskelinen', 'Finland'],
+  ['Jääskeläinen', 'Finland'],
+  ['Hakanpää', 'Finland'],
+  ['Elomo', 'Finland'],
+  ['Korhonen', 'Finland'],
+  ['Mäkinen', 'Finland'],
+  ['Laine', 'Finland'],
+  ['Niemi', 'Finland'],
+  ['Aalto', 'Finland'],
+  ['Csőke', 'Hungary'],
+  ['Jónsdóttir', 'Iceland'],
+  ['Sigurðsson', 'Iceland'],
+  ['Björnsson', 'Iceland'],
+  ['Þorsteinsson', 'Iceland'],
+  ['Sævarsdóttir', 'Iceland'],
 ] as const);
 
 const WIDELY_USED_MUSLIM_SURNAME_TEST_ANSWERS = [

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { FirebaseError } from 'firebase/app';
 import { useRouter } from 'next/navigation';
 import {
   createUserWithEmailAndPassword,
@@ -22,6 +23,39 @@ type AuthMode = 'login' | 'signup';
 interface AuthResponse {
   user?: PublicUser;
   error?: string;
+}
+
+function getFirebaseAuthErrorMessage(error: unknown): string {
+  if (!(error instanceof FirebaseError)) {
+    return 'Google sign-in was cancelled or could not be completed.';
+  }
+
+  if (error.code === 'auth/unauthorized-domain') {
+    const hostname = window.location.hostname;
+    return `This device is opening the app from ${hostname}, which is not allowed in Firebase Auth yet. Add ${hostname} in Firebase Console > Authentication > Settings > Authorized domains.`;
+  }
+
+  if (error.code === 'auth/operation-not-allowed') {
+    return 'Google sign-in is not enabled yet. Enable Google in Firebase Console > Authentication > Sign-in method.';
+  }
+
+  if (error.code === 'auth/popup-blocked') {
+    return 'The browser blocked the Google sign-in popup. Allow popups for this site and try again.';
+  }
+
+  if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+    return 'Google sign-in was cancelled before it completed.';
+  }
+
+  if (error.code === 'auth/auth-domain-config-required') {
+    return 'Firebase is missing its auth domain. Check NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN in your environment file.';
+  }
+
+  if (error.code === 'auth/invalid-api-key' || error.code === 'auth/app-not-authorized') {
+    return 'Firebase rejected this app configuration. Check the Firebase web API key and authorized domains.';
+  }
+
+  return `Google sign-in failed: ${error.code}`;
 }
 
 export function AuthForm() {
@@ -139,8 +173,8 @@ export function AuthForm() {
       const credential = await signInWithPopup(firebaseAuth, provider);
       const idToken = await credential.user.getIdToken();
       await finishFirebaseLogin(idToken);
-    } catch {
-      setError('Google sign-in was cancelled or could not be completed.');
+    } catch (error) {
+      setError(getFirebaseAuthErrorMessage(error));
     } finally {
       setIsGoogleLoading(false);
     }
